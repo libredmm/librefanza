@@ -5,8 +5,9 @@
 <table>
   <thead>
     <tr>
-      <th>Content</th>
-      <th>Raw json</th>
+      <th>normalized_id</th>
+      <th>content_id</th>
+      <th>raw_json</th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -14,6 +15,7 @@
   <tbody>
     <% @fanza_items.each do |fanza_item| %>
       <tr>
+        <td><%= fanza_item.normalized_id %></td>
         <td><%= fanza_item.content_id %></td>
         <td><%= fanza_item.raw_json %></td>
         <td><%= link_to "Show", fanza_item %></td>
