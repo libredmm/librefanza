@@ -16,8 +16,8 @@
       <tr>
         <td><%= fanza_item.content_id %></td>
         <td><%= fanza_item.raw_json %></td>
-        <td><%= link_to 'Show', fanza_item %></td>
-        <td><%= link_to 'Destroy', fanza_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to "Show", fanza_item %></td>
+        <td><%= link_to "Destroy", fanza_item, method: :delete, data: { confirm: "Are you sure?" } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -25,4 +25,4 @@
 
 <br>
 
-<%= link_to 'New Fanza Item', new_fanza_item_path %>
+<%= link_to "New Fanza Item", new_fanza_item_path %>

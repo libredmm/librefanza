@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class FanzaItemsControllerTest < ActionDispatch::IntegrationTest
   setup do
@@ -16,7 +16,7 @@ class FanzaItemsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create fanza_item" do
-    assert_difference('FanzaItem.count') do
+    assert_difference("FanzaItem.count") do
       post fanza_items_url, params: { fanza_item: { content_id: @fanza_item.content_id, raw_json: @fanza_item.raw_json } }
     end
 
@@ -29,7 +29,7 @@ class FanzaItemsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy fanza_item" do
-    assert_difference('FanzaItem.count', -1) do
+    assert_difference("FanzaItem.count", -1) do
       delete fanza_item_url(@fanza_item)
     end
 

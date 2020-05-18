@@ -24,7 +24,7 @@ class FanzaItemsController < ApplicationController
 
     respond_to do |format|
       if @fanza_item.save
-        format.html { redirect_to @fanza_item, notice: 'Fanza item was successfully created.' }
+        format.html { redirect_to @fanza_item, notice: "Fanza item was successfully created." }
         format.json { render :show, status: :created, location: @fanza_item }
       else
         format.html { render :new }
@@ -38,19 +38,20 @@ class FanzaItemsController < ApplicationController
   def destroy
     @fanza_item.destroy
     respond_to do |format|
-      format.html { redirect_to fanza_items_url, notice: 'Fanza item was successfully destroyed.' }
+      format.html { redirect_to fanza_items_url, notice: "Fanza item was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_fanza_item
-      @fanza_item = FanzaItem.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def fanza_item_params
-      params.require(:fanza_item).permit(:content_id, :raw_json)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_fanza_item
+    @fanza_item = FanzaItem.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def fanza_item_params
+    params.require(:fanza_item).permit(:content_id, :raw_json)
+  end
 end
