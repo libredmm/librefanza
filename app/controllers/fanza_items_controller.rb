@@ -22,19 +22,8 @@ class FanzaItemsController < ApplicationController
   # POST /fanza_items
   # POST /fanza_items.json
   def create
-    logger.debug(params)
-    response = Fanza::Api.item_list(params[:q])
-    logger.debug("Response from FANZA: #{response}")
-    response["result"]["items"].each do |item|
-      FanzaItem.create(
-        content_id: item["content_id"],
-        raw_json: JSON.dump(item),
-      )
-    end
-
-    respond_to do |format|
-      format.html { redirect_to fanza_items_url }
-    end
+    @fanza_items = FanzaItem.populate_from_fanza(params[:q])
+    render :index
   end
 
   # DELETE /fanza_items/1
