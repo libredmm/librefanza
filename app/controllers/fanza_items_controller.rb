@@ -1,3 +1,5 @@
+require "open-uri"
+
 class FanzaItemsController < ApplicationController
   before_action :set_fanza_item, only: [:show, :destroy]
 
@@ -20,16 +22,18 @@ class FanzaItemsController < ApplicationController
   # POST /fanza_items
   # POST /fanza_items.json
   def create
-    @fanza_item = FanzaItem.new(fanza_item_params)
+    logger.debug(params)
+    response = Fanza::Api.item_list(params[:q])
+    logger.debug("Response from FANZA: #{response}")
+    response["result"]["items"].each do |item|
+      FanzaItem.create(
+        content_id: item["content_id"],
+        raw_json: JSON.dump(item),
+      )
+    end
 
     respond_to do |format|
-      if @fanza_item.save
-        format.html { redirect_to @fanza_item, notice: "Fanza item was successfully created." }
-        format.json { render :show, status: :created, location: @fanza_item }
-      else
-        format.html { render :new }
-        format.json { render json: @fanza_item.errors, status: :unprocessable_entity }
-      end
+      format.html { redirect_to fanza_items_url }
     end
   end
 

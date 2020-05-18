@@ -1,5 +1,8 @@
-<h1>New Fanza Item</h1>
+<h1>Search Fanza</h1>
 
-<%= render "form", fanza_item: @fanza_item %>
+<%= form_tag fanza_items_path do %>
+  <%= text_field_tag("q", nil, class: "form-control") %>
+  <%= submit_tag "Search", class: "btn btn-success" %>
+<% end %>
 
 <%= link_to "Back", fanza_items_path %>
