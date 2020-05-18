@@ -22,18 +22,6 @@ class FanzaItemsTest < ApplicationSystemTestCase
     click_on "Back"
   end
 
-  test "updating a Fanza item" do
-    visit fanza_items_url
-    click_on "Edit", match: :first
-
-    fill_in "Content", with: @fanza_item.content_id
-    fill_in "Raw json", with: @fanza_item.raw_json
-    click_on "Update Fanza item"
-
-    assert_text "Fanza item was successfully updated"
-    click_on "Back"
-  end
-
   test "destroying a Fanza item" do
     visit fanza_items_url
     page.accept_confirm do

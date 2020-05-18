@@ -28,16 +28,6 @@ class FanzaItemsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get edit" do
-    get edit_fanza_item_url(@fanza_item)
-    assert_response :success
-  end
-
-  test "should update fanza_item" do
-    patch fanza_item_url(@fanza_item), params: { fanza_item: { content_id: @fanza_item.content_id, raw_json: @fanza_item.raw_json } }
-    assert_redirected_to fanza_item_url(@fanza_item)
-  end
-
   test "should destroy fanza_item" do
     assert_difference('FanzaItem.count', -1) do
       delete fanza_item_url(@fanza_item)

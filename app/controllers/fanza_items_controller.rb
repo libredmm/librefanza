@@ -1,5 +1,5 @@
 class FanzaItemsController < ApplicationController
-  before_action :set_fanza_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_fanza_item, only: [:show, :destroy]
 
   # GET /fanza_items
   # GET /fanza_items.json
@@ -17,10 +17,6 @@ class FanzaItemsController < ApplicationController
     @fanza_item = FanzaItem.new
   end
 
-  # GET /fanza_items/1/edit
-  def edit
-  end
-
   # POST /fanza_items
   # POST /fanza_items.json
   def create
@@ -32,20 +28,6 @@ class FanzaItemsController < ApplicationController
         format.json { render :show, status: :created, location: @fanza_item }
       else
         format.html { render :new }
-        format.json { render json: @fanza_item.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /fanza_items/1
-  # PATCH/PUT /fanza_items/1.json
-  def update
-    respond_to do |format|
-      if @fanza_item.update(fanza_item_params)
-        format.html { redirect_to @fanza_item, notice: 'Fanza item was successfully updated.' }
-        format.json { render :show, status: :ok, location: @fanza_item }
-      else
-        format.html { render :edit }
         format.json { render json: @fanza_item.errors, status: :unprocessable_entity }
       end
     end
