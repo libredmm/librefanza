@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @fanza_item.content_id %>
+</p>
+
+<p>
+  <strong>Raw json:</strong>
+  <%= @fanza_item.raw_json %>
+</p>
+
+<%= link_to 'Edit', edit_fanza_item_path(@fanza_item) %> |
+<%= link_to 'Back', fanza_items_path %>

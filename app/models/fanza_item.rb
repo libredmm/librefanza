@@ -1,0 +1,2 @@
+class FanzaItem < ApplicationRecord
+end

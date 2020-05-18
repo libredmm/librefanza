@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Fanza Items</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Content</th>
+      <th>Raw json</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @fanza_items.each do |fanza_item| %>
+      <tr>
+        <td><%= fanza_item.content_id %></td>
+        <td><%= fanza_item.raw_json %></td>
+        <td><%= link_to 'Show', fanza_item %></td>
+        <td><%= link_to 'Edit', edit_fanza_item_path(fanza_item) %></td>
+        <td><%= link_to 'Destroy', fanza_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Fanza Item', new_fanza_item_path %>
