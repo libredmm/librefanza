@@ -1,12 +1,11 @@
 class FanzaItem < ApplicationRecord
   validates :content_id, presence: true, uniqueness: true
-  validates :normalize_id, presence: true
-  before_validation :normalize_id
+  validates :normalized_id, presence: true
+  before_validation :derive_fields
 
   def self.populate_from_fanza(keyword)
     Fanza::Api.item_list(keyword)["result"]["items"].map do |item|
       self.create(
-        content_id: item["content_id"],
         raw_json: item,
       )
     end
@@ -14,12 +13,13 @@ class FanzaItem < ApplicationRecord
 
   def self.rebuild
     self.find_each do |item|
-      item.normalize_id
+      item.derive_fields
       item.save
     end
   end
 
-  def normalize_id
+  def derive_fields
+    self.content_id = self.raw_json["content_id"]
     self.normalized_id = Fanza::Helper.normalize_id(self.content_id)
   end
 end
