@@ -7,7 +7,7 @@ class FanzaItem < ApplicationRecord
     Fanza::Api.item_list(keyword)["result"]["items"].map do |item|
       self.create(
         content_id: item["content_id"],
-        raw_json: JSON.dump(item),
+        raw_json: item,
       )
     end
   end
