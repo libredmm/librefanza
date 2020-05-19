@@ -11,4 +11,11 @@ class JavlibraryItemsController < ApplicationController
     @item = JavlibraryItem.find(params[:id])
     render "movies/show"
   end
+
+  # POST /javlibrary_items
+  # POST /javlibrary_items.json
+  def create
+    @items = JavlibraryItem.populate_from_javlibrary(params[:q])
+    render :index
+  end
 end

@@ -9,9 +9,9 @@ class JavlibraryPage < ApplicationRecord
 
   def self.populate_from_javlibrary(keyword)
     @@client ||= Javlibrary::Client.new
-    @@client.search(keyword).map do |url, raw_html|
+    @@client.search(keyword).map { |url, raw_html|
       create(url: url, raw_html: raw_html)
-    end
+    }.select(&:persisted?)
   end
 
   def parse_page

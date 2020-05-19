@@ -9,14 +9,20 @@ class MoviesController < ApplicationController
 
   def show
     find_fanza_item(params[:id])
-    unless @item
-      FanzaItem.populate_from_fanza(id)
-      find_javlibrary_item(params[:id])
-    end
-    unless @item
-      JavlibraryPage.populate_from_javlibrary(id)
-      raise ActiveRecord::RecordNotFound
-    end
+    return render if @item
+
+    FanzaItem.populate_from_fanza(params[:id])
+    find_fanza_item(params[:id])
+    return render if @item
+
+    find_javlibrary_item(params[:id])
+    return render if @item
+
+    JavlibraryPage.populate_from_javlibrary(params[:id])
+    find_javlibrary_item(params[:id])
+    return render if @item
+
+    raise ActiveRecord::RecordNotFound
   end
 
   private

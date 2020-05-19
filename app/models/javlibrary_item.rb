@@ -6,6 +6,11 @@ class JavlibraryItem < ApplicationRecord
   before_validation :derive_fields
   after_touch :derive_fields
 
+  def self.populate_from_javlibrary(keyword)
+    pages = JavlibraryPage.populate_from_javlibrary(keyword)
+    pages.map(&:javlibrary_item).reject(&:nil?).select(&:persisted?)
+  end
+
   def derive_fields
     self.normalized_id = html.at_css("#video_id td.text")&.content
   end
