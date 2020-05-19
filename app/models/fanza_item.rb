@@ -19,7 +19,11 @@ class FanzaItem < ApplicationRecord
   end
 
   def derive_fields
-    self.content_id = self.raw_json["content_id"]
+    self.content_id = self.raw_info.content_id
     self.normalized_id = Fanza::Helper.normalize_id(self.content_id)
+  end
+
+  def json
+    RecursiveOpenStruct.new(raw_json, recurse_over_arrays: true)
   end
 end

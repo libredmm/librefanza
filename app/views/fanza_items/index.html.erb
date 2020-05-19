@@ -1,30 +1,18 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Fanza Items</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>normalized_id</th>
-      <th>content_id</th>
-      <th>raw_json</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @fanza_items.each do |fanza_item| %>
-      <tr>
-        <td><%= fanza_item.normalized_id %></td>
-        <td><%= fanza_item.content_id %></td>
-        <td><%= fanza_item.raw_json %></td>
-        <td><%= link_to "Show", fanza_item %></td>
-        <td><%= link_to "Destroy", fanza_item, method: :delete, data: { confirm: "Are you sure?" } %></td>
-      </tr>
+<% @fanza_items.in_groups_of(6).each do |group| %>
+<div class="movies card-deck mb-3">
+  <% group.each do |item| %>
+  <div class="card">
+    <% if item %>
+    <%= link_to image_tag(item.json.imageURL.small, class: "card-image-top img-fluid mx-auto d-block"), item %>
+    <div class="card-body">
+      <%= link_to item, class: "card-title" do %>
+      <%= item.content_id %>
+      <% end %>
+    </div>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to "New Fanza Item", new_fanza_item_path %>
+  </div>
+  <% end %>
+</div>
+<% end %>

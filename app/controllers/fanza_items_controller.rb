@@ -6,7 +6,7 @@ class FanzaItemsController < ApplicationController
   # GET /fanza_items
   # GET /fanza_items.json
   def index
-    @fanza_items = FanzaItem.all
+    @fanza_items = FanzaItem.order(normalized_id: :asc).order(content_id: :asc).all
   end
 
   # GET /fanza_items/1

@@ -1,13 +1,18 @@
-<p id="notice"><%= notice %></p>
+<h1>
+  <span><%= @fanza_item.normalized_id %></span>
+  <span><%= @fanza_item.json.title %></span>
+</h1>
 
-<p>
-  <strong>Content:</strong>
-  <%= @fanza_item.content_id %>
-</p>
-
-<p>
-  <strong>Raw json:</strong>
-  <%= @fanza_item.raw_json %>
-</p>
-
-<%= link_to "Back", fanza_items_path %>
+<div class="row mt-3">
+  <div class="col-md-8">
+    <%= image_tag @fanza_item.json.imageURL.large, class: "img-fluid" %>
+  </div>
+  <div class="col-md-4">
+    <dl>
+      <dt>URL</dt>
+      <dd><%= link_to @fanza_item.json.URL, @fanza_item.json.URL %></dd>
+      <dt>Date</dt>
+      <dd><%= @fanza_item.json.date %></dd>
+    </dl>
+  </div>
+</div>
