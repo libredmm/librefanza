@@ -1,20 +1,15 @@
 class FanzaItem < ApplicationRecord
   validates :content_id, presence: true, uniqueness: true
   validates :normalized_id, presence: true
+
   before_validation :derive_fields
+  after_touch :derive_fields
 
   def self.populate_from_fanza(keyword)
     Fanza::Api.item_list(keyword)["result"]["items"].map do |item|
       self.create(
         raw_json: item,
       )
-    end
-  end
-
-  def self.rebuild
-    self.find_each do |item|
-      item.derive_fields
-      item.save
     end
   end
 

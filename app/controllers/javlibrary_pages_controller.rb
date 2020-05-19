@@ -1,6 +1,4 @@
 class JavlibraryPagesController < ApplicationController
-  before_action :set_javlibrary_page, only: [:show]
-
   # GET /javlibrary_pages
   # GET /javlibrary_pages.json
   def index

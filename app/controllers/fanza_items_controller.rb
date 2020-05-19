@@ -1,8 +1,6 @@
 require "open-uri"
 
 class FanzaItemsController < ApplicationController
-  before_action :set_fanza_item, only: [:show]
-
   # GET /fanza_items
   # GET /fanza_items.json
   def index

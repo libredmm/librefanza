@@ -17,7 +17,8 @@
   <thead>
     <tr>
       <th>Url</th>
-      <th colspan="2"></th>
+      <th>Item</th>
+      <th></th>
       <th>Raw html</th>
     </tr>
   </thead>
@@ -26,8 +27,8 @@
     <% @javlibrary_pages.each do |javlibrary_page| %>
       <tr>
         <td><%= javlibrary_page.url %></td>
+        <td><%= link_to javlibrary_page.javlibrary_item.id, javlibrary_page.javlibrary_item %></td>
         <td><%= link_to "Show", javlibrary_page %></td>
-        <td><%= link_to "Destroy", javlibrary_page, method: :delete, data: { confirm: "Are you sure?" } %></td>
         <td><%= javlibrary_page.raw_html %></td>
       </tr>
     <% end %>

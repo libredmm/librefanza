@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Javlibrary Items</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Normalized</th>
+      <th>Javlibrary page</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @javlibrary_items.each do |javlibrary_item| %>
+      <tr>
+        <td><%= javlibrary_item.normalized_id %></td>
+        <td><%= javlibrary_item.javlibrary_page_id %></td>
+        <td><%= link_to 'Show', javlibrary_item %></td>
+        <td><%= link_to 'Edit', edit_javlibrary_item_path(javlibrary_item) %></td>
+        <td><%= link_to 'Destroy', javlibrary_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Javlibrary Item', new_javlibrary_item_path %>

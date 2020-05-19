@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_19_165056) do
+ActiveRecord::Schema.define(version: 2020_05_19_190110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -26,6 +26,14 @@ ActiveRecord::Schema.define(version: 2020_05_19_165056) do
     t.index ["normalized_id", "content_id"], name: "index_fanza_items_on_normalized_id_and_content_id", opclass: :gin_trgm_ops, using: :gin
   end
 
+  create_table "javlibrary_items", force: :cascade do |t|
+    t.string "normalized_id"
+    t.bigint "javlibrary_page_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["javlibrary_page_id"], name: "index_javlibrary_items_on_javlibrary_page_id"
+  end
+
   create_table "javlibrary_pages", force: :cascade do |t|
     t.string "url"
     t.text "raw_html"
@@ -33,4 +41,5 @@ ActiveRecord::Schema.define(version: 2020_05_19_165056) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "javlibrary_items", "javlibrary_pages"
 end
