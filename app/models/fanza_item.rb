@@ -53,4 +53,8 @@ class FanzaItem < ApplicationRecord
   end
 
   # date
+
+  def as_json
+    raw_json
+  end
 end

@@ -1,16 +1,3 @@
 <h1>Fanza Items</h1>
 
-<nav class="card mb-3">
-  <div class="card-body">
-    <%= form_tag fanza_items_path, class: "form-inline" do %>
-    <div class="input-group">
-      <%= text_field_tag("q", nil, class: "form-control") %>
-      <div class="input-group-append">
-        <%= submit_tag "Search", class: "btn btn-success" %>
-      </div>
-    </div>
-    <% end %>
-  </div>
-</nav>
-
 <%= render "movies/cards" %>

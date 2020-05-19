@@ -17,7 +17,10 @@ class MoviesController < ApplicationController
 
     JavlibrarySearchJob.perform_later params[:id]
 
-    redirect_to "movies/index"
+    respond_to do |format|
+      format.html { redirect_to movies_path }
+      format.json { render json: { err: "not_found" } }
+    end
   end
 
   private

@@ -36,7 +36,7 @@ class JavlibraryItem < ApplicationRecord
   end
 
   def thumbnail_image_url
-    cover_image_url
+    cover_image_url.gsub(/pl\.jpg$/, "ps.jpg")
   end
 
   def url
