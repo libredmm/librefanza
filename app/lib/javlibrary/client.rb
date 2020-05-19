@@ -1,4 +1,4 @@
-require "selenium-webdriver"
+require "webdrivers/chromedriver"
 
 module Javlibrary
   class Client
