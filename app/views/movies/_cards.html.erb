@@ -7,8 +7,8 @@
     <div class="card-body">
       <%= link_to item, class: "card-title" do %>
       <h5>
-        <%= item.normalized_id %>
-        <sub><%= item.subtitle %></sub>
+        <%= link_to item.normalized_id, movie_path(item.normalized_id) %>
+        <sub><%= link_to item.subtitle, item %></sub>
       </h5>
       <% end %>
     </div>

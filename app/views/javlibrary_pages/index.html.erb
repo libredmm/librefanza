@@ -18,23 +18,19 @@
     <tr>
       <th>Url</th>
       <th>Item</th>
-      <th></th>
-      <th>Raw html</th>
     </tr>
   </thead>
 
   <tbody>
     <% @javlibrary_pages.each do |javlibrary_page| %>
-      <tr>
-        <td><%= javlibrary_page.url %></td>
-        <td>
+    <tr>
+      <td><%= link_to javlibrary_page.url, javlibrary_page %></td>
+      <td>
         <% if javlibrary_page.javlibrary_item %>
-        <%= link_to javlibrary_page.javlibrary_item.id, javlibrary_page.javlibrary_item %>
+        <%= link_to javlibrary_page.javlibrary_item.normalized_id, javlibrary_page.javlibrary_item %>
         <% end %>
-        </td>
-        <td><%= link_to "Show", javlibrary_page %></td>
-        <td><%= javlibrary_page.raw_html %></td>
-      </tr>
+      </td>
+    </tr>
     <% end %>
   </tbody>
 </table>

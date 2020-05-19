@@ -2,7 +2,7 @@ class JavlibraryItemsController < ApplicationController
   # GET /javlibrary_items
   # GET /javlibrary_items.json
   def index
-    @items = JavlibraryItem.all
+    @items = JavlibraryItem.order(:normalized_id).all
   end
 
   # GET /javlibrary_items/1

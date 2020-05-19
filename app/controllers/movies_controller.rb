@@ -11,18 +11,13 @@ class MoviesController < ApplicationController
     find_fanza_item(params[:id])
     return render if @item
 
-    FanzaItem.populate_from_fanza(params[:id])
-    find_fanza_item(params[:id])
-    return render if @item
-
+    FanzaSearchJob.perform_later params[:id]
     find_javlibrary_item(params[:id])
     return render if @item
 
-    JavlibraryPage.populate_from_javlibrary(params[:id])
-    find_javlibrary_item(params[:id])
-    return render if @item
+    JavlibrarySearchJob.perform_later params[:id]
 
-    raise ActiveRecord::RecordNotFound
+    redirect_to "movies/index"
   end
 
   private
