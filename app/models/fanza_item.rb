@@ -19,8 +19,10 @@ class FanzaItem < ApplicationRecord
   end
 
   def derive_fields
-    self.content_id = self.raw_info.content_id
+    self.content_id = self.json.content_id
     self.normalized_id = Fanza::Helper.normalize_id(self.content_id)
+
+    self.date = DateTime.parse(self.json.date)
   end
 
   def json

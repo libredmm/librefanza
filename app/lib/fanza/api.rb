@@ -8,7 +8,7 @@ module Fanza
           affiliate_id: ENV["FANZA_AFFILIATE_ID"],
           site: "FANZA",
           hits: 100,
-          sort: "date",
+          sort: "match",
           keyword: keyword,
           output: "json",
         }
