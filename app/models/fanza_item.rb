@@ -13,18 +13,44 @@ class FanzaItem < ApplicationRecord
     end
   end
 
-  def safe_json
-    raw_json.except("affiliateURL", "affiliateURLsp")
-  end
-
-  def json
-    RecursiveOpenStruct.new(safe_json, recurse_over_arrays: true)
-  end
-
   def derive_fields
     self.content_id = self.json.content_id
     self.normalized_id = Fanza::Helper.normalize_id(self.content_id)
 
     self.date = DateTime.parse(self.json.date)
   end
+
+  def json
+    RecursiveOpenStruct.new(safe_json, recurse_over_arrays: true)
+  end
+
+  def safe_json
+    raw_json.except("affiliateURL", "affiliateURLsp")
+  end
+
+  ###################
+  # Items interface #
+  ###################
+
+  def title
+    json.title
+  end
+
+  def subtitle
+    content_id
+  end
+
+  def cover_image_url
+    json.imageURL.large
+  end
+
+  def thumbnail_image_url
+    json.imageURL.small
+  end
+
+  def url
+    json.URL
+  end
+
+  # date
 end

@@ -13,22 +13,4 @@
   </div>
 </nav>
 
-<% @fanza_items.in_groups_of(6).each do |group| %>
-<div class="movies card-deck mb-3">
-  <% group.each do |item| %>
-  <div class="card">
-    <% if item %>
-    <%= link_to image_tag(item.json.imageURL.small, class: "card-image-top img-fluid mx-auto d-block"), item %>
-    <div class="card-body">
-      <%= link_to item, class: "card-title" do %>
-      <h5>
-        <%= item.normalized_id %>
-        <sub><%= item.content_id %></sub>
-      </h5>
-      <% end %>
-    </div>
-    <% end %>
-  </div>
-  <% end %>
-</div>
-<% end %>
+<%= render "movies/cards" %>

@@ -1,0 +1,22 @@
+<h1>
+  <span><%= @item.normalized_id %></span>
+  <span><%= @item.title %></span>
+</h1>
+
+<div class="row mt-3">
+  <div class="col-md-8">
+    <%= image_tag @item.cover_image_url, class: "img-fluid" %>
+  </div>
+  <div class="col-md-4">
+    <dl>
+      <dt>URL</dt>
+      <dd><%= link_to @item.url, @item.url %></dd>
+      <dt>Date</dt>
+      <dd><%= @item.date %></dd>
+      <dt>Powered by</dt>
+      <dd>
+        <%= @item.kind_of?(FanzaItem) ? "Fanza" : "JavLibrary" %>
+      </dd>
+    </dl>
+  </div>
+</div>

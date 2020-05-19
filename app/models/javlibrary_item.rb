@@ -14,12 +14,24 @@ class JavlibraryItem < ApplicationRecord
     Nokogiri.HTML(javlibrary_page.raw_html)
   end
 
+  ###################
+  # Items interface #
+  ###################
+
   def title
     html.at_css("#video_title > h3")&.content&.gsub(normalized_id, "").strip
   end
 
+  def subtitle
+    URI.parse(url).query
+  end
+
   def cover_image_url
     html.at_css("#video_jacket_img")&.attr("src")
+  end
+
+  def thumbnail_image_url
+    cover_image_url
   end
 
   def url

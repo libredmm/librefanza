@@ -13,6 +13,26 @@
 <body>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="/">LibreDMM</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <%= link_to "Movies", movies_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Fanza Items", fanza_items_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Javlibrary Items", javlibrary_items_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Javlibrary Pages", javlibrary_pages_path, class: "nav-link" %>
+        </li>
+      </ul>
+    </div>
   </nav>
 
   <main role="main" class="container">
