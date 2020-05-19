@@ -28,7 +28,13 @@ module Javlibrary
     end
 
     def search(keyword)
-      get("http://www.javlibrary.com/ja/vl_searchbyid.php?keyword=#{keyword}")
+      pages = get("http://www.javlibrary.com/ja/vl_searchbyid.php?keyword=#{keyword}")
+      @driver.find_elements(css: "div.video > a").map { |a|
+        a["href"]
+      }.each { |href|
+        pages.merge! get(href)
+      }
+      pages
     end
   end
 end

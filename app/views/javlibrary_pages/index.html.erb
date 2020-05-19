@@ -27,7 +27,11 @@
     <% @javlibrary_pages.each do |javlibrary_page| %>
       <tr>
         <td><%= javlibrary_page.url %></td>
-        <td><%= link_to javlibrary_page.javlibrary_item.id, javlibrary_page.javlibrary_item %></td>
+        <td>
+        <% if javlibrary_page.javlibrary_item %>
+        <%= link_to javlibrary_page.javlibrary_item.id, javlibrary_page.javlibrary_item %>
+        <% end %>
+        </td>
         <td><%= link_to "Show", javlibrary_page %></td>
         <td><%= javlibrary_page.raw_html %></td>
       </tr>
