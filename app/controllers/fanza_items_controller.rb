@@ -1,7 +1,7 @@
 require "open-uri"
 
 class FanzaItemsController < ApplicationController
-  before_action :set_fanza_item, only: [:show, :destroy]
+  before_action :set_fanza_item, only: [:show]
 
   # GET /fanza_items
   # GET /fanza_items.json
@@ -12,6 +12,7 @@ class FanzaItemsController < ApplicationController
   # GET /fanza_items/1
   # GET /fanza_items/1.json
   def show
+    @fanza_item = FanzaItem.find(params[:id])
   end
 
   # POST /fanza_items
@@ -19,17 +20,5 @@ class FanzaItemsController < ApplicationController
   def create
     @fanza_items = FanzaItem.populate_from_fanza(params[:q])
     render :index
-  end
-
-  private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_fanza_item
-    @fanza_item = FanzaItem.find(params[:id])
-  end
-
-  # Only allow a list of trusted parameters through.
-  def fanza_item_params
-    params.require(:fanza_item).permit(:content_id, :raw_json)
   end
 end

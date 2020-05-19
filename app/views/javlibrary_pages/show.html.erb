@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @javlibrary_page.url %>
+</p>
+
+<p>
+  <strong>Raw html:</strong>
+  <%= @javlibrary_page.raw_html %>
+</p>
+
+<%= link_to 'Edit', edit_javlibrary_page_path(@javlibrary_page) %> |
+<%= link_to 'Back', javlibrary_pages_path %>
