@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_19_040138) do
+ActiveRecord::Schema.define(version: 2020_05_19_042227) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
   create_table "fanza_items", force: :cascade do |t|
@@ -22,6 +23,7 @@ ActiveRecord::Schema.define(version: 2020_05_19_040138) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "normalized_id"
     t.datetime "date"
+    t.index ["normalized_id", "content_id"], name: "index_fanza_items_on_normalized_id_and_content_id", opclass: :gin_trgm_ops, using: :gin
   end
 
 end

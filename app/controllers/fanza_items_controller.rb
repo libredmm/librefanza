@@ -14,26 +14,11 @@ class FanzaItemsController < ApplicationController
   def show
   end
 
-  # GET /fanza_items/new
-  def new
-    @fanza_item = FanzaItem.new
-  end
-
   # POST /fanza_items
   # POST /fanza_items.json
   def create
     @fanza_items = FanzaItem.populate_from_fanza(params[:q])
     render :index
-  end
-
-  # DELETE /fanza_items/1
-  # DELETE /fanza_items/1.json
-  def destroy
-    @fanza_item.destroy
-    respond_to do |format|
-      format.html { redirect_to fanza_items_url, notice: "Fanza item was successfully destroyed." }
-      format.json { head :no_content }
-    end
   end
 
   private

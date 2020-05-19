@@ -18,14 +18,18 @@ class FanzaItem < ApplicationRecord
     end
   end
 
+  def safe_json
+    raw_json.except("affiliateURL", "affiliateURLsp")
+  end
+
+  def json
+    RecursiveOpenStruct.new(safe_json, recurse_over_arrays: true)
+  end
+
   def derive_fields
     self.content_id = self.json.content_id
     self.normalized_id = Fanza::Helper.normalize_id(self.content_id)
 
     self.date = DateTime.parse(self.json.date)
-  end
-
-  def json
-    RecursiveOpenStruct.new(raw_json, recurse_over_arrays: true)
   end
 end

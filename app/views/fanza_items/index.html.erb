@@ -1,5 +1,18 @@
 <p id="notice"><%= notice %></p>
 
+<nav class="card mb-3">
+  <div class="card-body">
+    <%= form_tag fanza_items_path, class: "form-inline" do %>
+    <div class="input-group">
+      <%= text_field_tag("q", nil, class: "form-control") %>
+      <div class="input-group-append">
+        <%= submit_tag "Search", class: "btn btn-success" %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</nav>
+
 <% @fanza_items.in_groups_of(6).each do |group| %>
 <div class="movies card-deck mb-3">
   <% group.each do |item| %>
@@ -8,7 +21,10 @@
     <%= link_to image_tag(item.json.imageURL.small, class: "card-image-top img-fluid mx-auto d-block"), item %>
     <div class="card-body">
       <%= link_to item, class: "card-title" do %>
-      <%= item.content_id %>
+      <h5>
+        <%= item.normalized_id %>
+        <sub><%= item.content_id %></sub>
+      </h5>
       <% end %>
     </div>
     <% end %>
