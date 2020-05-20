@@ -8,17 +8,17 @@ class FanzaItem < ApplicationRecord
   paginates_per 30
 
   def derive_fields
-    self.content_id = self.json.content_id
+    self.content_id = self.as_struct.content_id
     self.normalized_id = Fanza::Helper.normalize_id(self.content_id)
 
-    self.date = DateTime.parse(self.json.date)
+    self.date = DateTime.parse(self.as_struct.date)
   end
 
-  def json
-    RecursiveOpenStruct.new(safe_json, recurse_over_arrays: true)
+  def as_struct
+    RecursiveOpenStruct.new(as_json, recurse_over_arrays: true)
   end
 
-  def safe_json
+  def as_json
     raw_json.except("affiliateURL", "affiliateURLsp")
   end
 
@@ -27,7 +27,7 @@ class FanzaItem < ApplicationRecord
   ###################
 
   def title
-    json.title
+    as_struct.title
   end
 
   def subtitle
@@ -35,20 +35,17 @@ class FanzaItem < ApplicationRecord
   end
 
   def cover_image_url
-    json.imageURL.large
+    as_struct.imageURL.large
   end
 
   def thumbnail_image_url
-    json.imageURL.small
+    as_struct.imageURL.small
   end
 
   def url
-    json.URL
+    as_struct.URL
   end
 
   # date
 
-  def as_json
-    raw_json
-  end
 end

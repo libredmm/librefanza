@@ -21,7 +21,10 @@ RSpec.describe FanzaItem, type: :model do
     end
   end
 
-  it "formats to raw json" do
-    expect(item.as_json).to equal(item.raw_json)
+  describe ".as_json" do
+    it "filters out affiliate urls" do
+      expect(item.as_json).not_to include("affiliateURL")
+      expect(item.as_json).not_to include("affiliateURLsp")
+    end
   end
 end

@@ -27,6 +27,8 @@ FactoryBot.define do
           small: generate(:url),
         },
         URL: generate(:url),
+        affiliateURL: generate(:url),
+        affiliateURLsp: generate(:url),
       }
     }
   end
