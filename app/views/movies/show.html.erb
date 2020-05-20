@@ -9,14 +9,16 @@
   </div>
   <div class="col-md-4">
     <dl>
-      <dt>URL</dt>
-      <dd><%= link_to @item.url, @item.url %></dd>
-      <dt>Date</dt>
+      <dt>Release Date</dt>
       <dd><%= @item.date %></dd>
+      <dt>Thumbnail Image</dt>
+      <dd><%= image_tag @item.thumbnail_image_url %></dd>
       <dt>Powered by</dt>
       <dd>
         <%= @item.kind_of?(FanzaItem) ? "Fanza" : "JavLibrary" %>
       </dd>
+      <dt>Data Source</dt>
+      <dd><%= link_to @item.url, @item.url %></dd>
     </dl>
   </div>
 </div>

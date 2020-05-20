@@ -55,5 +55,5 @@ gem "bootstrap"
 gem "recursive-open-struct"
 gem "selenium-webdriver"
 gem "webdrivers"
-
-gem "nokogiri", "~> 1.10"
+gem "nokogiri"
+gem "kaminari"

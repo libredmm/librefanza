@@ -1,20 +1,27 @@
-<h1>Javlibrary Pages</h1>
+<div class="d-md-flex justify-content-between align-items-center">
+  <%= paginate @pages, window: 2 %>
+  <p>
+    <%= page_entries_info @pages %>
+  </p>
+</div>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Url</th>
+      <th></th>
       <th>Item</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @javlibrary_pages.each do |javlibrary_page| %>
+    <% @pages.each do |page| %>
     <tr>
-      <td><%= link_to javlibrary_page.url, javlibrary_page %></td>
+      <td><%= page.url %></td>
+      <td><%= link_to "Cached", page %> | <%= link_to "Original", page.url %></td>
       <td>
-        <% if javlibrary_page.javlibrary_item %>
-        <%= link_to javlibrary_page.javlibrary_item.normalized_id, javlibrary_page.javlibrary_item %>
+        <% if page.javlibrary_item %>
+        <%= link_to page.javlibrary_item.normalized_id, page.javlibrary_item %>
         <% end %>
       </td>
     </tr>

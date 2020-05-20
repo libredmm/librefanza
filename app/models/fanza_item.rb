@@ -5,6 +5,8 @@ class FanzaItem < ApplicationRecord
   before_validation :derive_fields
   after_touch :derive_fields
 
+  paginates_per 30
+
   def self.populate_from_fanza(keyword)
     Fanza::Api.item_list(keyword)["result"]["items"].map do |item|
       self.create(

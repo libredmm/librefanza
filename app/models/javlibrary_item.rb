@@ -6,6 +6,8 @@ class JavlibraryItem < ApplicationRecord
   before_validation :derive_fields
   after_touch :derive_fields
 
+  paginates_per 30
+
   def self.populate_from_javlibrary(keyword)
     pages = JavlibraryPage.populate_from_javlibrary(keyword)
     pages.map(&:javlibrary_item).reject(&:nil?).select(&:persisted?)

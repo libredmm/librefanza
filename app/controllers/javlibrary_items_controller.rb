@@ -3,6 +3,8 @@ class JavlibraryItemsController < ApplicationController
   # GET /javlibrary_items.json
   def index
     @items = JavlibraryItem.order(:normalized_id).all
+    @items = @items.page(params[:page])
+    render "movies/index"
   end
 
   # GET /javlibrary_items/1
@@ -10,12 +12,5 @@ class JavlibraryItemsController < ApplicationController
   def show
     @item = JavlibraryItem.find(params[:id])
     render "movies/show"
-  end
-
-  # POST /javlibrary_items
-  # POST /javlibrary_items.json
-  def create
-    @items = JavlibraryItem.populate_from_javlibrary(params[:q])
-    render :index
   end
 end
