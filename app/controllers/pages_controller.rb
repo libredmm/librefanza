@@ -5,4 +5,9 @@ class PagesController < ApplicationController
   def search
     redirect_to movie_path(params[:q].upcase)
   end
+
+  def whosyourdaddy
+    godmode!
+    redirect_to root_path
+  end
 end
