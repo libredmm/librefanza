@@ -4,19 +4,11 @@ RSpec.describe JavlibraryPage, type: :model do
   describe "search page" do
     let!(:page) { create :javlibrary_search_page }
 
-    it "has url" do
-      expect(page.url).to be_present
-    end
-
-    it "has raw html" do
-      expect(page.raw_html).to be_present
-    end
-
     it "does not have item" do
       expect(page.javlibrary_item).not_to be_present
     end
 
-    it "recreate items on save" do
+    it "recreates items on save" do
       product_page = build :javlibrary_product_page
 
       expect {
@@ -31,19 +23,11 @@ RSpec.describe JavlibraryPage, type: :model do
   describe "product page" do
     let!(:page) { create :javlibrary_product_page }
 
-    it "has url" do
-      expect(page.url).to be_present
-    end
-
-    it "has raw html" do
-      expect(page.raw_html).to be_present
-    end
-
     it "has item" do
       expect(page.javlibrary_item).to be_present
     end
 
-    it "rebuild items on save" do
+    it "rebuilds items on save" do
       id = page.javlibrary_item.normalized_id
       new_id = generate(:normalized_id)
       expect {
