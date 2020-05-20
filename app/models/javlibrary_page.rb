@@ -11,7 +11,11 @@ class JavlibraryPage < ApplicationRecord
     if self.javlibrary_item
       self.javlibrary_item.touch
     else
-      self.create_javlibrary_item
+      begin
+        self.create_javlibrary_item!
+      rescue ActiveRecord::RecordInvalid => e
+        self.javlibrary_item = nil
+      end
     end
   end
 end

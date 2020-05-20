@@ -3,6 +3,10 @@ FactoryBot.define do
     "content#{format("%05d", i)}"
   end
 
+  sequence :normalized_id do |i|
+    "NORMALIZED_#{format("%03d", i)}"
+  end
+
   sequence :title do |i|
     "Item #{i}"
   end
