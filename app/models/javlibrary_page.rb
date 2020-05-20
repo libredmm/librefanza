@@ -4,17 +4,10 @@ class JavlibraryPage < ApplicationRecord
   validates :url, presence: true, uniqueness: true
   validates :raw_html, presence: true
 
-  after_save :parse_page
-  after_touch :parse_page
+  after_save :create_item
+  after_touch :create_item
 
-  def self.populate_from_javlibrary(keyword)
-    @@client ||= Javlibrary::Client.new
-    @@client.search(keyword).map { |url, raw_html|
-      create(url: url, raw_html: raw_html)
-    }.select(&:persisted?)
-  end
-
-  def parse_page
+  def create_item
     if self.javlibrary_item
       self.javlibrary_item.touch
     else

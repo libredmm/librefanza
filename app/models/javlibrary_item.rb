@@ -8,11 +8,6 @@ class JavlibraryItem < ApplicationRecord
 
   paginates_per 30
 
-  def self.populate_from_javlibrary(keyword)
-    pages = JavlibraryPage.populate_from_javlibrary(keyword)
-    pages.map(&:javlibrary_item).reject(&:nil?).select(&:persisted?)
-  end
-
   def derive_fields
     self.normalized_id = html.at_css("#video_id td.text")&.content
   end

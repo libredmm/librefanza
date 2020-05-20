@@ -7,14 +7,6 @@ class FanzaItem < ApplicationRecord
 
   paginates_per 30
 
-  def self.populate_from_fanza(keyword)
-    Fanza::Api.item_list(keyword)["result"]["items"].map do |item|
-      self.create(
-        raw_json: item,
-      )
-    end
-  end
-
   def derive_fields
     self.content_id = self.json.content_id
     self.normalized_id = Fanza::Helper.normalize_id(self.content_id)

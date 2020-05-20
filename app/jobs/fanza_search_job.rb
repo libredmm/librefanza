@@ -3,8 +3,12 @@ class FanzaSearchJob < ApplicationJob
 
   def perform(*keywords)
     logger.info("Searching #{keywords} on Fanza")
-    keywords.each do |k|
-      FanzaItem.populate_from_fanza k
+    keywords.each do |keyword|
+      Fanza::Api.item_list(keyword)["result"]["items"].map do |item|
+        FanzaItem.create(
+          raw_json: item,
+        )
+      end
     end
   end
 end
