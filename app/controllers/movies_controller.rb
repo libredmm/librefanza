@@ -2,7 +2,9 @@ class MoviesController < ApplicationController
   def index
     ids = (FanzaItem.distinct.pluck(:normalized_id) +
            JavlibraryItem.distinct.pluck(:normalized_id)).sort.uniq
+    puts "Ids #{ids}"
     page_ids = Kaminari::paginate_array(ids).page(params[:page]).per(30)
+    puts page_ids
     @items = page_ids.map { |id|
       find_fanza_item(id) || find_javlibrary_item(id)
     }

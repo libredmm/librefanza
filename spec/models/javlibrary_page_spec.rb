@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe JavlibraryPage, type: :model do
   describe "search page" do
-    let!(:page) { create :javlibrary_search_page }
+    let(:page) { create :javlibrary_search_page }
 
     it "does not have item" do
       expect(page.javlibrary_item).not_to be_present
@@ -21,7 +21,7 @@ RSpec.describe JavlibraryPage, type: :model do
   end
 
   describe "product page" do
-    let!(:page) { create :javlibrary_product_page }
+    let(:page) { create :javlibrary_product_page }
 
     it "has item" do
       expect(page.javlibrary_item).to be_present
