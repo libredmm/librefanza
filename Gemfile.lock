@@ -79,6 +79,7 @@ GEM
       xpath (~> 3.2)
     childprocess (3.0.0)
     concurrent-ruby (1.1.6)
+    connection_pool (2.2.2)
     crass (1.0.6)
     dotenv (2.7.5)
     dotenv-rails (2.7.5)
@@ -133,6 +134,8 @@ GEM
     puma (4.3.5)
       nio4r (~> 2.0)
     rack (2.2.2)
+    rack-protection (2.0.8.1)
+      rack
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -168,6 +171,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     recursive-open-struct (1.1.1)
+    redis (4.1.4)
     regexp_parser (1.7.0)
     rubyzip (2.3.0)
     sass-rails (6.0.0)
@@ -183,6 +187,11 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
+    sidekiq (6.0.7)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      rack-protection (>= 2.0.0)
+      redis (>= 4.1.0)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -242,6 +251,7 @@ DEPENDENCIES
   recursive-open-struct
   sass-rails (>= 6)
   selenium-webdriver
+  sidekiq
   spring
   spring-watcher-listen (~> 2.0.0)
   turbolinks (~> 5)
