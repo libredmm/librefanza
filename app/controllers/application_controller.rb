@@ -4,11 +4,11 @@ class ApplicationController < ActionController::Base
   end
 
   def godmode!
-    if godmode?
-      cookies.delete :whosyourdaddy
-    else
-      cookies.permanent[:whosyourdaddy] = "whosyourdaddy"
-    end
+    cookies.permanent[:whosyourdaddy] = "whosyourdaddy"
+  end
+
+  def mortal!
+    cookies.delete :whosyourdaddy
   end
 
   helper_method :godmode?

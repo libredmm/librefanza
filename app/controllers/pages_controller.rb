@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   end
 
   def whosyourdaddy
-    godmode!
+    godmode? ? mortal! : godmode!
     redirect_to root_path
   end
 end
