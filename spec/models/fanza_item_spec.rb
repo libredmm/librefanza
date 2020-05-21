@@ -13,7 +13,7 @@ RSpec.describe FanzaItem, type: :model do
     end
   end
 
-  %w[anime pcgame].each do |floor_code|
+  %w[anime doujin pcgame].each do |floor_code|
     it "rejects #{floor_code}" do
       expect {
         create :fanza_item, floor_code: floor_code
