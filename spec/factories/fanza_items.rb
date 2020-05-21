@@ -19,6 +19,7 @@ FactoryBot.define do
     transient do
       content_id
       title
+      maker_product { nil }
     end
 
     raw_json {

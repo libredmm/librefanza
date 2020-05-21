@@ -8,7 +8,7 @@ class FanzaItem < ApplicationRecord
 
   def derive_fields
     self.content_id = self.as_struct.content_id
-    self.normalized_id = Fanza::Helper.normalize_id(self.content_id)
+    self.normalized_id = self.as_struct.maker_product&.upcase || Fanza::Helper.normalize_id(self.content_id)
 
     self.date = DateTime.parse(self.as_struct.date)
   end
