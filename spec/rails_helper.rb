@@ -70,7 +70,7 @@ RSpec.configure do |config|
       body: ->(request) {
         {
           result: {
-            items: [
+            items: [{
               content_id: request.uri.query_values["keyword"],
               date: DateTime.now.to_s,
               title: "Title",
@@ -79,7 +79,7 @@ RSpec.configure do |config|
                 small: generate(:url),
               },
               URL: generate(:url),
-            ],
+            }],
           },
         }.to_json
       },

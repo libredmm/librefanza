@@ -11,6 +11,7 @@ class FanzaItem < ApplicationRecord
     self.normalized_id = self.as_struct.maker_product&.upcase || Fanza::Helper.normalize_id(self.content_id)
 
     self.date = DateTime.parse(self.as_struct.date)
+    self.floor_code = self.as_struct.floor_code
   end
 
   def as_struct

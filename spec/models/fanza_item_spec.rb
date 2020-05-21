@@ -7,6 +7,12 @@ RSpec.describe FanzaItem, type: :model do
 
   let(:item) { create :fanza_item }
 
+  %i[floor_code].each do |key|
+    it "has #{key}" do
+      expect(item.send(key)).to be_present
+    end
+  end
+
   it "prefer maker product as normalized id" do
     expect {
       item.raw_json["maker_product"] = "MAKER-123"

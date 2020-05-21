@@ -24,6 +24,7 @@ FactoryBot.define do
 
     raw_json {
       {
+        floor_code: "dvd",
         content_id: content_id,
         date: DateTime.now.to_s,
         title: title,
