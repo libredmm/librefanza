@@ -13,10 +13,12 @@ RSpec.describe FanzaItem, type: :model do
     end
   end
 
-  it "rejects pcgames" do
-    expect {
-      create :fanza_item, floor_code: "pcgame"
-    }.to raise_error(ActiveRecord::RecordInvalid)
+  %w[anime pcgame].each do |floor_code|
+    it "rejects #{floor_code}" do
+      expect {
+        create :fanza_item, floor_code: floor_code
+      }.to raise_error(ActiveRecord::RecordInvalid)
+    end
   end
 
   it "prefer maker product as normalized id" do
