@@ -7,9 +7,10 @@ module Javlibrary
     end
 
     def initialize_driver
-      user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36"
+      Selenium::WebDriver::Chrome.path = ENV["GOOGLE_CHROME_SHIM"] if ENV["GOOGLE_CHROME_SHIM"].present?
       options = Selenium::WebDriver::Chrome::Options.new
       options.add_argument("headless")
+      user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36"
       options.add_argument("user-agent='#{user_agent}'")
       @driver = Selenium::WebDriver.for(:chrome, options: options)
       @driver.navigate.to "http://www.javlibrary.com/ja/"
