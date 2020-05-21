@@ -1,7 +1,7 @@
 module Fanza
   class Helper
     def self.normalize_id(id)
-      m = /^(h_)?\d*(?<alpha>[a-z]+)(?<digit>\d+)[_a-z]*(\d)?$/.match(id)
+      m = /^(h_)?\d*(?<alpha>[a-z]+)-?(?<digit>\d{2,})[_a-z]*(\d)?$/i.match(id)
       return id unless m
       alpha = m[:alpha].upcase
       digit = m[:digit]
