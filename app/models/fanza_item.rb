@@ -1,9 +1,8 @@
 class FanzaItem < ApplicationRecord
+  include Derivable
+
   validates :content_id, presence: true, uniqueness: true
   validates :normalized_id, presence: true
-
-  before_validation :derive_fields
-  after_touch :derive_fields
 
   paginates_per 30
 

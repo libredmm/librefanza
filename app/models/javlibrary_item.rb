@@ -1,10 +1,9 @@
 class JavlibraryItem < ApplicationRecord
+  include Derivable
+
   belongs_to :javlibrary_page
 
   validates :normalized_id, presence: true, uniqueness: true
-
-  before_validation :derive_fields
-  after_touch :derive_fields
 
   paginates_per 30
 
