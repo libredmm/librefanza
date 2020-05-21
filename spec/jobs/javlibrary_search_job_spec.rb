@@ -9,12 +9,12 @@ RSpec.describe JavlibrarySearchJob, type: :job do
     end
 
     @client = spy("client")
-    allow(Javlibrary::Client).to receive(:new) { @client }
+    allow(Javlibrary::Client).to receive(:new).and_return(@client)
 
     @pages = 5.times.map {
       [generate(:url), "<html></html>"]
     }.to_h
-    allow(@client).to receive(:search) { @pages }
+    allow(@client).to receive(:search).and_return(@pages)
 
     allow(JavlibraryPage).to receive(:create)
   end

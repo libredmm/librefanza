@@ -19,12 +19,8 @@ module Javlibrary
     end
 
     def get(url)
-      tries = 0
       @driver.navigate.to url
       { @driver.current_url => @driver.page_source }
-    rescue Selenium::WebDriver::Error::WebDriverError
-      tries += 1
-      retry if tries <= 1
     end
 
     def search(keyword)

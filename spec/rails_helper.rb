@@ -65,7 +65,7 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  config.before :each do
+  config.before(:each) do
     @item_list_stub = stub_request(:any, %r{/affiliate/v3/ItemList}).to_return(
       body: ->(request) {
         {
