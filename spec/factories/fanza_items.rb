@@ -17,6 +17,7 @@ FactoryBot.define do
 
   factory :fanza_item do
     transient do
+      floor_code { "dvd" }
       content_id
       title
       maker_product { nil }
@@ -24,7 +25,7 @@ FactoryBot.define do
 
     raw_json {
       {
-        floor_code: "dvd",
+        floor_code: floor_code,
         content_id: content_id,
         date: DateTime.now.to_s,
         title: title,

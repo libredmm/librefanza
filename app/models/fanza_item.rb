@@ -3,6 +3,7 @@ class FanzaItem < ApplicationRecord
 
   validates :content_id, presence: true, uniqueness: true
   validates :normalized_id, presence: true
+  validates :floor_code, exclusion: { in: %w(pcgame) }
 
   paginates_per 30
 
