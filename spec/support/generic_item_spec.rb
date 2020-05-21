@@ -17,5 +17,20 @@ RSpec.shared_examples "generic item" do
         item.normalized_id
       }
     end
+
+    it "does not trigger save if no change" do
+      expect(item).not_to receive(:save)
+      item.derive_fields!
+    end
+
+    it "destroys itself when not passing validation" do
+      expect(item).to receive(:changed?).and_return(true)
+      expect(item).to receive(:save).and_return(false)
+      expect {
+        item.derive_fields!
+      }.to change {
+        item.destroyed?
+      }.from(false).to(true)
+    end
   end
 end

@@ -8,6 +8,8 @@ module Derivable
 
   def derive_fields!
     derive_fields
-    save if changed
+    if changed?
+      save || destroy
+    end
   end
 end
