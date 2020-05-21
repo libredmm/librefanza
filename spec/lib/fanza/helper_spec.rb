@@ -18,6 +18,8 @@ RSpec.describe "Fanza::Helper" do
         "td008dv1569d" => "DV-1569",
         "DV1-662" => "DV-1662",
         "7DV1-667" => "DV-1667",
+        "7ADVO-9" => "ADVO-009",
+        "8ADV-F126" => "ADVF-126",
       }.each do |original, normalized|
         expect(Fanza::Helper.normalize_id(original)).to eq(normalized)
       end
