@@ -1,9 +1,4 @@
-<div class="d-md-flex justify-content-between align-items-center">
-  <%= paginate @items, window: 2 %>
-  <p>
-    <%= page_entries_info @items %>
-  </p>
-</div>
+<%= render "movies/pager" %>
 
 <% @items.in_groups_of(6).each do |group| %>
 <div class="movies card-deck mb-3">
@@ -26,3 +21,5 @@
   <% end %>
 </div>
 <% end %>
+
+<%= render "movies/pager" %>
