@@ -35,4 +35,5 @@
 yarn-debug.log*
 .yarn-integrity
 
+/spec/examples.txt
 /coverage

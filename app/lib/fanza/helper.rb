@@ -1,9 +1,12 @@
 module Fanza
   class Helper
     def self.normalize_id(id)
-      m = /\d*(?<alpha>[a-z]+)(?<digit>\d{3,})[a-z]*/.match(id)
+      m = /^\d*(?<alpha>[a-z]+)(?<digit>\d+)[a-z]*$/.match(id)
       return id unless m
-      "%s-%03d" % [m[:alpha].upcase, m[:digit].to_i]
+      alpha = m[:alpha].upcase
+      digit = m[:digit]
+      digit = "%03d" % digit.to_i if digit.length > 3
+      "#{alpha}-#{digit}"
     end
   end
 end
