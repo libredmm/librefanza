@@ -1,6 +1,6 @@
 <div class="d-md-flex justify-content-between align-items-center">
-  <%= paginate @items, window: 2 %>
+  <%= paginate pager, window: 2 %>
   <p>
-    <%= page_entries_info @items %>
+    <%= page_entries_info pager %>
   </p>
 </div>

@@ -1,4 +1,4 @@
-<%= render "fanza_actresses/pager" %>
+<%= render partial: "layouts/pager", object: @actresses %>
 
 <% @actresses.in_groups_of(6).each do |group| %>
 <div class="movies card-deck mb-3">
@@ -20,4 +20,4 @@
 </div>
 <% end %>
 
-<%= render "fanza_actresses/pager" %>
+<%= render partial: "layouts/pager", object: @actresses %>
