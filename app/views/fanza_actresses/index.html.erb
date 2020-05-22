@@ -5,7 +5,7 @@
   <% group.each do |actress| %>
   <div class="card">
     <% if actress %>
-    <%= image_tag(actress.imageUrl, class: "card-image-top img-fluid mx-auto d-block") %>
+    <%= image_tag(actress.image_url || fake_image_url(actress), class: "card-image-top img-fluid mx-auto d-block") %>
     <div class="card-body">
       <h5>
         <%= actress.name %>

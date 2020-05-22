@@ -20,7 +20,7 @@ class FanzaActress < ApplicationRecord
     raw_json
   end
 
-  def imageUrl
-    self.as_struct.imageURL&.large || self.as_struct.imageURL&.small || "https://dummyimage.com/125x125&text=#{self.name}"
+  def image_url
+    self.as_struct.imageURL&.large || self.as_struct.imageURL&.small
   end
 end

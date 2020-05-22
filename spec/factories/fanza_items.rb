@@ -21,21 +21,28 @@ FactoryBot.define do
       content_id
       title
       maker_product { nil }
+      actress { create(:fanza_actress) }
     end
 
     raw_json {
       {
         floor_code: floor_code,
         content_id: content_id,
-        date: DateTime.now.to_s,
         title: title,
+        URL: generate(:url),
         imageURL: {
           large: generate(:url),
           small: generate(:url),
         },
-        URL: generate(:url),
         affiliateURL: generate(:url),
         affiliateURLsp: generate(:url),
+        date: DateTime.now.to_s,
+        iteminfo: {
+          actress: [{
+            id: actress.id_fanza,
+            name: actress.name,
+          }],
+        },
       }
     }
   end

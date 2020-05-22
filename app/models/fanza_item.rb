@@ -47,6 +47,9 @@ class FanzaItem < ApplicationRecord
     as_struct.URL
   end
 
-  # date
-
+  def actresses
+    as_struct.iteminfo.actress.map do |info|
+      FanzaActress.find_by(id_fanza: info.id) || OpenStruct.new(name: info.name)
+    end
+  end
 end

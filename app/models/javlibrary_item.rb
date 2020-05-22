@@ -42,4 +42,11 @@ class JavlibraryItem < ApplicationRecord
   def date
     DateTime.parse(html.at_css("#video_date td.text")&.content)
   end
+
+  def actresses
+    html.css("span.cast").map do |span|
+      name = span.content.strip
+      FanzaActress.find_by(name: span.content.strip) || OpenStruct.new(name: name)
+    end
+  end
 end

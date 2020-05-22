@@ -1,4 +1,5 @@
 <% if @item %>
+
 <h1>
   <span><%= @item.normalized_id %></span>
   <span><%= @item.title %></span>
@@ -14,6 +15,17 @@
       <dd><%= @item.date %></dd>
       <dt>Thumbnail Image</dt>
       <dd><%= image_tag @item.thumbnail_image_url %></dd>
+      <dt>Actresses</dt>
+      <dd>
+        <% @item.actresses.each do |actress| %>
+        <div class="media">
+          <%= image_tag(actress.image_url, class: "align-self-center") if actress.image_url %>
+          <div class="media-body align-self-center">
+            <%= actress.name %>
+          </div>
+        </div>
+        <% end %>
+      </dd>
       <dt>Powered by</dt>
       <dd>
         <%= @item.kind_of?(FanzaItem) ? "Fanza" : "JavLibrary" %>
@@ -23,7 +35,9 @@
     </dl>
   </div>
 </div>
+
 <% else %>
+
 <div class="d-flex justify-content-center">
   <div class="spinner-border text-primary m-5" role="status">
     <span class="sr-only">Loading...</span>
@@ -32,4 +46,5 @@
 <div class="d-flex justify-content-center">
   <strong>Loading in background, try refresh later.</strong>
 </div>
+
 <% end %>
