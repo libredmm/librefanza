@@ -6,7 +6,7 @@ RSpec.describe FanzaSearchJob, type: :job do
   it "searches fanza" do
     id = generate :normalized_id
 
-    expect(Fanza::Api).to receive(:item_list).with(id).and_call_original
+    expect(Fanza::Api).to receive(:item_list).with(id).and_call_original.at_least(1).times
     perform_enqueued_jobs do
       FanzaSearchJob.perform_later id
     end
