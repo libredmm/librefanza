@@ -4,9 +4,9 @@ class JavlibrarySearchJob < ApplicationJob
   def perform(*keywords)
     keywords.each do |keyword|
       @@client ||= Javlibrary::Client.new
-      @@client.search(keyword).map { |url, raw_html|
+      @@client.search(keyword).map do |url, raw_html|
         JavlibraryPage.create(url: url, raw_html: raw_html)
-      }
+      end
     end
   end
 end
