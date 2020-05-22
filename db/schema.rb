@@ -10,11 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_21_050347) do
+ActiveRecord::Schema.define(version: 2020_05_22_004625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
+
+  create_table "fanza_actresses", force: :cascade do |t|
+    t.integer "id_fanza"
+    t.string "name"
+    t.jsonb "raw_json"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["id_fanza"], name: "index_fanza_actresses_on_id_fanza", unique: true
+  end
 
   create_table "fanza_items", force: :cascade do |t|
     t.string "content_id"

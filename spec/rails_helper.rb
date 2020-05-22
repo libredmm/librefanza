@@ -84,5 +84,25 @@ RSpec.configure do |config|
         }.to_json
       },
     )
+
+    @actress_search_stub = stub_request(:any, %r{/affiliate/v3/ActressSearch}).to_return(
+      body: ->(request) {
+        {
+          result: {
+            result_count: request.uri.query_values["hits"],
+            total_count: 1000,
+            first_position: request.uri.query_values["offset"],
+            actress: [{
+              id: generate(:id_fanza),
+              name: generate(:name),
+              imageURL: {
+                large: generate(:url),
+                small: generate(:url),
+              },
+            }],
+          },
+        }.to_json
+      },
+    )
   end
 end

@@ -1,0 +1,23 @@
+<%= render "fanza_actresses/pager" %>
+
+<% @actresses.in_groups_of(6).each do |group| %>
+<div class="movies card-deck mb-3">
+  <% group.each do |actress| %>
+  <div class="card">
+    <% if actress %>
+    <%= image_tag(actress.imageUrl, class: "card-image-top img-fluid mx-auto d-block") %>
+    <div class="card-body">
+      <h5>
+        <%= actress.name %>
+      </h5>
+    </div>
+    <div class="card-footer">
+      <%= actress.id_fanza %>
+    </div>
+    <% end %>
+  </div>
+  <% end %>
+</div>
+<% end %>
+
+<%= render "fanza_actresses/pager" %>

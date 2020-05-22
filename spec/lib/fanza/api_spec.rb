@@ -7,4 +7,11 @@ RSpec.describe "Fanza::Api" do
       expect(@item_list_stub).to have_been_requested
     end
   end
+
+  describe "#actress_search" do
+    it "keeps calling fanza util all results fetchs" do
+      Fanza::Api.actress_search
+      expect(@actress_search_stub).to have_been_requested.times(10)
+    end
+  end
 end
