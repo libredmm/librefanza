@@ -44,7 +44,7 @@ class JavlibraryItem < ApplicationRecord
   end
 
   def actresses
-    html.css("span.cast").map do |span|
+    html.css(".cast .star").map do |span|
       name = span.content.strip
       FanzaActress.find_by(name: span.content.strip) || OpenStruct.new(name: name)
     end

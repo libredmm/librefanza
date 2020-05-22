@@ -15,17 +15,21 @@
       <dd><%= @item.date %></dd>
       <dt>Thumbnail Image</dt>
       <dd><%= image_tag @item.thumbnail_image_url %></dd>
+      <% if @item.actresses %>
       <dt>Actresses</dt>
       <dd>
         <% @item.actresses.each do |actress| %>
-        <div class="media">
-          <%= image_tag(actress.image_url, class: "align-self-center") if actress.image_url %>
-          <div class="media-body align-self-center">
-            <%= actress.name %>
-          </div>
-        </div>
+        <ul class="list-unstyled">
+          <li class="media">
+            <%= image_tag(actress.image_url, class: "align-self-center") if actress.image_url %>
+            <div class="media-body align-self-center">
+              <%= actress.name %>
+            </div>
+          </li>
+        </ul>
         <% end %>
       </dd>
+      <% end %>
       <dt>Powered by</dt>
       <dd>
         <%= @item.kind_of?(FanzaItem) ? "Fanza" : "JavLibrary" %>
