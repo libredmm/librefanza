@@ -23,6 +23,16 @@ RSpec.describe FanzaItem, type: :model do
     }.to("MAKER-123")
   end
 
+  describe ".actresses" do
+    it "return empty array when no provided" do
+      expect {
+        item.raw_json["iteminfo"].delete("actress")
+      }.to change {
+        item.actresses
+      }.to([])
+    end
+  end
+
   describe ".as_json" do
     it "filters out affiliate urls" do
       expect(item.as_json).not_to include("affiliateURL")
