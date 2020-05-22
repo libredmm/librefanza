@@ -70,6 +70,9 @@ RSpec.configure do |config|
       body: ->(request) {
         {
           result: {
+            result_count: request.uri.query_values["hits"],
+            total_count: request.uri.query_values["hits"].to_i * 10,
+            first_position: request.uri.query_values["offset"],
             items: [{
               content_id: request.uri.query_values["keyword"],
               date: DateTime.now.to_s,
@@ -90,7 +93,7 @@ RSpec.configure do |config|
         {
           result: {
             result_count: request.uri.query_values["hits"],
-            total_count: 1000,
+            total_count: request.uri.query_values["hits"].to_i * 10,
             first_position: request.uri.query_values["offset"],
             actress: [{
               id: generate(:id_fanza),

@@ -13,7 +13,7 @@ RSpec.describe FanzaSearchJob, type: :job do
   end
 
   it "creates fanza items" do
-    expect(FanzaItem).to receive(:create)
+    expect(FanzaItem).to receive(:create).exactly(10).times
 
     id = generate :normalized_id
     perform_enqueued_jobs do
