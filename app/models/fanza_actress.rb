@@ -5,7 +5,7 @@ class FanzaActress < ApplicationRecord
   validates :name, presence: true
   validates :raw_json, presence: true
 
-  paginates_per 30
+  paginates_per 45
 
   def derive_fields
     self.id_fanza = self.as_struct.id

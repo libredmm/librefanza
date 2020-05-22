@@ -3,7 +3,9 @@ class PagesController < ApplicationController
   end
 
   def search
-    redirect_to movie_path(params[:q].upcase)
+    redirect_to movie_path(
+      Fanza::Helper.normalize_id(params[:q].upcase)
+    )
   end
 
   def whosyourdaddy

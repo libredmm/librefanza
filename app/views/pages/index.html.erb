@@ -1,11 +1,7 @@
 <h1 class="logo">LibreDMM</h1>
+
 <div class="row">
-  <%= form_tag search_path, method: :get, class: "form-inline col" do %>
-    <div class="input-group offset-md-3 col-md-6">
-      <%= text_field_tag("q", nil, class: "form-control") %>
-      <div class="input-group-append">
-        <%= submit_tag "Search", class: "btn btn-success" %>
-      </div>
-    </div>
-  <% end %>
+  <div class="offset-md-3 col-md-6">
+    <%= render "movies/search" %>
+  </div>
 </div>

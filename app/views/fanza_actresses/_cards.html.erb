@@ -1,0 +1,14 @@
+<% cards.in_groups_of(9).each do |group| %>
+<div class="movies card-group mb-3">
+    <% group.each do |actress| %>
+    <div class="card">
+        <% if actress %>
+        <%= image_tag(actress.image_url || fake_image_url(actress), class: "card-image-top img-fluid mx-auto d-block") %>
+        <div class="card-body">
+            <h6 class="card-title"><%= actress.name %></h6>
+        </div>
+        <% end %>
+    </div>
+    <% end %>
+</div>
+<% end %>

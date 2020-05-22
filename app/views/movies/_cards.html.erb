@@ -1,21 +1,30 @@
 <%= render partial: "layouts/pager", object: @items %>
 
 <% @items.in_groups_of(6).each do |group| %>
-<div class="movies card-deck mb-3">
+<div class="movies card-group mb-3">
   <% group.each do |item| %>
   <div class="card">
     <% if item %>
     <%= link_to image_tag(item.thumbnail_image_url, class: "card-image-top img-fluid mx-auto d-block"), item %>
     <div class="card-body">
       <%= link_to item, class: "card-title" do %>
+      <%= link_to movie_path(item.normalized_id) do %>
       <h5>
-        <%= link_to item.normalized_id, movie_path(item.normalized_id) %>
-        <% if godmode? %>
-        <sub><%= link_to item.subtitle, item %></sub>
-        <% end %>
+        <%= item.normalized_id %>
       </h5>
+      <h6 class="text-truncate">
+        <small>
+          <%= item.title %>
+        </small>
+      </h6>
+      <% end %>
       <% end %>
     </div>
+    <% if godmode? %>
+    <div class="card-footer">
+      <%= link_to item.subtitle, item %>
+    </div>
+    <% end %>
     <% end %>
   </div>
   <% end %>
