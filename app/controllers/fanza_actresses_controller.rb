@@ -5,4 +5,10 @@ class FanzaActressesController < ApplicationController
     @actresses = FanzaActress.all.order(:id_fanza)
     @actresses = @actresses.page(params[:page])
   end
+
+  # GET /fanza_actresses/1
+  # GET /fanza_actresses/1.json
+  def show
+    @actress = FanzaActress.find(params[:id])
+  end
 end

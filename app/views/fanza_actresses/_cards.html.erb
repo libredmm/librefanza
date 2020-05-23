@@ -3,9 +3,12 @@
     <% group.each do |actress| %>
     <div class="card">
         <% if actress %>
-        <%= image_tag(actress.image_url || fake_image_url(actress), class: "card-image-top img-fluid mx-auto d-block") %>
+        <%= link_to(
+                image_tag(actress.image_url || fake_image_url(actress), class: "card-image-top img-fluid mx-auto d-block"),
+                actress
+            ) %>
         <div class="card-body">
-            <h6 class="card-title"><%= actress.name %></h6>
+            <h6 class="card-title"><%= link_to actress.name, actress %></h6>
         </div>
         <% end %>
     </div>
