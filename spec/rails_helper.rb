@@ -77,6 +77,7 @@ RSpec.configure do |config|
               content_id: request.uri.query_values["keyword"],
               date: DateTime.now.to_s,
               title: "Title",
+              floor_code: "dvd",
               imageURL: {
                 large: generate(:url),
                 small: generate(:url),

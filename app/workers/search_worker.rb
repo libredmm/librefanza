@@ -5,9 +5,9 @@ class SearchWorker
 
   def perform(keyword)
     logger.info "Searching #{keyword} on Fanza"
-    Fanza::Api.item_list(keyword).map do |item|
+    Fanza::Api.item_list(keyword).map do |json|
       FanzaItem.create(
-        raw_json: item,
+        raw_json: json,
       )
     end
 
@@ -23,15 +23,16 @@ class SearchWorker
     end
     logger.info "Searching #{keyword} on Javlibrary"
 
-    @@client ||= Javlibrary::Client.new
-    @@client.search(keyword).map do |url, raw_html|
+    Javlibrary::Api.search(keyword).map do |url, raw_html|
       JavlibraryPage.create(url: url, raw_html: raw_html)
     end
 
     if JavlibraryItem.where(normalized_id: keyword).exists?
-      logger.info "Found #{keyword} on Javlibrary"
+      # :nocov:
+      logger.info "#{keyword} found on Javlibrary"
+      # :nocov:
     else
-      logger.warning "#{keyword} not found anywhere"
+      logger.warn "#{keyword} not found anywhere"
     end
   end
 end

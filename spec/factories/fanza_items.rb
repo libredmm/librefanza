@@ -4,7 +4,7 @@ FactoryBot.define do
   end
 
   sequence :normalized_id do |i|
-    "NORMALIZED_#{format("%03d", i)}"
+    "NORMALIZED-#{format("%03d", i)}"
   end
 
   sequence :title do |i|

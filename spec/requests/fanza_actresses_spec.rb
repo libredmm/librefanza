@@ -19,4 +19,12 @@ RSpec.describe "FanzaActresses", type: :request do
       expect(response).to have_http_status(200)
     end
   end
+
+  describe "GET /fanza_actresses/:id" do
+    it "works" do
+      actress = create :fanza_actress
+      get fanza_actress_path(actress)
+      expect(response).to have_http_status(200)
+    end
+  end
 end
