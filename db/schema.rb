@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_22_004625) do
+ActiveRecord::Schema.define(version: 2020_05_23_005310) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2020_05_22_004625) do
     t.index ["floor_code"], name: "index_fanza_items_on_floor_code"
     t.index ["normalized_id", "content_id"], name: "index_fanza_items_on_normalized_id_and_content_id", opclass: :gin_trgm_ops, using: :gin
     t.index ["normalized_id"], name: "index_fanza_items_on_normalized_id", opclass: :gin_trgm_ops, using: :gin
+    t.index ["raw_json"], name: "index_fanza_items_on_raw_json", opclass: :jsonb_path_ops, using: :gin
   end
 
   create_table "javlibrary_items", force: :cascade do |t|

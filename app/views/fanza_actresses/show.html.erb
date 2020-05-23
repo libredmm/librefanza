@@ -1,4 +1,4 @@
-<div class="media">
+<div class="media mb-3">
     <%= image_tag @actress.image_url, class: "align-self-center mr-3"%>
     <div class="media-body align-self-center">
         <h1>
@@ -6,3 +6,7 @@
         </h1>
     </div>
 </div>
+
+<% if @items %>
+<%= render partial: "movies/cards", object: @items %>
+<% end %>

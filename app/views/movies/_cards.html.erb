@@ -1,6 +1,4 @@
-<%= render partial: "layouts/pager", object: @items %>
-
-<% @items.in_groups_of(6).each do |group| %>
+<% cards.in_groups_of(6).each do |group| %>
 <div class="movies card-group mb-3">
   <% group.each do |item| %>
   <div class="card">
@@ -30,5 +28,3 @@
   <% end %>
 </div>
 <% end %>
-
-<%= render partial: "layouts/pager", object: @items %>
