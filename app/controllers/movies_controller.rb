@@ -12,11 +12,10 @@ class MoviesController < ApplicationController
   def show
     find_fanza_item(params[:id])
     return render if @item
-    FanzaSearchJob.perform_later params[:id]
+    SearchWorker.perform_async params[:id]
 
     find_javlibrary_item(params[:id])
     return render if @item
-    JavlibrarySearchJob.perform_later params[:id]
 
     respond_to do |format|
       format.html
