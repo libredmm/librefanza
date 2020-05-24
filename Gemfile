@@ -58,6 +58,7 @@ gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "faraday"
 gem "bootstrap"
+gem "jquery-rails"
 gem "recursive-open-struct"
 gem "selenium-webdriver"
 gem "webdrivers"
@@ -65,3 +66,4 @@ gem "nokogiri"
 gem "kaminari"
 gem "sidekiq"
 gem "sidekiq-unique-jobs"
+gem "clearance"

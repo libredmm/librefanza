@@ -1,0 +1,15 @@
+<div id="clearance" class="sign-in">
+  <h2><%= t(".title") %></h2>
+
+  <%= form_for :session, url: session_path do |form| %>
+  <%= render partial: "/users/email_field", locals: { form: form } %>
+  <%= render partial: "/users/password_field", locals: { form: form } %>
+  <%= render partial: "/users/submit_field", locals: { form: form } %>
+
+  <div class="form-group other-links">
+    <% if Clearance.configuration.allow_sign_up? %>
+    <%= link_to t(".sign_up"), sign_up_path %>
+    <% end %>
+  </div>
+  <% end %>
+</div>

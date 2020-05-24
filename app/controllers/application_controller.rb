@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Clearance::Controller
   def godmode?
     cookies[:whosyourdaddy].present?
   end

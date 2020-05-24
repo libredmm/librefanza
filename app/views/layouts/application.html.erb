@@ -37,7 +37,24 @@
         </li>
         <% end %>
       </ul>
-      <%= render "movies/search" %>
+      <ul class="navbar-nav ml-auto">
+        <%= render "movies/search" %>
+        <% if signed_in? %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdownMenu" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <%= current_user.email %>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="userDropdownMenu">
+            <%= link_to (t ".sign_out"), sign_out_path, method: :delete, class: "dropdown-item" %>
+          </div>
+        </li>
+        <% else %>
+        <li class="nav-item">
+          <%= link_to (t ".sign_in"), sign_in_path, class: "nav-link" %>
+        </li>
+        <% end %>
+      </ul>
     </div>
   </nav>
 
