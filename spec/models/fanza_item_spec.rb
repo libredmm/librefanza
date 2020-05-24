@@ -13,6 +13,17 @@ RSpec.describe FanzaItem, type: :model do
     end
   end
 
+  it "fallback to maker product when content id can not be normalized" do
+    expect {
+      item.raw_json["content_id"] = "123abc"
+      item.raw_json["maker_product"] = "MAKER-123"
+      item.derive_fields
+      item.save
+    }.to change {
+      item.normalized_id
+    }.to("MAKER-123")
+  end
+
   describe ".actresses" do
     it "return empty array when no provided" do
       expect {

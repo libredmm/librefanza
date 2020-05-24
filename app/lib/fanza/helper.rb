@@ -1,9 +1,7 @@
 module Fanza
   class Helper
     def self.normalize_id(id)
-      id = id.gsub("-", "")
-      id = id.gsub(/^._/i, "")
-      groups = id.split(/(\d+)/).reject(&:empty?)
+      groups = id.gsub("-", "").gsub(/^._/i, "").split(/(\d+)/).reject(&:empty?)
       groups.shift if groups.first =~ /\d+/
       groups.pop if groups.last =~ /\D+/
 

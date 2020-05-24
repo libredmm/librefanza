@@ -23,19 +23,21 @@
           <%= link_to "Movies", movies_path, class: "nav-link" %>
         </li>
         <% if godmode? %>
-        <li class="nav-item">
-          <%= link_to "Fanza Items", fanza_items_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Fanza Actresses", fanza_actresses_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Javlibrary Items", javlibrary_items_path, class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Javlibrary Pages", javlibrary_pages_path, class: "nav-link" %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle dropdown-toggle-split" href="#" id="moviesDropdownMenu" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+          </a>
+          <div class="dropdown-menu" aria-labelledby="moviesDropdownMenu">
+            <%= link_to "Fanza Items", fanza_items_path, class: "dropdown-item" %>
+            <%= link_to "Javlibrary Items", javlibrary_items_path, class: "dropdown-item" %>
+            <%= link_to "Javlibrary Pages", javlibrary_pages_path, class: "dropdown-item" %>
+          </div>
         </li>
         <% end %>
+
+        <li class="nav-item">
+          <%= link_to "Actresses", fanza_actresses_path, class: "nav-link" %>
+        </li>
       </ul>
       <ul class="navbar-nav ml-auto">
         <%= render "movies/search" %>
