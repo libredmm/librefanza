@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_24_183145) do
+ActiveRecord::Schema.define(version: 2020_05_24_214252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2020_05_24_183145) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["id_fanza"], name: "index_fanza_actresses_on_id_fanza", unique: true
+    t.index ["name"], name: "index_fanza_actresses_on_name"
   end
 
   create_table "fanza_items", force: :cascade do |t|
@@ -33,9 +34,10 @@ ActiveRecord::Schema.define(version: 2020_05_24_183145) do
     t.string "normalized_id"
     t.datetime "date"
     t.string "floor_code"
+    t.index ["content_id"], name: "index_fanza_items_on_content_id"
     t.index ["floor_code"], name: "index_fanza_items_on_floor_code"
     t.index ["normalized_id", "content_id"], name: "index_fanza_items_on_normalized_id_and_content_id", opclass: :gin_trgm_ops, using: :gin
-    t.index ["normalized_id"], name: "index_fanza_items_on_normalized_id", opclass: :gin_trgm_ops, using: :gin
+    t.index ["normalized_id"], name: "index_fanza_items_on_normalized_id"
     t.index ["raw_json"], name: "index_fanza_items_on_raw_json", opclass: :jsonb_path_ops, using: :gin
   end
 
@@ -45,6 +47,7 @@ ActiveRecord::Schema.define(version: 2020_05_24_183145) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["javlibrary_page_id"], name: "index_javlibrary_items_on_javlibrary_page_id"
+    t.index ["normalized_id"], name: "index_javlibrary_items_on_normalized_id"
   end
 
   create_table "javlibrary_pages", force: :cascade do |t|
