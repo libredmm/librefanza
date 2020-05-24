@@ -1,7 +1,13 @@
 class SearchWorker
   include Sidekiq::Worker
 
-  sidekiq_options queue: :default, retry: 3, lock: :until_executed, on_conflict: :reject
+  sidekiq_options(
+    queue: :default,
+    retry: 3,
+    lock: :until_expired,
+    lock_ttl: 1.day.to_i,
+    on_conflict: :log,
+  )
 
   def perform(keyword)
     logger.info "Searching #{keyword} on Fanza"
