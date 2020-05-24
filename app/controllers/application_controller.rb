@@ -1,16 +1,13 @@
 class ApplicationController < ActionController::Base
   include Clearance::Controller
-  def godmode?
-    cookies[:whosyourdaddy].present?
+
+  before_action do
+    Rack::MiniProfiler.authorize_request if signed_in_as_admin?
   end
 
-  def godmode!
-    cookies.permanent[:whosyourdaddy] = "whosyourdaddy"
-  end
+  helper_method :signed_in_as_admin?
 
-  def mortal!
-    cookies.delete :whosyourdaddy
+  def signed_in_as_admin?
+    signed_in? && current_user.is_admin?
   end
-
-  helper_method :godmode?
 end

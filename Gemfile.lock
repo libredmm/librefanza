@@ -154,6 +154,8 @@ GEM
     puma (4.3.5)
       nio4r (~> 2.0)
     rack (2.2.2)
+    rack-mini-profiler (2.0.1)
+      rack (>= 1.2.0)
     rack-protection (2.0.8.1)
       rack
     rack-proxy (0.6.5)
@@ -303,6 +305,7 @@ DEPENDENCIES
   nokogiri
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
+  rack-mini-profiler
   rails (~> 6.0.3, >= 6.0.3.1)
   recursive-open-struct
   rspec-rails

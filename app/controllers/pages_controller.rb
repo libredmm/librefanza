@@ -7,9 +7,4 @@ class PagesController < ApplicationController
       Fanza::Helper.normalize_id(params[:q].upcase)
     )
   end
-
-  def whosyourdaddy
-    godmode? ? mortal! : godmode!
-    redirect_to root_path
-  end
 end

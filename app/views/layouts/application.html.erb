@@ -22,7 +22,7 @@
         <li class="nav-item">
           <%= link_to "Movies", movies_path, class: "nav-link" %>
         </li>
-        <% if godmode? %>
+        <% if signed_in_as_admin? %>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle dropdown-toggle-split" href="#" id="moviesDropdownMenu" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
@@ -48,6 +48,10 @@
             <%= current_user.email %>
           </a>
           <div class="dropdown-menu" aria-labelledby="userDropdownMenu">
+            <% if signed_in_as_admin? %>
+            <%= link_to "Sidekiq", sidekiq_web_path, class: "dropdown-item" %>
+            <div class="dropdown-divider"></div>
+            <% end %>
             <%= link_to (t ".sign_out"), sign_out_path, method: :delete, class: "dropdown-item" %>
           </div>
         </li>

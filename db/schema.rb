@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_24_214252) do
+ActiveRecord::Schema.define(version: 2020_05_24_220821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 2020_05_24_214252) do
     t.string "confirmation_token", limit: 128
     t.string "remember_token", limit: 128, null: false
     t.string "api_token", limit: 128, null: false
+    t.boolean "is_admin", default: false, null: false
     t.index ["api_token"], name: "index_users_on_api_token"
     t.index ["email"], name: "index_users_on_email"
     t.index ["remember_token"], name: "index_users_on_remember_token"
