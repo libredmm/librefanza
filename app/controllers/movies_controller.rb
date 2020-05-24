@@ -12,7 +12,7 @@ class MoviesController < ApplicationController
   def show
     find_fanza_item(params[:id])
     return render if @item
-    SearchWorker.perform_async params[:id]
+    SearchWorker.perform_async params[:id], true
 
     find_javlibrary_item(params[:id])
     return render if @item

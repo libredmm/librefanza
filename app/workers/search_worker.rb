@@ -3,7 +3,7 @@ class SearchWorker
 
   sidekiq_options lock: :until_executed, on_conflict: :reject
 
-  def perform(keyword)
+  def perform(keyword, fallback_to_javlibrary)
     logger.info "Searching #{keyword} on Fanza"
     Fanza::Api.item_list(keyword).map do |json|
       FanzaItem.create(
@@ -16,6 +16,9 @@ class SearchWorker
       return
     end
     logger.info "#{keyword} not found on Fanza"
+
+    return unless fallback_to_javlibrary
+    logger.info "Falling back to Javlibrary for #{keyword}"
 
     if JavlibraryItem.where(normalized_id: keyword).exists?
       logger.info "#{keyword} alreay found on Javlibrary"

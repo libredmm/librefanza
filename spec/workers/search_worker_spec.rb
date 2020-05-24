@@ -5,10 +5,19 @@ RSpec.describe SearchWorker, type: :worker do
     id = generate :normalized_id
 
     expect(Fanza::Api).to receive(:item_list).with(id).and_call_original.at_least(1).times
-    subject.perform(id)
+    subject.perform(id, true)
   end
 
-  it "searches javlibrary next" do
+  it "does not search javlibrary if fallback not allowed" do
+    id = generate :normalized_id
+
+    expect(Fanza::Api).to receive(:item_list).with(id).and_return([].each)
+    expect(Javlibrary::Api).not_to receive(:search).with(id)
+
+    subject.perform(id, false)
+  end
+
+  it "searches javlibrary if fallback allowed" do
     id = generate :normalized_id
 
     expect(Fanza::Api).to receive(:item_list).with(id).and_return([].each)
@@ -21,7 +30,7 @@ RSpec.describe SearchWorker, type: :worker do
       expect(JavlibraryPage).to receive(:create).with(url: url, raw_html: html)
     end
 
-    subject.perform(id)
+    subject.perform(id, true)
   end
 
   it "only searches javlibrary when necessary" do
@@ -31,6 +40,6 @@ RSpec.describe SearchWorker, type: :worker do
     expect(Fanza::Api).to receive(:item_list).with(id).and_return([].each)
     expect(Javlibrary::Api).not_to receive(:search)
 
-    subject.perform(id)
+    subject.perform(id, true)
   end
 end
