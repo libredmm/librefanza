@@ -13,13 +13,10 @@ RSpec.describe SearchWorker, type: :worker do
 
     expect(Fanza::Api).to receive(:item_list).with(id).and_return([].each)
 
-    pages = 5.times.map {
-      [generate(:url), "<html></html>"]
-    }.to_h
-    expect(Javlibrary::Api).to receive(:search).with(id).and_return(pages.each)
-    pages.each do |url, html|
-      expect(JavlibraryPage).to receive(:create).with(url: url, raw_html: html)
-    end
+    url = generate(:url)
+    html = [generate(:url), "<html></html>"]
+    expect(Javlibrary::Api).to receive(:search).with(id).and_yield(url, html)
+    expect(JavlibraryPage).to receive(:create).with(url: url, raw_html: html)
 
     subject.perform id
   end

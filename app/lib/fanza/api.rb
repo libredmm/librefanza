@@ -1,6 +1,8 @@
 module Fanza
   class Api
     def self.item_list(keyword, sort: "match")
+      return to_enum(:item_list, keyword, sort: sort) unless block_given?
+
       [
         ["mono", "dvd"],
         ["digital", "video"],

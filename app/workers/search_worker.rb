@@ -23,7 +23,7 @@ class SearchWorker
     end
     logger.info "Searching #{keyword} on Javlibrary"
 
-    Javlibrary::Api.search(keyword).map do |url, raw_html|
+    Javlibrary::Api.search(keyword) do |url, raw_html|
       JavlibraryPage.create(url: url, raw_html: raw_html)
     end
 

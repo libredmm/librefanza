@@ -25,13 +25,17 @@ module Javlibrary
     end
 
     def search(keyword)
+      return to_enum(:search, keyword) unless block_given?
+
       pages = get("http://www.javlibrary.com/ja/vl_searchbyid.php?keyword=#{keyword}")
       @driver.find_elements(css: "div.video > a").map { |a|
         a["href"]
       }.each { |href|
         pages.merge! get(href)
       }
-      pages.each
+      pages.each do |url, html|
+        yield url, html
+      end
     end
   end
 end
