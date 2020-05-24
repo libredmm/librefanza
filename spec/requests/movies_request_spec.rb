@@ -20,7 +20,7 @@ RSpec.describe "Movies", type: :request do
     it "performs search when needed" do
       id = generate :normalized_id
       get movie_path(id)
-      expect(SearchWorker).to have_enqueued_sidekiq_job(id, true)
+      expect(SearchWorker).to have_enqueued_sidekiq_job(id)
     end
   end
 end

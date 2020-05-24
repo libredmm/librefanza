@@ -1,11 +1,11 @@
 class SearchWorker
   include Sidekiq::Worker
 
-  sidekiq_options lock: :until_executed, on_conflict: :reject
+  sidekiq_options queue: :default, lock: :until_executed, on_conflict: :reject
 
-  def perform(keyword, fallback_to_javlibrary)
+  def perform(keyword)
     logger.info "Searching #{keyword} on Fanza"
-    Fanza::Api.item_list(keyword).map do |json|
+    Fanza::Api.item_list(keyword) do |json|
       FanzaItem.create(
         raw_json: json,
       )
@@ -16,9 +16,6 @@ class SearchWorker
       return
     end
     logger.info "#{keyword} not found on Fanza"
-
-    return unless fallback_to_javlibrary
-    logger.info "Falling back to Javlibrary for #{keyword}"
 
     if JavlibraryItem.where(normalized_id: keyword).exists?
       logger.info "#{keyword} alreay found on Javlibrary"

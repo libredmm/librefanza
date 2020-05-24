@@ -1,15 +1,13 @@
 module Fanza
   class Api
-    def self.item_list(keyword)
-      return to_enum(:item_list, keyword) unless block_given?
-
+    def self.item_list(keyword, sort: "match")
       [
         ["mono", "dvd"],
         ["digital", "video"],
         ["digital", "videoa"],
         ["digital", "videoc"],
       ].each do |service, floor|
-        self.item_list_in_floor(keyword, service, floor) do |item|
+        self.item_list_in_floor(keyword, service: service, floor: floor, sort: sort) do |item|
           yield item
         end
       end
@@ -41,7 +39,7 @@ module Fanza
 
     private
 
-    def self.item_list_in_floor(keyword, service, floor)
+    def self.item_list_in_floor(keyword, service:, floor:, sort:)
       self.fetch_all do |offset|
         resp = JSON.parse(Faraday.get(
           "https://api.dmm.com/affiliate/v3/ItemList",
@@ -53,7 +51,7 @@ module Fanza
             floor: floor,
             hits: 100,
             offset: offset,
-            sort: "match",
+            sort: sort,
             keyword: keyword,
             output: "json",
           }

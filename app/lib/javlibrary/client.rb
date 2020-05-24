@@ -31,7 +31,7 @@ module Javlibrary
       }.each { |href|
         pages.merge! get(href)
       }
-      pages
+      pages.each
     end
   end
 end
