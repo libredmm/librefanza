@@ -3,7 +3,7 @@ class FanzaItem < ApplicationRecord
 
   validates :content_id, presence: true, uniqueness: true
   validates :normalized_id, presence: true
-  validates :floor_code, inclusion: { in: %w[dvd rental_dvd video videoa videoc] }
+  validates :floor_code, inclusion: { in: %w[dvd video videoa videoc] }
 
   paginates_per 30
 

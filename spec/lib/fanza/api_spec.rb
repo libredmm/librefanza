@@ -9,7 +9,7 @@ RSpec.describe "Fanza::Api" do
 
     it "keeps calling until all results fetched" do
       Fanza::Api.item_list(generate(:normalized_id)).to_a
-      expect(@item_list_stub).to have_been_requested.times(10)
+      expect(@item_list_stub).to have_been_requested.times(40)
     end
   end
 

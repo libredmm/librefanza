@@ -74,15 +74,16 @@ RSpec.configure do |config|
             total_count: request.uri.query_values["hits"].to_i * 10,
             first_position: request.uri.query_values["offset"].to_i,
             items: [{
+              service_code: request.uri.query_values["service"],
+              floor_code: request.uri.query_values["floor"],
               content_id: request.uri.query_values["keyword"],
-              date: DateTime.now.to_s,
               title: "Title",
-              floor_code: "dvd",
+              URL: generate(:url),
               imageURL: {
                 large: generate(:url),
                 small: generate(:url),
               },
-              URL: generate(:url),
+              date: DateTime.now.to_s,
             }],
           },
         }.to_json
