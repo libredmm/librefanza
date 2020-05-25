@@ -23,4 +23,8 @@ class FanzaActress < ApplicationRecord
   def image_url
     self.as_struct.imageURL&.large || self.as_struct.imageURL&.small
   end
+
+  def to_param
+    self.id_fanza.to_s
+  end
 end

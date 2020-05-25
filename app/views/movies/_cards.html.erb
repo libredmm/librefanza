@@ -1,3 +1,5 @@
+<%= render partial: "layouts/pager", locals: { items: cards, name: "movie" } %>
+
 <% cards.in_groups_of(6).each do |group| %>
 <div class="movies card-group mb-3">
   <% group.each do |item| %>
@@ -28,3 +30,5 @@
   <% end %>
 </div>
 <% end %>
+
+<%= render partial: "layouts/pager", locals: { items: cards, name: "movie" } %>
