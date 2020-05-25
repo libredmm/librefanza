@@ -20,17 +20,30 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
     - name: Set up PostgreSQL
       uses: Harmon758/postgresql-action@v1.0.0
+      with:
+        postgresql db: db
+        postgresql user: user
+        postgresql password: password
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
-    - name: Install dependencies
+    - name: Bundle install
       run: |
-        bundle install
-        yarn install
+        bundle config path vendor/bundle
+        bundle install --jobs 4 --retry 3
+    - name: Yarn install
+      run: yarn install
     - name: Prepare Database
       run: bundle exec rails db:prepare
       env:
         RAILS_ENV: test
+        DATABASE_URL: postgres://user:password@localhost/db
     - name: Run tests
       run: bundle exec rspec
