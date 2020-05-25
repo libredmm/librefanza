@@ -1,43 +1,41 @@
 require "rails_helper"
 
 RSpec.describe FanzaItem, type: :model do
-  it_behaves_like "generic item" do
-    let(:item) { create :fanza_item }
-  end
+  subject { create :fanza_item }
 
-  let(:item) { create :fanza_item }
+  it_behaves_like "generic item"
 
   %i[floor_code].each do |key|
     it "has #{key}" do
-      expect(item.send(key)).to be_present
+      expect(subject.send(key)).to be_present
     end
   end
 
-  it "fallback to maker product when content id can not be normalized" do
+  it "falls back to maker product when content id can not be normalized" do
     expect {
-      item.raw_json["content_id"] = "123abc"
-      item.raw_json["maker_product"] = "MAKER-123"
-      item.derive_fields
-      item.save
+      subject.raw_json["content_id"] = "123abc"
+      subject.raw_json["maker_product"] = "MAKER-123"
+      subject.derive_fields
+      subject.save
     }.to change {
-      item.normalized_id
+      subject.normalized_id
     }.to("MAKER-123")
   end
 
   describe ".actresses" do
-    it "return empty array when no provided" do
+    it "returns empty array when no provided" do
       expect {
-        item.raw_json["iteminfo"].delete("actress")
+        subject.raw_json["iteminfo"].delete("actress")
       }.to change {
-        item.actresses
+        subject.actresses
       }.to([])
     end
   end
 
   describe ".as_json" do
     it "filters out affiliate urls" do
-      expect(item.as_json).not_to include("affiliateURL")
-      expect(item.as_json).not_to include("affiliateURLsp")
+      expect(subject.as_json).not_to include("affiliateURL")
+      expect(subject.as_json).not_to include("affiliateURLsp")
     end
   end
 end

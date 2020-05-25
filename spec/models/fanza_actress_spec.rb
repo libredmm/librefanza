@@ -4,7 +4,7 @@ RSpec.describe FanzaActress, type: :model do
   let(:actress) { create :fanza_actress }
 
   describe ".image_url" do
-    it "prefer large image" do
+    it "prefers large image" do
       expect(actress.image_url).to eq(actress.as_struct.imageURL.large)
     end
 

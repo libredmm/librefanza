@@ -38,7 +38,7 @@ jobs:
         key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
           ${{ runner.os }}-gems-
-    - name: Get yarn cache directory path
+    - name: Get yarn cache path
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
     - name: Set up yarn cache
@@ -67,7 +67,7 @@ jobs:
         PGUSER: postgres
         PGPASSWORD: postgres
     - name: Run tests
-      run: bundle exec rspec -fd
+      run: bundle exec rspec
       env:
         PGHOST: localhost
         PGPORT: 5432
