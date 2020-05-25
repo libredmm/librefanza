@@ -63,7 +63,7 @@ class FanzaItem < ApplicationRecord
   end
 
   def description
-    html.css(".mg-b20.lh4")&.text
+    html.css(".mg-b20.lh4")&.text.strip
   end
 
   def genres
