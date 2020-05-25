@@ -1,5 +1,7 @@
 require "simplecov"
-SimpleCov.start "rails"
+SimpleCov.start "rails" do
+  add_filter %r{^/app/mailers/}
+end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require "spec_helper"
@@ -108,6 +110,10 @@ RSpec.configure do |config|
           },
         }.to_json
       },
+    )
+
+    stub_request(:any, %r{http://example.com/}).to_return(
+      body: "<html></html>",
     )
   end
 end

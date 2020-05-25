@@ -12,11 +12,12 @@ FactoryBot.define do
   end
 
   sequence :url do |i|
-    "http://examle.com/#{i}"
+    "http://example.com/#{i}"
   end
 
   factory :fanza_item do
     transient do
+      service_code { "mono" }
       floor_code { "dvd" }
       content_id
       title
@@ -26,6 +27,7 @@ FactoryBot.define do
 
     raw_json {
       {
+        service_code: service_code,
         floor_code: floor_code,
         content_id: content_id,
         title: title,

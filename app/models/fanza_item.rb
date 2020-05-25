@@ -1,9 +1,12 @@
 class FanzaItem < ApplicationRecord
   include Derivable
 
+  validates :raw_json, presence: true
+  validates :raw_html, presence: true
   validates :content_id, presence: true, uniqueness: true
   validates :normalized_id, presence: true
   validates :floor_code, inclusion: { in: %w[dvd video videoa videoc] }
+  validates :service_code, inclusion: { in: %w[digital mono] }
 
   paginates_per 30
 
@@ -16,6 +19,8 @@ class FanzaItem < ApplicationRecord
 
     self.date = DateTime.parse(self.as_struct.date)
     self.floor_code = self.as_struct.floor_code
+    self.service_code = self.as_struct.service_code
+    self.raw_html ||= HTTParty.get(self.url).body
   end
 
   def as_struct
