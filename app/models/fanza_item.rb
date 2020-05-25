@@ -66,6 +66,6 @@ class FanzaItem < ApplicationRecord
   end
 
   def description
-    html.css(".mg-b20.lh4 p")&.text
+    html.css(".mg-b20.lh4")&.text
   end
 end

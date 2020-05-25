@@ -31,4 +31,6 @@
 </div>
 <% end %>
 
+<% if cards.present? %>
 <%= render partial: "layouts/pager", locals: { items: cards, name: "movie" } %>
+<% end %>
