@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :fanza_items, only: %i[index show destroy]
     resources :javlibrary_items, onlu: %i[index show]
     resources :javlibrary_pages, only: %i[index show]
+    resources :mgstage_pages, only: %i[index show]
     mount Sidekiq::Web => "/sidekiq"
   end
 end
