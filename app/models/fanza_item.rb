@@ -71,7 +71,7 @@ class FanzaItem < ApplicationRecord
   end
 
   def review
-    as_struct.review&.average
+    (as_struct.review&.average || 0) * 2.0
   end
 
   def labels
