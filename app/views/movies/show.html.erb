@@ -11,8 +11,6 @@
   </div>
   <div class="col-md-4">
     <dl>
-      <dt>Release Date</dt>
-      <dd><%= @item.date.to_date %></dd>
       <dt>Thumbnail Image</dt>
       <dd><%= image_tag @item.thumbnail_image_url %></dd>
 
@@ -21,7 +19,10 @@
       <dd><%= @item.description %></dd>
       <% end %>
 
-      <% %i[genres labels makers].each do |attr| %>
+      <dt>Release Date</dt>
+      <dd><%= @item.date.to_date %></dd>
+
+      <% %i[directors genres labels makers].each do |attr| %>
       <% if @item.send(attr).present? %>
       <dt><%= attr.to_s.humanize %></dt>
       <dd>

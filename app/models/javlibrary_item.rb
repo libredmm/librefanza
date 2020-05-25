@@ -8,7 +8,7 @@ class JavlibraryItem < ApplicationRecord
   paginates_per 30
 
   def derive_fields
-    self.normalized_id = html.at_css("#video_id td.text")&.content
+    self.normalized_id = Fanza::Helper.normalize_id(html.at_css("#video_id td.text")&.content)
   end
 
   def html
@@ -20,7 +20,9 @@ class JavlibraryItem < ApplicationRecord
   ###################
 
   def title
-    html.at_css("#video_title > h3")&.content&.gsub(normalized_id, "").strip
+    html.at_css("#video_title > h3")&.content&.gsub(
+      html.at_css("#video_id td.text")&.content, ""
+    ).strip
   end
 
   def subtitle
@@ -68,5 +70,9 @@ class JavlibraryItem < ApplicationRecord
 
   def makers
     html.css("span.maker").map(&:text).map(&:strip) || []
+  end
+
+  def directors
+    html.css("span.director").map(&:text).map(&:strip) || []
   end
 end

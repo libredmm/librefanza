@@ -84,4 +84,8 @@ class FanzaItem < ApplicationRecord
   def makers
     as_struct.iteminfo.maker&.map(&:name) || []
   end
+
+  def directors
+    as_struct.iteminfo.director&.map(&:name) || []
+  end
 end
