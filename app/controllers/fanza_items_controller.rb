@@ -15,4 +15,12 @@ class FanzaItemsController < ApplicationController
     @item = FanzaItem.find(params[:id])
     render "movies/show"
   end
+
+  # DELETE /fanza_items/1
+  # DELETE /fanza_items/1.json
+  def destroy
+    @item = FanzaItem.find(params[:id])
+    @item.derive_fields!
+    render "movies/show"
+  end
 end

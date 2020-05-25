@@ -13,4 +13,12 @@ class JavlibraryItemsController < ApplicationController
     @item = JavlibraryItem.find(params[:id])
     render "movies/show"
   end
+
+  # DELETE /javlibrary_items/1
+  # DELETE /javlibrary_items/1.json
+  def destroy
+    @item = JavlibraryItem.find(params[:id])
+    @item.derive_fields!
+    render "movies/show"
+  end
 end

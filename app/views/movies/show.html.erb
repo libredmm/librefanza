@@ -21,6 +21,10 @@
       <% end %>
       <dt>Data Source</dt>
       <dd><%= link_to @item.url, @item.url %></dd>
+      <% if signed_in_as_admin? %>
+      <dt>Needs Refresh?</dt>
+      <dd><%= link_to "Refresh", @item, method: :delete, class: "btn btn-warning", id: "refresh" %></dd>
+      <% end %>
     </dl>
   </div>
 </div>
