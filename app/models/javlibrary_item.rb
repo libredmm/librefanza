@@ -1,5 +1,6 @@
 class JavlibraryItem < ApplicationRecord
   include Derivable
+  include GenericItem
 
   belongs_to :javlibrary_page
 
@@ -48,7 +49,7 @@ class JavlibraryItem < ApplicationRecord
   def actresses
     html.css(".cast .star").map do |span|
       name = span.content.strip
-      FanzaActress.find_by(name: span.content.strip) || OpenStruct.new(name: name)
+      FanzaActress.find_by(name: span.content.strip) || FanzaActress.new(name: name)
     end
   end
 

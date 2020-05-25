@@ -17,15 +17,28 @@ class MoviesController < ApplicationController
 
   def show
     find_fanza_item(params[:id])
-    return render if @item
-    @searching = SearchWorker.perform_async params[:id]
-
-    find_javlibrary_item(params[:id])
-    return render if @item
+    unless @item
+      @searching = SearchWorker.perform_async params[:id]
+      find_javlibrary_item(params[:id])
+    end
 
     respond_to do |format|
-      format.html
-      format.json { render json: { err: "not_found" } }
+      format.html {
+        if @item
+          render
+        else
+          render :not_found, status: :not_found
+        end
+      }
+      format.json {
+        if @item
+          render
+        elsif @searching
+          render json: { err: "processing" }, status: :accepted
+        else
+          render json: { err: "not_found" }, status: :not_found
+        end
+      }
     end
   end
 

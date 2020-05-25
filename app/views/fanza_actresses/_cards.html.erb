@@ -4,14 +4,14 @@
     <div class="card">
         <% if actress %>
         <%= link_to_if(
-            actress.is_a?(FanzaActress),
+            actress.persisted?,
             image_tag(actress.image_url || fake_image_url(actress), class: "card-image-top img-fluid mx-auto d-block"),
             actress
         ) %>
         <div class="card-body">
             <h6 class="card-title">
                 <%= link_to_if(
-                    actress.is_a?(FanzaActress),
+                    actress.persisted?,
                     actress.name,
                     actress
                 ) %></h6>

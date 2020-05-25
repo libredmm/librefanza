@@ -13,11 +13,7 @@ class FanzaActress < ApplicationRecord
   end
 
   def as_struct
-    RecursiveOpenStruct.new(as_json, recurse_over_arrays: true)
-  end
-
-  def as_json
-    raw_json
+    RecursiveOpenStruct.new(raw_json, recurse_over_arrays: true)
   end
 
   def image_url
@@ -26,5 +22,12 @@ class FanzaActress < ApplicationRecord
 
   def to_param
     self.id_fanza.to_s
+  end
+
+  def attributes
+    {
+      "name" => nil,
+      "image_url" => nil,
+    }
   end
 end

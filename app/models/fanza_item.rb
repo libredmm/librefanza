@@ -1,5 +1,6 @@
 class FanzaItem < ApplicationRecord
   include Derivable
+  include GenericItem
 
   validates :raw_json, presence: true
   validates :raw_html, presence: true
@@ -24,11 +25,7 @@ class FanzaItem < ApplicationRecord
   end
 
   def as_struct
-    RecursiveOpenStruct.new(as_json, recurse_over_arrays: true)
-  end
-
-  def as_json
-    raw_json.except("affiliateURL", "affiliateURLsp")
+    RecursiveOpenStruct.new(raw_json, recurse_over_arrays: true)
   end
 
   def html
