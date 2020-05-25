@@ -21,30 +21,19 @@
       <dd><%= @item.description %></dd>
       <% end %>
 
-      <% if @item.genres.present? %>
-      <dt>Genres</dt>
+      <% %i[genres labels makers].each do |attr| %>
+      <% if @item.send(attr).present? %>
+      <dt><%= attr.to_s.humanize %></dt>
       <dd>
         <ul class="list-inline">
-          <% @item.genres.each do |genre| %>
+          <% @item.send(attr).each do |elem| %>
           <li class="list-inline-item">
-            <%= genre %>
+            <%= elem %>
           </li>
           <% end %>
         </ul>
       </dd>
       <% end %>
-
-      <% if @item.labels.present? %>
-      <dt>Labels</dt>
-      <dd>
-        <ul class="list-inline">
-          <% @item.labels.each do |label| %>
-          <li class="list-inline-item">
-            <%= label %>
-          </li>
-          <% end %>
-        </ul>
-      </dd>
       <% end %>
 
       <% if @item.review.present? %>

@@ -40,7 +40,7 @@ class JavlibraryItem < ApplicationRecord
   end
 
   def date
-    DateTime.parse(html.at_css("#video_date td.text")&.content)
+    DateTime.parse(html.at_css("#video_date td.text")&.text)
   end
 
   def actresses
@@ -55,7 +55,7 @@ class JavlibraryItem < ApplicationRecord
   end
 
   def genres
-    html.css("span.genre").map(&:text) || []
+    html.css("span.genre").map(&:text).map(&:strip) || []
   end
 
   def review
@@ -63,6 +63,10 @@ class JavlibraryItem < ApplicationRecord
   end
 
   def labels
-    html.css("span.label").map(&:text) || []
+    html.css("span.label").map(&:text).map(&:strip) || []
+  end
+
+  def makers
+    html.css("span.maker").map(&:text).map(&:strip) || []
   end
 end

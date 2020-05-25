@@ -80,4 +80,8 @@ class FanzaItem < ApplicationRecord
   def labels
     as_struct.iteminfo.label&.map(&:name) || []
   end
+
+  def makers
+    as_struct.iteminfo.maker&.map(&:name) || []
+  end
 end
