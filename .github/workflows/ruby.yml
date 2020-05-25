@@ -15,12 +15,24 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:12.3
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+        - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/cache@v1
+    - name: Set up bundler cache
+      uses: actions/cache@v1
       with:
         path: vendor/bundle
         key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
@@ -29,19 +41,14 @@ jobs:
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
-    - uses: actions/cache@v1
+    - name: Set up yarn cache
+      uses: actions/cache@v1
       id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
       with:
         path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
-    - name: Set up PostgreSQL
-      uses: Harmon758/postgresql-action@v1.0.0
-      with:
-        postgresql db: db
-        postgresql user: user
-        postgresql password: password
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
     - name: Bundle install
@@ -50,12 +57,20 @@ jobs:
         bundle install --jobs 4 --retry 3
     - name: Yarn install
       run: yarn install
-    - name: Prepare Database
+    - name: Prepare database
       run: bundle exec rails db:prepare
       env:
         RAILS_ENV: test
-        DATABASE_URL: postgres://user:password@localhost/db
+        PGHOST: localhost
+        PGPORT: 5432
+        PGDATABASE: postgres
+        PGUSER: postgres
+        PGPASSWORD: postgres
     - name: Run tests
       run: bundle exec rspec
       env:
-        DATABASE_URL: postgres://user:password@localhost/db
+        PGHOST: localhost
+        PGPORT: 5432
+        PGDATABASE: postgres
+        PGUSER: postgres
+        PGPASSWORD: postgres
