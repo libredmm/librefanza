@@ -68,4 +68,8 @@ class FanzaItem < ApplicationRecord
   def description
     html.css(".mg-b20.lh4")&.text
   end
+
+  def genres
+    as_struct.iteminfo.genre&.map(&:name) || []
+  end
 end

@@ -53,4 +53,8 @@ class JavlibraryItem < ApplicationRecord
   def description
     ""
   end
+
+  def genres
+    html.css("span.genre").map(&:text) || []
+  end
 end

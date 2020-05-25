@@ -15,12 +15,28 @@
       <dd><%= @item.date %></dd>
       <dt>Thumbnail Image</dt>
       <dd><%= image_tag @item.thumbnail_image_url %></dd>
+
       <% if @item.description.present? %>
       <dt>Description</dt>
       <dd><%= @item.description %></dd>
       <% end %>
+
+      <% if @item.genres.present? %>
+      <dt>Genres</dt>
+      <dd>
+        <ul class="list-inline">
+          <% @item.genres.each do |genre| %>
+          <li class="list-inline-item">
+            <%= genre %>
+          </li>
+          <% end %>
+        </ul>
+      </dd>
+      <% end %>
+
       <dt>Data Source</dt>
       <dd><%= link_to @item.url, @item.url %></dd>
+
       <% if signed_in_as_admin? %>
       <dt>Needs Refresh?</dt>
       <dd><%= link_to "Refresh", @item, method: :delete, class: "btn btn-warning", id: "refresh" %></dd>
