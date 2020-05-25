@@ -1,7 +1,13 @@
 class MoviesController < ApplicationController
   def index
-    ids = (FanzaItem.distinct.pluck(:normalized_id) +
-           JavlibraryItem.distinct.pluck(:normalized_id)).sort.uniq
+    fanza_query = FanzaItem.all
+    javlibrary_query = JavlibraryItem.all
+    if params[:fuzzy]
+      fanza_query = fanza_query.where("normalized_id ILIKE ?", "%#{params[:fuzzy]}%")
+      javlibrary_query = javlibrary_query.where("normalized_id ILIKE ?", "%#{params[:fuzzy]}%")
+    end
+    ids = (fanza_query.distinct.pluck(:normalized_id) +
+           javlibrary_query.distinct.pluck(:normalized_id)).sort.uniq
     page_ids = Kaminari::paginate_array(ids).page(params[:page]).per(30)
     @items = page_ids.map { |id|
       find_fanza_item(id) || find_javlibrary_item(id)
