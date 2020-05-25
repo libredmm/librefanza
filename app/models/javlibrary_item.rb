@@ -49,4 +49,8 @@ class JavlibraryItem < ApplicationRecord
       FanzaActress.find_by(name: span.content.strip) || OpenStruct.new(name: name)
     end
   end
+
+  def description
+    ""
+  end
 end

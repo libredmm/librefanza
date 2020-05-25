@@ -1,7 +1,7 @@
 RSpec.shared_examples "generic item" do
-  %i[actresses cover_image_url date subtitle thumbnail_image_url title url].each do |key|
+  %i[actresses cover_image_url date description subtitle thumbnail_image_url title url].each do |key|
     it "has #{key}" do
-      expect(item.send(key)).to be_present
+      expect(item.send(key)).not_to be_nil
     end
   end
 

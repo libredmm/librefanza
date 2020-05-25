@@ -31,6 +31,10 @@ class FanzaItem < ApplicationRecord
     raw_json.except("affiliateURL", "affiliateURLsp")
   end
 
+  def html
+    Nokogiri::HTML(self.raw_html)
+  end
+
   ###################
   # Items interface #
   ###################
@@ -59,5 +63,9 @@ class FanzaItem < ApplicationRecord
     as_struct.iteminfo.actress&.map { |info|
       FanzaActress.find_by(id_fanza: info.id) || OpenStruct.new(name: info.name)
     } || []
+  end
+
+  def description
+    html.css(".mg-b20.lh4 p")&.text
   end
 end

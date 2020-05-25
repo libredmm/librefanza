@@ -15,10 +15,10 @@
       <dd><%= @item.date %></dd>
       <dt>Thumbnail Image</dt>
       <dd><%= image_tag @item.thumbnail_image_url %></dd>
-      <dt>Powered by</dt>
-      <dd>
-        <%= @item.kind_of?(FanzaItem) ? "Fanza" : "JavLibrary" %>
-      </dd>
+      <% if @item.description.present? %>
+      <dt>Description</dt>
+      <dd><%= @item.description %></dd>
+      <% end %>
       <dt>Data Source</dt>
       <dd><%= link_to @item.url, @item.url %></dd>
     </dl>
