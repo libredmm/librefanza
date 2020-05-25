@@ -67,7 +67,7 @@ jobs:
         PGUSER: postgres
         PGPASSWORD: postgres
     - name: Run tests
-      run: bundle exec rspec
+      run: bundle exec rspec -fd
       env:
         PGHOST: localhost
         PGPORT: 5432
