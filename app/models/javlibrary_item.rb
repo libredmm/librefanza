@@ -23,7 +23,7 @@ class JavlibraryItem < ApplicationRecord
   def title
     html.at_css("#video_title > h3")&.content&.gsub(
       html.at_css("#video_id td.text")&.content, ""
-    ).strip
+    )&.strip
   end
 
   def subtitle
@@ -31,7 +31,7 @@ class JavlibraryItem < ApplicationRecord
   end
 
   def cover_image_url
-    html.at_css("#video_jacket_img")&.attr("src")
+    html.at_css("#video_jacket_img")&.attr("src")&.strip
   end
 
   def thumbnail_image_url
@@ -43,13 +43,13 @@ class JavlibraryItem < ApplicationRecord
   end
 
   def date
-    DateTime.parse(html.at_css("#video_date td.text")&.text)
+    DateTime.parse(html.at_css("#video_date td.text")&.text&.strip)
   end
 
   def actresses
     html.css(".cast .star").map do |span|
       name = span.content.strip
-      FanzaActress.find_by(name: span.content.strip) || FanzaActress.new(name: name)
+      FanzaActress.find_by(name: name) || FanzaActress.new(name: name)
     end
   end
 

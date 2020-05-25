@@ -9,7 +9,7 @@ class FanzaActress < ApplicationRecord
 
   def derive_fields
     self.id_fanza = self.as_struct.id
-    self.name = self.as_struct.name
+    self.name = self.as_struct.name.strip
   end
 
   def as_struct
