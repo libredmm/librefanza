@@ -15,10 +15,10 @@ module Fanza
       end
     end
 
-    def self.actress_search(id: nil, keyword: nil)
+    def self.actress_search(id: nil, keyword: nil, offset: 1)
       return to_enum(:actress_search, id: id, keyword: keyword) unless block_given?
 
-      self.fetch_all do |offset|
+      self.fetch_all(offset: offset) do |offset|
         resp = JSON.parse(Faraday.get(
           "https://api.dmm.com/affiliate/v3/ActressSearch",
           {
@@ -65,9 +65,8 @@ module Fanza
       end
     end
 
-    def self.fetch_all
+    def self.fetch_all(offset: 1)
       all_payload = []
-      offset = 1
       while true
         resp = yield offset
         result_count = resp["result"]["result_count"].to_i
