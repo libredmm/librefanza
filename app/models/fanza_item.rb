@@ -12,15 +12,15 @@ class FanzaItem < ApplicationRecord
   paginates_per 30
 
   def derive_fields
-    self.content_id = self.as_struct.content_id
+    self.content_id = self.as_struct.content_id.strip
     self.normalized_id = Fanza::Helper.normalize_id(self.content_id)
     if self.as_struct.maker_product && self.normalized_id == self.content_id
       self.normalized_id = Fanza::Helper.normalize_id(self.as_struct.maker_product)
     end
 
     self.date = DateTime.parse(self.as_struct.date)
-    self.floor_code = self.as_struct.floor_code
-    self.service_code = self.as_struct.service_code
+    self.floor_code = self.as_struct.floor_code.strip
+    self.service_code = self.as_struct.service_code.strip
     self.raw_html ||= HTTParty.get(self.url).body
   end
 
@@ -37,7 +37,7 @@ class FanzaItem < ApplicationRecord
   ###################
 
   def title
-    as_struct.title
+    as_struct.title.strip
   end
 
   def subtitle
@@ -45,11 +45,11 @@ class FanzaItem < ApplicationRecord
   end
 
   def cover_image_url
-    as_struct.imageURL.large
+    as_struct.imageURL&.large
   end
 
   def thumbnail_image_url
-    as_struct.imageURL.small
+    as_struct.imageURL&.small
   end
 
   def url
@@ -58,16 +58,16 @@ class FanzaItem < ApplicationRecord
 
   def actresses
     as_struct.iteminfo.actress&.map { |info|
-      FanzaActress.find_by(id_fanza: info.id) || OpenStruct.new(name: info.name)
+      FanzaActress.find_by(id_fanza: info.id) || OpenStruct.new(name: info.name&.strip)
     } || []
   end
 
   def description
-    html.css(".mg-b20.lh4")&.text.strip
+    html.css(".mg-b20.lh4")&.text&.strip
   end
 
   def genres
-    as_struct.iteminfo.genre&.map(&:name) || []
+    as_struct.iteminfo&.genre&.map(&:name)&.map(&:strip) || []
   end
 
   def review
@@ -75,14 +75,14 @@ class FanzaItem < ApplicationRecord
   end
 
   def labels
-    as_struct.iteminfo.label&.map(&:name) || []
+    as_struct.iteminfo&.label&.map(&:name)&.map(&:strip) || []
   end
 
   def makers
-    as_struct.iteminfo.maker&.map(&:name) || []
+    as_struct.iteminfo&.maker&.map(&:name)&.map(&:strip) || []
   end
 
   def directors
-    as_struct.iteminfo.director&.map(&:name) || []
+    as_struct.iteminfo&.director&.map(&:name)&.map(&:strip) || []
   end
 end
