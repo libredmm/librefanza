@@ -39,6 +39,10 @@ FactoryBot.define do
         affiliateURL: generate(:url),
         affiliateURLsp: generate(:url),
         date: DateTime.now.to_s,
+        review: {
+          count: 10,
+          average: 4.0,
+        },
         iteminfo: {
           actress: [{
             id: actress.id_fanza,

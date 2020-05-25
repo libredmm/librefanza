@@ -57,4 +57,8 @@ class JavlibraryItem < ApplicationRecord
   def genres
     html.css("span.genre").map(&:text) || []
   end
+
+  def review
+    html.at_css("span.score")&.text[/\d+(\.\d+)?/]&.to_f
+  end
 end
