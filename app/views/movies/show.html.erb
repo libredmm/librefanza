@@ -34,6 +34,19 @@
       </dd>
       <% end %>
 
+      <% if @item.labels.present? %>
+      <dt>Labels</dt>
+      <dd>
+        <ul class="list-inline">
+          <% @item.labels.each do |label| %>
+          <li class="list-inline-item">
+            <%= label %>
+          </li>
+          <% end %>
+        </ul>
+      </dd>
+      <% end %>
+
       <% if @item.review.present? %>
       <dt>User Rating</dt>
       <dd><%= "%.1f" % @item.review %></dd>

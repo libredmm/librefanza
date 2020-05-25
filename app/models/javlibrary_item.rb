@@ -61,4 +61,8 @@ class JavlibraryItem < ApplicationRecord
   def review
     html.at_css("span.score")&.text[/\d+(\.\d+)?/]&.to_f
   end
+
+  def labels
+    html.css("span.label").map(&:text) || []
+  end
 end

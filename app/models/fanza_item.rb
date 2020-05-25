@@ -76,4 +76,8 @@ class FanzaItem < ApplicationRecord
   def review
     as_struct.review&.average
   end
+
+  def labels
+    as_struct.iteminfo.label&.map(&:name) || []
+  end
 end
