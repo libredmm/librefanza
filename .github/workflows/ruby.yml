@@ -20,13 +20,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup PostgreSQL
+    - name: Set up PostgreSQL
       uses: Harmon758/postgresql-action@v1.0.0
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
     - name: Install dependencies
-      run: bundle install
-    - name: Prepare DB
+      run: |
+        bundle install
+        yarn install
+    - name: Prepare Database
       run: bundle exec rails db:prepare
+      env:
+        RAILS_ENV: test
     - name: Run tests
       run: bundle exec rspec
