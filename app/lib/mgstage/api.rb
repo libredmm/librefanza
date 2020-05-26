@@ -7,7 +7,7 @@ module Mgstage
       search_page = self.get(search_url)
       yield search_url, search_page
       Nokogiri::HTML(search_page).css("div.search_list h5 a").each do |a|
-        url = "https://www.mgstage.com" + a.attr(:href)
+        url = URI::join(search_url, a.attr(:href)).to_s
         yield url, self.get(url)
       end
     end

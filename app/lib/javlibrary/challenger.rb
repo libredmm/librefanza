@@ -25,13 +25,15 @@ module Javlibrary
           options = Selenium::WebDriver::Chrome::Options.new
           options.add_argument("headless")
           options.add_argument("user-agent=#{self.user_agent}")
-          @driver = Selenium::WebDriver.for(:chrome, options: options)
-          @driver.navigate.to "http://www.javlibrary.com/ja/"
+          driver = Selenium::WebDriver.for(:chrome, options: options)
+          driver.navigate.to "http://www.javlibrary.com/ja/"
           wait = Selenium::WebDriver::Wait.new(:timeout => 60)
-          prompt = wait.until { @driver.find_element(css: "#adultwarningprompt input") }
+          prompt = wait.until { driver.find_element(css: "#adultwarningprompt input") }
           prompt.click
 
-          @driver.manage.cookie_named("cf_clearance")[:value]
+          driver.manage.cookie_named("cf_clearance")[:value]
+        ensure
+          driver.quit if driver
         end
       }
     end

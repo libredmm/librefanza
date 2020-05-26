@@ -38,4 +38,14 @@ RSpec.describe JavlibraryPage, type: :model do
       }.from(id).to(new_id)
     end
   end
+
+  describe "challenged page" do
+    it "gets rejected" do
+      url = generate :url
+      html = "challenge-form"
+      expect {
+        JavlibraryPage.create!(url: url, raw_html: html)
+      }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
 end

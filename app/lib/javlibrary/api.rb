@@ -11,8 +11,7 @@ module Javlibrary
 
       html = Nokogiri::HTML(page)
       html.css("div.video > a").map { |a|
-        href = a.attr("href")
-        url = URI::join(search_url, href).to_s
+        url = URI::join(search_url, a.attr(:href)).to_s
         yield url, get(url)
       }
     end
