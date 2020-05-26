@@ -12,9 +12,10 @@ class SearchWorker
   def perform(keyword)
     logger.info "Searching #{keyword} on Fanza"
     Fanza::Api.item_list(keyword) do |json|
-      FanzaItem.create(
+      item = FanzaItem.create(
         raw_json: json,
       )
+      break if item.normalized_id == keyword
     end
 
     if FanzaItem.where(normalized_id: keyword).exists?
