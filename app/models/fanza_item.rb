@@ -3,11 +3,12 @@ class FanzaItem < ApplicationRecord
   include GenericItem
 
   validates :raw_json, presence: true
-  validates :raw_html, presence: true
   validates :content_id, presence: true, uniqueness: true
   validates :normalized_id, presence: true
   validates :floor_code, inclusion: { in: %w[dvd video videoa videoc] }
   validates :service_code, inclusion: { in: %w[digital mono] }
+
+  after_save :fetch_html
 
   paginates_per 30
 
@@ -21,7 +22,12 @@ class FanzaItem < ApplicationRecord
     self.date = DateTime.parse(self.as_struct.date)
     self.floor_code = self.as_struct.floor_code.strip
     self.service_code = self.as_struct.service_code.strip
-    self.raw_html ||= Faraday.get(self.url).body
+  end
+
+  def fetch_html
+    if self.raw_html.blank?
+      self.update_column :raw_html, Faraday.get(self.url).body
+    end
   end
 
   def as_struct
