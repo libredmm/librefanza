@@ -1,4 +1,4 @@
-require "sidekiq/web"
+require "sidekiq_unique_jobs/web"
 
 Rails.application.routes.draw do
   root "pages#index"
