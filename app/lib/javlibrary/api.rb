@@ -1,12 +1,16 @@
 module Javlibrary
   class Api
+    @@semaphore = Mutex.new
+
     def self.search(keyword)
       return to_enum(:search, keyword) unless block_given?
 
-      @@client ||= Javlibrary::Client.new
-      @@client.search(keyword) do |url, html|
-        yield url, html
-      end
+      @@semaphore.synchronize {
+        @@client ||= Javlibrary::Client.new
+        @@client.search(keyword) do |url, html|
+          yield url, html
+        end
+      }
     rescue Selenium::WebDriver::Error::WebDriverError
     end
   end
