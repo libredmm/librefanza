@@ -11,7 +11,8 @@ module Javlibrary
           yield url, html
         end
       }
-    rescue Selenium::WebDriver::Error::WebDriverError
+    rescue Selenium::WebDriver::Error::WebDriverError => e
+      Rails.logger.error e
     end
   end
 end
