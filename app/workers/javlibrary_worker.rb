@@ -3,9 +3,9 @@ class JavlibraryWorker
 
   sidekiq_options(
     queue: :low,
-    retry: false,
+    retry: 3,
     lock: :until_executed,
-    on_conflict: :reject,
+    on_conflict: :log,
   )
 
   @@semaphore = Mutex.new

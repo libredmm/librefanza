@@ -5,7 +5,7 @@ class CrawlWorker
     queue: :low,
     retry: false,
     lock: :until_executed,
-    on_conflict: :reject,
+    on_conflict: :log,
   )
 
   def perform(keyword)
