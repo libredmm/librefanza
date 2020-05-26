@@ -12,6 +12,8 @@ module Javlibrary
       options.add_argument("headless")
       user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.50 Safari/537.36"
       options.add_argument("user-agent='#{user_agent}'")
+      port = 30000 + rand(30000)
+      options.add_argument("remote-debugging-port=#{port}")
       @driver = Selenium::WebDriver.for(:chrome, options: options)
       @driver.navigate.to "http://www.javlibrary.com/ja/"
       wait = Selenium::WebDriver::Wait.new(:timeout => 60)
@@ -34,6 +36,10 @@ module Javlibrary
       }.each { |href|
         yield href, get(href)
       }
+    end
+
+    def quit
+      @driver.quit if @driver
     end
   end
 end

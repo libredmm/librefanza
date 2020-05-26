@@ -4,6 +4,14 @@ class JavlibraryPage < ApplicationRecord
   validates :url, presence: true, uniqueness: true
   validates :raw_html, presence: true
 
+  validate :html_should_not_be_challenged
+
+  def html_should_not_be_challenged
+    if raw_html.include? "challenge-form"
+      errors.add(:raw_html, "is challenged")
+    end
+  end
+
   after_save :create_item
   after_touch :create_item
 
