@@ -10,6 +10,7 @@ class SearchWorker
   )
 
   def perform(keyword)
+    return unless keyword =~ /^[[:ascii:]]+$/
     found = search_on_fanza(keyword) || search_on_mgstage(keyword) || search_on_javlibrary(keyword)
     logger.warn "#{keyword} not found anywhere" unless found
   end
