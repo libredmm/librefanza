@@ -112,6 +112,10 @@ RSpec.configure do |config|
       },
     )
 
+    @mgstage_stub = stub_request(:any, %r{mgstage.com}).to_return(
+      body: "<html></html",
+    )
+
     stub_request(:any, %r{http://example.com/}).to_return(
       body: "<html></html>",
     )
