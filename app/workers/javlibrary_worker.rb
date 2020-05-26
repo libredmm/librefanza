@@ -4,7 +4,8 @@ class JavlibraryWorker
   sidekiq_options(
     queue: :low,
     retry: 3,
-    lock: :until_executed,
+    lock: :until_expired,
+    lock_ttl: 1.hour.to_i,
     on_conflict: :log,
   )
 
