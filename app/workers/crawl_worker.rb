@@ -1,7 +1,12 @@
 class CrawlWorker
   include Sidekiq::Worker
 
-  sidekiq_options queue: :low, retry: false, lock: :until_executed, on_conflict: :reject
+  sidekiq_options(
+    queue: :low,
+    retry: false,
+    lock: :until_executed,
+    on_conflict: :reject,
+  )
 
   def perform(keyword)
     logger.info "Crawling #{keyword} on Fanza"

@@ -28,10 +28,9 @@ RSpec.describe SearchWorker, type: :worker do
     html = [generate(:url), "<html></html>"]
     expect(Mgstage::Api).to receive(:search).with(id).and_yield(url, html)
     expect(MgstagePage).to receive(:create).with(url: url, raw_html: html)
-    expect(Javlibrary::Api).to receive(:search).with(id).and_yield(url, html)
-    expect(JavlibraryPage).to receive(:create).with(url: url, raw_html: html)
 
     subject.perform id
+    expect(JavlibraryWorker).to have_enqueued_sidekiq_job(id)
   end
 
   it "only searches mgstage when necessary" do
@@ -40,20 +39,6 @@ RSpec.describe SearchWorker, type: :worker do
 
     expect(Fanza::Api).to receive(:item_list).with(id).and_return([].each)
     expect(Mgstage::Api).not_to receive(:search)
-
-    subject.perform id
-  end
-
-  it "only searches javlibrary when necessary" do
-    item = create :javlibrary_item
-    id = item.normalized_id
-
-    expect(Fanza::Api).to receive(:item_list).with(id).and_return([].each)
-    url = generate(:url)
-    html = [generate(:url), "<html></html>"]
-    expect(Mgstage::Api).to receive(:search).with(id).and_yield(url, html)
-    expect(MgstagePage).to receive(:create).with(url: url, raw_html: html)
-    expect(Javlibrary::Api).not_to receive(:search)
 
     subject.perform id
   end
