@@ -1,7 +1,7 @@
 require "rails_helper"
 
-RSpec.describe Fanza::Helper do
-  describe "#normalize_id" do
+RSpec.describe Fanza::Id do
+  describe "#normalize" do
     it "works" do
       {
         "abp123" => "ABP-123",
@@ -45,7 +45,24 @@ RSpec.describe Fanza::Helper do
         nil => nil,
         "" => "",
       }.each do |original, normalized|
-        expect(Fanza::Helper.normalize_id(original)).to eq(normalized)
+        expect(Fanza::Id.normalize(original)).to eq(normalized)
+      end
+    end
+  end
+
+  describe "#normalized?" do
+    it "tells if an id is normalized" do
+      [
+        "ABC",
+        "123",
+      ].each do |id|
+        expect(Fanza::Id.normalized?(id)).to be_falsy
+      end
+      [
+        "ABC-123",
+        "edf-456",
+      ].each do |id|
+        expect(Fanza::Id.normalized?(id)).to be_truthy
       end
     end
   end

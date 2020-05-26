@@ -5,12 +5,23 @@ class SearchWorker
     queue: :default,
     retry: false,
     lock: :until_expired,
-    lock_ttl: 1.day.to_i,
+    lock_ttl: 1.hour.to_i,
     on_conflict: :log,
   )
 
   def perform(keyword)
-    return unless keyword =~ /^[[:ascii:]]+$/
+    unless keyword =~ /^[[:ascii:]]+$/
+      logger.info "#{keyword} not searchable, ignored"
+      return
+    end
+
+    keyword = Fanza::Id.normalize keyword
+    unless Fanza::Id.normalized? keyword
+      logger.info "#{keyword} is not normalized, try crawl instead of search"
+      CrawlWorker.perform_async keyword
+      return
+    end
+
     found = search_on_fanza(keyword) || search_on_mgstage(keyword) || search_on_javlibrary(keyword)
     logger.warn "#{keyword} not found anywhere" unless found
   end

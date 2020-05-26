@@ -11,7 +11,7 @@ class MgstageItem < ApplicationRecord
   def derive_fields
     html.css(".detail_data table tr").each do |tr|
       if tr.at_css("th")&.text&.strip&.start_with? "品番"
-        self.normalized_id = Fanza::Helper.normalize_id(tr.at_css("td").text.strip)
+        self.normalized_id = Fanza::Id.normalize(tr.at_css("td").text.strip)
       end
     end
   end

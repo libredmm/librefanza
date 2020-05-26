@@ -1,6 +1,18 @@
 require "rails_helper"
 
 RSpec.describe SearchWorker, type: :worker do
+  it "ignores non ascii keyword" do
+    expect(Fanza::Api).not_to receive(:item_list)
+    subject.perform "你好"
+  end
+
+  it "crawls un-normalizable keyword" do
+    keyword = "abc"
+    expect(Fanza::Api).not_to receive(:item_list)
+    subject.perform keyword
+    expect(CrawlWorker).to have_enqueued_sidekiq_job(keyword)
+  end
+
   it "searches fanza first" do
     id = generate :normalized_id
 

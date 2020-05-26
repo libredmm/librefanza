@@ -1,6 +1,6 @@
 module Fanza
-  class Helper
-    def self.normalize_id(id)
+  class Id
+    def self.normalize(id)
       return nil unless id
 
       groups = id.gsub("-", "").gsub(/^._/i, "").gsub(/[^a-z0-9]/i, "").split(/(\d+)/).reject(&:empty?)
@@ -24,6 +24,10 @@ module Fanza
       digit = groups[digit_idx]
       digit = "%03d" % digit.to_i if digit.length != 2
       "#{groups[alpha_idx...digit_idx].join.upcase}-#{digit}"
+    end
+
+    def self.normalized?(id)
+      id =~ /^[a-z]+-[0-9]+$/i
     end
   end
 end

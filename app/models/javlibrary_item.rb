@@ -9,7 +9,7 @@ class JavlibraryItem < ApplicationRecord
   paginates_per 30
 
   def derive_fields
-    self.normalized_id = Fanza::Helper.normalize_id(html.at_css("#video_id td.text")&.content)
+    self.normalized_id = Fanza::Id.normalize(html.at_css("#video_id td.text")&.content)
   end
 
   def html
