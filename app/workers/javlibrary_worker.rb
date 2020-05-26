@@ -12,6 +12,11 @@ class JavlibraryWorker
   @@semaphore = Mutex.new
 
   def perform(keyword)
+    if JavlibraryItem.where(normalized_id: keyword).exists?
+      logger.info "#{keyword} alreay found on Javlibrary"
+      return
+    end
+
     @@semaphore.synchronize do
       if JavlibraryItem.where(normalized_id: keyword).exists?
         logger.info "#{keyword} alreay found on Javlibrary"
