@@ -30,5 +30,7 @@ module Librefanza
     # the framework and any gems in your application.
 
     config.active_job.queue_adapter = :sidekiq
+
+    config.cache_store = :memory_store
   end
 end
