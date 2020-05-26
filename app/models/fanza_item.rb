@@ -8,7 +8,7 @@ class FanzaItem < ApplicationRecord
   validates :floor_code, inclusion: { in: %w[dvd video videoa videoc] }
   validates :service_code, inclusion: { in: %w[digital mono] }
 
-  after_save :fetch_html
+  after_save :fetch_html!
 
   paginates_per 30
 
@@ -24,7 +24,7 @@ class FanzaItem < ApplicationRecord
     self.service_code = self.as_struct.service_code.strip
   end
 
-  def fetch_html
+  def fetch_html!
     if self.raw_html.blank?
       self.update_column :raw_html, Faraday.get(self.url).body
     end
