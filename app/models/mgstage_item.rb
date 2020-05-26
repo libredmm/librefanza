@@ -45,24 +45,20 @@ class MgstageItem < ApplicationRecord
   end
 
   def date
-    html.css(".detail_data table tr").each do |tr|
-      if tr.at_css("th")&.text&.strip&.start_with? "配信開始日"
-        return DateTime.parse(tr.at_css("td")&.text&.strip)
-      end
-    end
-    nil
+    html.css(".detail_data table tr").find { |tr|
+      tr.at_css("th")&.text&.strip&.start_with? "配信開始日"
+    }&.then { |tr|
+      DateTime.parse(tr.at_css("td")&.text&.strip)
+    }
   end
 
   def actresses
-    html.css(".detail_data table tr").each do |tr|
-      if tr.at_css("th")&.text&.strip&.start_with? "出演"
-        return tr.css("td a").map { |a|
-                 name = a.text.strip
-                 FanzaActress.find_by(name: name) || FanzaActress.new(name: name)
-               }
-      end
-    end
-    []
+    html.css(".detail_data table tr").find { |tr|
+      tr.at_css("th")&.text&.strip&.start_with? "出演"
+    }&.css("td a")&.map { |a|
+      name = a.text.strip
+      FanzaActress.find_by(name: name) || FanzaActress.new(name: name)
+    } || []
   end
 
   def description
@@ -70,12 +66,9 @@ class MgstageItem < ApplicationRecord
   end
 
   def genres
-    html.css(".detail_data table tr").each do |tr|
-      if tr.at_css("th")&.text&.strip&.start_with? "ジャンル"
-        return tr.css("td a").map(&:text).map(&:strip)
-      end
-    end
-    []
+    html.css(".detail_data table tr").find { |tr|
+      tr.at_css("th")&.text&.strip&.start_with? "ジャンル"
+    }&.css("td a")&.map(&:text)&.map(&:strip) || []
   end
 
   def review
@@ -83,21 +76,15 @@ class MgstageItem < ApplicationRecord
   end
 
   def labels
-    html.css(".detail_data table tr").each do |tr|
-      if tr.at_css("th")&.text&.strip&.start_with? "レーベル"
-        return tr.css("td a").map(&:text).map(&:strip)
-      end
-    end
-    []
+    html.css(".detail_data table tr").find { |tr|
+      tr.at_css("th")&.text&.strip&.start_with? "レーベル"
+    }&.css("td a")&.map(&:text)&.map(&:strip) || []
   end
 
   def makers
-    html.css(".detail_data table tr").each do |tr|
-      if tr.at_css("th")&.text&.strip&.start_with? "メーカー"
-        return tr.css("td a").map(&:text).map(&:strip)
-      end
-    end
-    []
+    html.css(".detail_data table tr").find { |tr|
+      tr.at_css("th")&.text&.strip&.start_with? "メーカー"
+    }&.css("td a")&.map(&:text)&.map(&:strip) || []
   end
 
   def directors
