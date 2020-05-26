@@ -94,19 +94,24 @@ RSpec.configure do |config|
 
     @actress_search_stub = stub_request(:any, %r{/affiliate/v3/ActressSearch}).to_return(
       body: ->(request) {
+        hits = 4
+        total = 20
+        offset = request.uri.query_values["offset"].to_i
         {
           result: {
-            result_count: request.uri.query_values["hits"].to_i,
-            total_count: request.uri.query_values["hits"].to_i * 10,
-            first_position: request.uri.query_values["offset"].to_i,
-            actress: [{
-              id: generate(:id_fanza),
-              name: generate(:name),
-              imageURL: {
-                large: generate(:url),
-                small: generate(:url),
-              },
-            }],
+            result_count: hits,
+            total_count: total,
+            first_position: offset,
+            actress: hits.times.map { |i|
+              {
+                id: offset + i,
+                name: generate(:name),
+                imageURL: {
+                  large: generate(:url),
+                  small: generate(:url),
+                },
+              }
+            },
           },
         }.to_json
       },
