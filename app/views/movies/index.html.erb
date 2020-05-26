@@ -1,3 +1,7 @@
+<% content_for :title do %>
+<%= params[:fuzzy] %>
+<% end %>
+
 <nav class="card mb-3">
     <div class="card-body">
         <%= form_tag movies_url, method: :get, class: "form-inline", id: "fuzzySearch" do %>

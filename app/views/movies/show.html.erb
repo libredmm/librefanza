@@ -1,3 +1,7 @@
+<% content_for :title do %>
+<%= @item.normalized_id %>
+<% end %>
+
 <h1>
   <span><%= @item.normalized_id %></span>
   <span><%= @item.title %></span>
