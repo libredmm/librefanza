@@ -2,7 +2,7 @@ class JavlibraryPagesController < ApplicationController
   # GET /javlibrary_pages
   # GET /javlibrary_pages.json
   def index
-    @pages = JavlibraryPage.all
+    @pages = JavlibraryPage.order(:id).all
     @pages = @pages.page(params[:page])
   end
 
