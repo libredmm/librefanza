@@ -22,11 +22,8 @@ class SearchWorker
       return
     end
 
-    found = search_on_fanza(keyword) || search_on_mgstage(keyword)
-    unless found
-      logger.warn "Scheduling #{keyword} for a try on javlibrary"
-      JavlibraryWorker.perform_async(keyword)
-    end
+    found = search_on_fanza(keyword) || search_on_mgstage(keyword) || search_on_javlibrary(keyword)
+    logger.warn "#{keyword} not found anywhere" unless found
   end
 
   def search_on_fanza(keyword)
@@ -64,6 +61,27 @@ class SearchWorker
       true
     else
       logger.info "#{keyword} not found on Mgstage"
+      false
+    end
+  end
+
+  def search_on_javlibrary(keyword)
+    if JavlibraryItem.where(normalized_id: keyword).exists?
+      logger.info "#{keyword} alreay found on Javlibrary"
+      return true
+    end
+    logger.info "Searching #{keyword} on Javlibrary"
+
+    Javlibrary::Api.search(keyword) do |url, raw_html|
+      page = JavlibraryPage.create(url: url, raw_html: raw_html)
+      break if page&.javlibrary_item&.normalized_id == keyword
+    end
+
+    if JavlibraryItem.where(normalized_id: keyword).exists?
+      logger.info "#{keyword} found on Javlibrary"
+      true
+    else
+      logger.info "#{keyword} not found on Javlibrary"
       false
     end
   end

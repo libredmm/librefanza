@@ -12,7 +12,7 @@ RSpec.describe Mgstage::Api do
       expect(Nokogiri).to receive(:HTML).and_return(html)
       a = double(:a)
       expect(html).to receive(:css).and_return([a])
-      url = generate :url
+      url = "/elsewhere"
       expect(a).to receive(:attr).and_return(url)
 
       Mgstage::Api.search(generate(:normalized_id)) { next }
