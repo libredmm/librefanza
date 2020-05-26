@@ -21,21 +21,19 @@ module Javlibrary
 
     def get(url)
       @driver.navigate.to url
-      { @driver.current_url => @driver.page_source }
+      @driver.page_source
     end
 
     def search(keyword)
       return to_enum(:search, keyword) unless block_given?
 
-      pages = get("http://www.javlibrary.com/ja/vl_searchbyid.php?keyword=#{keyword}")
+      url = "http://www.javlibrary.com/ja/vl_searchbyid.php?keyword=#{keyword}"
+      yield url, get(url)
       @driver.find_elements(css: "div.video > a").map { |a|
         a["href"]
       }.each { |href|
-        pages.merge! get(href)
+        yield href, get(href)
       }
-      pages.each do |url, html|
-        yield url, html
-      end
     end
   end
 end
