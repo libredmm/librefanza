@@ -4,7 +4,7 @@ class FanzaItemsController < ApplicationController
   # GET /fanza_items
   # GET /fanza_items.json
   def index
-    @items = FanzaItem.order(:normalized_id, :date, :content_id).all
+    @items = FanzaItem.order(:normalized_id).all
     @items = @items.page(params[:page])
     render "movies/index"
   end

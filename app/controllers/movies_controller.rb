@@ -9,6 +9,7 @@ class MoviesController < ApplicationController
       javlibrary_query = javlibrary_query.where("normalized_id ILIKE ?", "%#{params[:fuzzy]}%")
     end
     ids = (fanza_query.distinct.pluck(:normalized_id) +
+           mgstage_query.distinct.pluck(:normalized_id) +
            javlibrary_query.distinct.pluck(:normalized_id)).sort.uniq
     page_ids = Kaminari::paginate_array(ids).page(params[:page]).per(30)
     @items = page_ids.map { |id|
