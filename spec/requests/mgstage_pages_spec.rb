@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "MgstagePages", type: :request do
-  let(:page) { create(:mgstage_page) }
+  let(:page) { create(:mgstage_product_page) }
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
 

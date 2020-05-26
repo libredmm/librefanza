@@ -5,6 +5,7 @@
     <tr>
       <th>Url</th>
       <th></th>
+      <th>Item</th>
     </tr>
   </thead>
 
@@ -13,6 +14,11 @@
     <tr>
       <td><%= page.url %></td>
       <td><%= link_to "Cached", page %> | <%= link_to "Original", page.url %></td>
+      <td>
+        <% if page.mgstage_item %>
+        <%= link_to page.mgstage_item.normalized_id, page.mgstage_item %>
+        <% end %>
+      </td>
     </tr>
     <% end %>
   </tbody>
