@@ -2,7 +2,13 @@
 <html>
 
 <head>
-  <title>Librefanza</title>
+  <title>
+    <% if content_for?(:title) %>
+    <%= yield(:title) %> | LibreFanza
+    <% else %>
+    LibreFanza
+    <% end %>
+  </title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
