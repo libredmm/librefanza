@@ -21,7 +21,7 @@ class FanzaItem < ApplicationRecord
     self.date = DateTime.parse(self.as_struct.date)
     self.floor_code = self.as_struct.floor_code.strip
     self.service_code = self.as_struct.service_code.strip
-    self.raw_html ||= HTTParty.get(self.url).body
+    self.raw_html ||= Faraday.get(self.url).body
   end
 
   def as_struct
