@@ -10,12 +10,13 @@ class FanzaActressesController < ApplicationController
   # GET /fanza_actresses/1.json
   def show
     @actress = FanzaActress.find_by(id_fanza: params[:id])
-    @ids = FanzaItem.where(
+    ids = FanzaItem.where(
       %{raw_json @> '{"iteminfo": {"actress": [{"id": #{@actress.id_fanza}}]}}'}
     ).distinct.pluck(:normalized_id).sort
-    @items = @ids.map { |id|
+    page_ids = Kaminari::paginate_array(ids).page(params[:page]).per(30)
+    @items = page_ids.map { |id|
       FanzaItem.where(normalized_id: id).order(:date).first
     }
-    @items = Kaminari::paginate_array(@items, total_count: @items.count).page(1).per(@items.count + 1)
+    @items = Kaminari::paginate_array(@items, total_count: ids.count).page(params[:page]).per(30)
   end
 end
