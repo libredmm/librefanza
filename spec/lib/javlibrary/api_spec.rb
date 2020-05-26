@@ -20,13 +20,6 @@ RSpec.describe "Javlibrary::Api" do
       expect(Javlibrary::Client).to have_received(:new)
     end
 
-    it "caches client" do
-      id = generate :normalized_id
-      Javlibrary::Api.search(id) { next }
-      Javlibrary::Api.search(id) { next }
-      expect(Javlibrary::Client).to have_received(:new).once
-    end
-
     it "searches using client" do
       id = generate :normalized_id
       expect(@client).to receive(:search).with(id)
