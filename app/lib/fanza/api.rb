@@ -58,7 +58,7 @@ module Fanza
             output: "json",
           }
         ).body)
-        resp["result"]["items"].each do |item|
+        resp["result"]["items"]&.each do |item|
           yield item
         end
         resp
