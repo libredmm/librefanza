@@ -7,6 +7,7 @@ module Javlibrary
       @@client.search(keyword) do |url, html|
         yield url, html
       end
+    rescue Selenium::WebDriver::Error::WebDriverError
     end
   end
 end

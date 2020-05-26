@@ -3,7 +3,7 @@ class SearchWorker
 
   sidekiq_options(
     queue: :default,
-    retry: 3,
+    retry: false,
     lock: :until_expired,
     lock_ttl: 1.day.to_i,
     on_conflict: :log,
