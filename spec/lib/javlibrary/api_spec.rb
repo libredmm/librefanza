@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Javlibrary::Api" do
+RSpec.describe Javlibrary::Api do
   before(:each) do
     allow(Javlibrary::Challenger).to receive(:headers).and_return({})
   end
