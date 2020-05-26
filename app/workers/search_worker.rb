@@ -45,10 +45,10 @@ class SearchWorker
     end
 
     if MgstageItem.where(normalized_id: keyword).exists?
-      logger.info "#{keyword} found on Fanza"
+      logger.info "#{keyword} found on Mgstage"
       true
     else
-      logger.info "#{keyword} not found on Fanza"
+      logger.info "#{keyword} not found on Mgstage"
       false
     end
   end
