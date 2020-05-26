@@ -8,7 +8,6 @@ module Mgstage
       yield search_url, search_page
       Nokogiri::HTML(search_page).css("div.search_list h5 a").each do |a|
         url = "https://www.mgstage.com" + a.attr(:href)
-        puts url
         yield url, self.get(url)
       end
     end
