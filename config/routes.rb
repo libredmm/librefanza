@@ -9,8 +9,9 @@ Rails.application.routes.draw do
 
   constraints Clearance::Constraints::SignedIn.new { |user| user.is_admin? } do
     resources :fanza_items, only: %i[index show destroy]
-    resources :javlibrary_items, onlu: %i[index show]
+    resources :javlibrary_items, only: %i[index show destroy]
     resources :javlibrary_pages, only: %i[index show]
+    resources :mgstage_items, only: %i[index show destroy]
     resources :mgstage_pages, only: %i[index show]
     mount Sidekiq::Web => "/sidekiq"
   end

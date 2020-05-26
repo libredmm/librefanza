@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_26_013230) do
+ActiveRecord::Schema.define(version: 2020_05_26_022151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -61,6 +61,15 @@ ActiveRecord::Schema.define(version: 2020_05_26_013230) do
     t.index ["url"], name: "index_javlibrary_pages_on_url", unique: true
   end
 
+  create_table "mgstage_items", force: :cascade do |t|
+    t.string "normalized_id"
+    t.bigint "mgstage_page_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["mgstage_page_id"], name: "index_mgstage_items_on_mgstage_page_id"
+    t.index ["normalized_id"], name: "index_mgstage_items_on_normalized_id", unique: true
+  end
+
   create_table "mgstage_pages", force: :cascade do |t|
     t.string "url"
     t.text "raw_html"
@@ -84,4 +93,5 @@ ActiveRecord::Schema.define(version: 2020_05_26_013230) do
   end
 
   add_foreign_key "javlibrary_items", "javlibrary_pages"
+  add_foreign_key "mgstage_items", "mgstage_pages"
 end

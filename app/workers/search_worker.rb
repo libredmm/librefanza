@@ -10,6 +10,11 @@ class SearchWorker
   )
 
   def perform(keyword)
+    found = search_on_fanza(keyword) || search_on_mgstage(keyword) || search_on_javlibrary(keyword)
+    logger.warn "#{keyword} not found anywhere" unless found
+  end
+
+  def search_on_fanza(keyword)
     logger.info "Searching #{keyword} on Fanza"
     Fanza::Api.item_list(keyword) do |json|
       item = FanzaItem.create(
@@ -20,26 +25,52 @@ class SearchWorker
 
     if FanzaItem.where(normalized_id: keyword).exists?
       logger.info "#{keyword} found on Fanza"
-      return
+      true
+    else
+      logger.info "#{keyword} not found on Fanza"
+      false
     end
-    logger.info "#{keyword} not found on Fanza"
+  end
 
+  def search_on_mgstage(keyword)
+    if MgstageItem.where(normalized_id: keyword).exists?
+      logger.info "#{keyword} alreay found on Mgstage"
+      return true
+    end
+    logger.info "Searching #{keyword} on Mgstage"
+
+    Mgstage::Api.search(keyword) do |url, raw_html|
+      page = MgstagePage.create(url: url, raw_html: raw_html)
+      break if page&.mgstage_item&.normalized_id == keyword
+    end
+
+    if MgstageItem.where(normalized_id: keyword).exists?
+      logger.info "#{keyword} found on Fanza"
+      true
+    else
+      logger.info "#{keyword} not found on Fanza"
+      false
+    end
+  end
+
+  def search_on_javlibrary(keyword)
     if JavlibraryItem.where(normalized_id: keyword).exists?
       logger.info "#{keyword} alreay found on Javlibrary"
-      return
+      return true
     end
     logger.info "Searching #{keyword} on Javlibrary"
 
     Javlibrary::Api.search(keyword) do |url, raw_html|
-      JavlibraryPage.create(url: url, raw_html: raw_html)
+      page = JavlibraryPage.create(url: url, raw_html: raw_html)
+      break if page&.javlibrary_item&.normalized_id == keyword
     end
 
     if JavlibraryItem.where(normalized_id: keyword).exists?
-      # :nocov:
       logger.info "#{keyword} found on Javlibrary"
-      # :nocov:
+      true
     else
-      logger.warn "#{keyword} not found anywhere"
+      logger.info "#{keyword} not found on Javlibrary"
+      false
     end
   end
 end
