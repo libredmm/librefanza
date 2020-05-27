@@ -73,6 +73,7 @@ module Fanza
         total_count = resp["result"]["total_count"].to_i
         first_position = resp["result"]["first_position"].to_i
         offset = first_position + result_count
+        offset = 1 if offset < 1
         Rails.logger.info("#{offset - 1}/#{total_count}")
         break if offset > total_count
       end
