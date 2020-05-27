@@ -10,6 +10,15 @@
 <div class="row mt-3 mb-3">
   <div class="col-md-8">
     <%= image_tag @item.cover_image_url, class: "img-fluid" %>
+    <% if signed_in_as_admin? %>
+    <div class="d-flex justify-content-center">
+      <div class="btn-group mt-3" role="group">
+        <%= link_to "Movie Page", movie_path(@item.normalized_id), class: "btn btn-primary" %>
+        <%= link_to "Item Page", @item, class: "btn btn-secondary" %>
+        <%= link_to "Refresh", @item, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-warning" %>
+      </div>
+    </div>
+    <% end %>
   </div>
   <div class="col-md-4">
     <dl>
@@ -46,11 +55,6 @@
 
       <dt>Data Source</dt>
       <dd><%= link_to @item.url, @item.url %></dd>
-
-      <% if signed_in_as_admin? %>
-      <dt>Needs Refresh?</dt>
-      <dd><%= link_to "Refresh", @item, method: :delete, class: "btn btn-warning", id: "refresh" %></dd>
-      <% end %>
     </dl>
   </div>
 </div>

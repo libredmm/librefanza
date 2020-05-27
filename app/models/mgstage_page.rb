@@ -18,4 +18,8 @@ class MgstagePage < ApplicationRecord
       end
     end
   end
+
+  def item
+    mgstage_item
+  end
 end
