@@ -63,6 +63,7 @@ RSpec.describe Fanza::Id do
       [
         "ABC-123",
         "edf-456",
+        "T28-526",
       ].each do |id|
         expect(Fanza::Id.normalized?(id)).to be_truthy
       end
