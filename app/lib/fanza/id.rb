@@ -23,11 +23,22 @@ module Fanza
 
       digit = groups[digit_idx]
       digit = "%03d" % digit.to_i if digit.length != 2
-      "#{groups[alpha_idx...digit_idx].join.upcase}-#{digit}"
+      special_transform "#{groups[alpha_idx...digit_idx].join.upcase}-#{digit}"
     end
 
     def self.normalized?(id)
       id =~ /^[a-z]+-[0-9]+$/i
+    end
+
+    private
+
+    def self.special_transform(id)
+      case id
+      when /^T-28(00)?(\d{3})$/
+        "T28-#{$2}"
+      else
+        id
+      end
     end
   end
 end
