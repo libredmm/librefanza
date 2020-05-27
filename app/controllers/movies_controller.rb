@@ -1,4 +1,6 @@
 class MoviesController < ApplicationController
+  include ItemsAggregator
+
   def index
     fanza_query = FanzaItem.all
     mgstage_query = MgstageItem.all
@@ -8,14 +10,12 @@ class MoviesController < ApplicationController
       mgstage_query = mgstage_query.where("normalized_id ILIKE ?", "%#{params[:fuzzy]}%")
       javlibrary_query = javlibrary_query.where("normalized_id ILIKE ?", "%#{params[:fuzzy]}%")
     end
-    ids = (fanza_query.distinct.pluck(:normalized_id) +
-           mgstage_query.distinct.pluck(:normalized_id) +
-           javlibrary_query.distinct.pluck(:normalized_id)).sort.uniq
-    page_ids = Kaminari::paginate_array(ids).page(params[:page]).per(30)
-    @items = page_ids.map { |id|
-      find_fanza_item(id) || find_mgstage_item(id) || find_javlibrary_item(id)
-    }
-    @items = Kaminari::paginate_array(@items, total_count: ids.count).page(params[:page]).per(30)
+
+    @items = aggregate_and_paginate(
+      fanza_query,
+      mgstage_query,
+      javlibrary_query,
+    )
   end
 
   def show
