@@ -26,6 +26,7 @@ module Javlibrary
           options.add_argument("headless")
           options.add_argument("user-agent=#{self.user_agent}")
           driver = Selenium::WebDriver.for(:chrome, options: options)
+          Rails.logger.info "Driver user agent: #{driver.execute_script("return navigator.userAgent")}"
           driver.navigate.to "http://www.javlibrary.com/ja/"
           wait = Selenium::WebDriver::Wait.new(:timeout => 60)
           prompt = wait.until { driver.find_element(css: "#adultwarningprompt input") }
