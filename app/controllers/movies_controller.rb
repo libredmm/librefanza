@@ -2,27 +2,24 @@ class MoviesController < ApplicationController
   include ItemsAggregator
 
   def index
-    fanza_query = FanzaItem.all
-    mgstage_query = MgstageItem.all
-    javlibrary_query = JavlibraryItem.all
     if params[:fuzzy]
-      fanza_query = fanza_query.where("normalized_id ILIKE ?", "%#{params[:fuzzy]}%")
-      mgstage_query = mgstage_query.where("normalized_id ILIKE ?", "%#{params[:fuzzy]}%")
-      javlibrary_query = javlibrary_query.where("normalized_id ILIKE ?", "%#{params[:fuzzy]}%")
+      @items = fuzzy_match(params[:fuzzy])
+    else
+      @items = aggregate_and_paginate(
+        FanzaItem.all,
+        MgstageItem.all,
+        JavlibraryItem.all,
+      )
     end
-
-    @items = aggregate_and_paginate(
-      fanza_query,
-      mgstage_query,
-      javlibrary_query,
-    )
   end
 
   def show
-    find_fanza_item(params[:id])
+    @item = FanzaItem.order(:date).find_by(normalized_id: params[:id])
     unless @item
       @searching = SearchWorker.perform_async params[:id]
-      find_mgstage_item(params[:id]) || find_javlibrary_item(params[:id])
+      @item = MgstageItem.find_by(normalized_id: params[:id]) ||
+              JavlibraryItem.find_by(normalized_id: params[:id])
+      @related_items = fuzzy_match(params[:id])
     end
 
     respond_to do |format|
@@ -47,15 +44,15 @@ class MoviesController < ApplicationController
 
   private
 
-  def find_fanza_item(id)
-    @item = FanzaItem.where(normalized_id: id).order(:date).first
-  end
+  def fuzzy_match(keyword)
+    fanza_query = FanzaItem.where("normalized_id ILIKE ?", "%#{keyword}%")
+    mgstage_query = MgstageItem.where("normalized_id ILIKE ?", "%#{keyword}%")
+    javlibrary_query = JavlibraryItem.where("normalized_id ILIKE ?", "%#{keyword}%")
 
-  def find_mgstage_item(id)
-    @item = MgstageItem.where(normalized_id: id).first
-  end
-
-  def find_javlibrary_item(id)
-    @item = JavlibraryItem.where(normalized_id: id).first
+    aggregate_and_paginate(
+      fanza_query,
+      mgstage_query,
+      javlibrary_query,
+    )
   end
 end
