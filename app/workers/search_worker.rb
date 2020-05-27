@@ -73,8 +73,10 @@ class SearchWorker
     logger.info "Searching #{keyword} on Javlibrary"
 
     Javlibrary::Api.search(keyword) do |url, raw_html|
-      page = JavlibraryPage.create(url: url, raw_html: raw_html)
-      break if page&.javlibrary_item&.normalized_id == keyword
+      page = JavlibraryPage.find_or_initialize_by(url: url)
+      page.raw_html = raw_html
+      page.save
+      break if page.javlibrary_item&.normalized_id == keyword
     end
 
     if JavlibraryItem.where(normalized_id: keyword).exists?
