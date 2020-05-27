@@ -9,7 +9,8 @@ class JavlibraryItem < ApplicationRecord
   paginates_per 30
 
   def derive_fields
-    self.normalized_id = Fanza::Id.normalize(html.at_css("#video_id td.text")&.content)
+    self.normalized_id = Fanza::Id.normalize(html.at_css("#video_id td.text")&.text)
+    self.actress_names = html.css(".cast .star").map(&:text).map(&:strip)
   end
 
   def html
@@ -21,8 +22,8 @@ class JavlibraryItem < ApplicationRecord
   ###################
 
   def title
-    html.at_css("#video_title > h3")&.content&.gsub(
-      html.at_css("#video_id td.text")&.content, ""
+    html.at_css("#video_title > h3")&.text&.gsub(
+      html.at_css("#video_id td.text")&.text, ""
     )&.strip
   end
 
@@ -47,8 +48,7 @@ class JavlibraryItem < ApplicationRecord
   end
 
   def actresses
-    html.css(".cast .star").map do |span|
-      name = span.content.strip
+    actress_names.map do |name|
       FanzaActress.find_by(name: name) || FanzaActress.new(name: name)
     end
   end
