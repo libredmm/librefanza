@@ -76,6 +76,7 @@ class SearchWorker
       page = JavlibraryPage.find_or_initialize_by(url: url)
       page.raw_html = raw_html
       page.save
+      logger.error(page.errors) unless page.persisted?
       break if page.javlibrary_item&.normalized_id == keyword
     end
 
