@@ -1,0 +1,27 @@
+<%= render partial: "layouts/pager", locals: { items: @pages, name: nil } %>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Url</th>
+            <th>Created At</th>
+            <th>Item</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% @pages.each do |page| %>
+        <tr>
+            <td><%= link_to page.id, page %></td>
+            <td><%= link_to page.url, page.url %></td>
+            <td><%= page.created_at %></td>
+            <td>
+                <% if page.item %>
+                <%= link_to page.item.normalized_id, page.item %>
+                <% end %>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>

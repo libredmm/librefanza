@@ -26,4 +26,8 @@ class JavlibraryPage < ApplicationRecord
       end
     end
   end
+
+  def item
+    javlibrary_item
+  end
 end

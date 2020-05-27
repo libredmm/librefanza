@@ -1,13 +1,10 @@
 class MgstagePagesController < ApplicationController
-  # GET /mgstage_pages
-  # GET /mgstage_pages.json
   def index
-    @pages = MgstagePage.all
+    @pages = MgstagePage.order(id: :desc).all
     @pages = @pages.page(params[:page])
+    render "generic_pages/index"
   end
 
-  # GET /mgstage_pages/1
-  # GET /mgstage_pages/1.json
   def show
     @page = MgstagePage.find(params[:id])
     render html: @page.raw_html.html_safe
