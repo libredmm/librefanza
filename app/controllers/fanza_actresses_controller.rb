@@ -1,22 +1,23 @@
 class FanzaActressesController < ApplicationController
-  # GET /fanza_actresses
-  # GET /fanza_actresses.json
+  include ItemsAggregator
+
   def index
     @actresses = FanzaActress.all.order(:id_fanza)
     @actresses = @actresses.page(params[:page])
   end
 
-  # GET /fanza_actresses/1
-  # GET /fanza_actresses/1.json
   def show
-    @actress = FanzaActress.find_by(id_fanza: params[:id])
-    ids = FanzaItem.where(
-      %{raw_json @> '{"iteminfo": {"actress": [{"id": #{@actress.id_fanza}}]}}'}
-    ).distinct.pluck(:normalized_id).sort
-    page_ids = Kaminari::paginate_array(ids).page(params[:page]).per(30)
-    @items = page_ids.map { |id|
-      FanzaItem.where(normalized_id: id).order(:date).first
-    }
-    @items = Kaminari::paginate_array(@items, total_count: ids.count).page(params[:page]).per(30)
+    @actress = FanzaActress.find_by(id_fanza: params[:id]) || FanzaActress.new(name: params[:id])
+    fanza_query = @actress.persisted? ?
+      FanzaItem.where(%{raw_json @> '{"iteminfo": {"actress": [{"id": #{@actress.id_fanza}}]}}'}) :
+      FanzaItem.where(%{raw_json @> '{"iteminfo": {"actress": [{"name": "#{@actress.name}"}]}}'})
+    mgstage_query = MgstageItem.where("actress_names @> ARRAY[?]::varchar[]", @actress.name)
+    javlibrary_query = JavlibraryItem.where("actress_names @> ARRAY[?]::varchar[]", @actress.name)
+
+    @items = aggregate_and_paginate(
+      fanza_query,
+      mgstage_query,
+      javlibrary_query,
+    )
   end
 end

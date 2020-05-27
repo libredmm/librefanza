@@ -3,17 +3,15 @@
     <% group.each do |actress| %>
     <div class="card">
         <% if actress %>
-        <%= link_to_if(
-            actress.persisted?,
+        <%= link_to(
             image_tag(actress.image_url || fake_image_url(actress), class: "card-image-top img-fluid mx-auto d-block"),
-            actress
+            actress.persisted? ? actress : fanza_actress_path(actress.name)
         ) %>
         <div class="card-body">
             <h6 class="card-title">
-                <%= link_to_if(
-                    actress.persisted?,
+                <%= link_to(
                     actress.name,
-                    actress
+                    actress.persisted? ? actress : fanza_actress_path(actress.name)
                 ) %></h6>
         </div>
         <% end %>
