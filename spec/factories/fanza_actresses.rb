@@ -8,12 +8,13 @@ FactoryBot.define do
   factory :fanza_actress do
     transient {
       id_fanza
+      name
     }
 
     raw_json {
       {
         id: id_fanza,
-        name: generate(:name),
+        name: name,
         imageURL: {
           large: generate(:url),
           small: generate(:url),
