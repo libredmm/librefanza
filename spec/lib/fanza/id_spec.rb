@@ -43,7 +43,7 @@ RSpec.describe Fanza::Id do
         "BIC-MAN" => "BIC-MAN",
         "180_1507" => "180_1507",
         "t28526" => "T28-526",
-        "55t2800147" => "T28-526",
+        "55t2800147" => "T28-147",
         nil => nil,
         "" => "",
       }.each do |original, normalized|
