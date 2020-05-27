@@ -53,59 +53,60 @@ RSpec.describe SearchWorker, type: :worker do
         subject.perform id
         expect(Mgstage::Api).not_to have_received(:search).with(id)
       end
+    end
 
-      context "not previously found on mgstage" do
-        it "searches mgstage next" do
+    context "not previously found on mgstage" do
+      it "searches mgstage next" do
+        id = generate :normalized_id
+
+        subject.perform id
+        expect(Mgstage::Api).to have_received(:search).with(id)
+      end
+
+      context "found on mgstage" do
+        it "stops there" do
           id = generate :normalized_id
 
+          expect(MgstagePage).to receive(:create) {
+            page = create :mgstage_product_page
+            page.mgstage_item.update_column(:normalized_id, id)
+            page
+          }
           subject.perform id
-          expect(Mgstage::Api).to have_received(:search).with(id)
+          expect(Javlibrary::Api).not_to have_received(:search)
+        end
+      end
+
+      context "not found on mgstage" do
+        context "previously found on javlibrary" do
+          it "stops there javlibrary next" do
+            item = create :javlibrary_item
+            id = item.normalized_id
+
+            subject.perform id
+            expect(Javlibrary::Api).not_to have_received(:search).with(id)
+          end
         end
 
-        context "found on mgstage" do
-          it "stops there" do
+        context "not previously found on javlibrary" do
+          it "searches javlibrary next" do
             id = generate :normalized_id
 
-            expect(MgstagePage).to receive(:create) {
-              page = create :mgstage_product_page
-              page.mgstage_item.update_column(:normalized_id, id)
-              page
-            }
             subject.perform id
-            expect(Javlibrary::Api).not_to have_received(:search)
-          end
-        end
-
-        context "not found on mgstage" do
-          context "previously found on javlibrary" do
-            it "stops there javlibrary next" do
-              item = create :javlibrary_item
-              id = item.normalized_id
-
-              subject.perform id
-              expect(Javlibrary::Api).not_to have_received(:search).with(id)
-            end
+            expect(Javlibrary::Api).to have_received(:search).with(id)
           end
 
-          context "not previously found on javlibrary" do
-            it "searches javlibrary next" do
+          context "found on javlibrary" do
+            it "would be happy" do
               id = generate :normalized_id
 
+              expect(JavlibraryPage).to receive(:find_or_initialize_by) {
+                page = create :javlibrary_product_page
+                page.javlibrary_item.update_column(:normalized_id, id)
+                expect(page).to receive(:save)
+                page
+              }
               subject.perform id
-              expect(Javlibrary::Api).to have_received(:search).with(id)
-            end
-
-            context "found on javlibrary" do
-              it "would be happy" do
-                id = generate :normalized_id
-
-                expect(JavlibraryPage).to receive(:create) {
-                  page = create :javlibrary_product_page
-                  page.javlibrary_item.update_column(:normalized_id, id)
-                  page
-                }
-                subject.perform id
-              end
             end
           end
         end
