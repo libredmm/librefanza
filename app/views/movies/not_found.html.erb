@@ -1,19 +1,26 @@
 <% if @searching %>
 
-<div class="d-flex justify-content-center">
-    <div class="spinner-border text-primary m-5" role="status">
-        <span class="sr-only">Loading...</span>
+<div class="jumbotron">
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border text-primary mb-3" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center">
+        <strong>Loading in background, try come back later.</strong>
     </div>
 </div>
-<div class="d-flex justify-content-center">
-    <strong>Loading in background, try come back later.</strong>
-</div>
-
 <% else %>
 
 <div class="jumbotron d-flex justify-content-center">
-    <h1>Not found <small class="text-muted">yet</smallclass="text-muted">
-    </h1>
+    <h1>Not found <small class="text-muted">yet</small></h1>
 </div>
+
+<% end %>
+
+<%if @related_items.present? %>
+
+<h2 class="mb-3">You might be looking for</h2>
+<%= render partial: "movies/cards", object: @related_items %>
 
 <% end %>
