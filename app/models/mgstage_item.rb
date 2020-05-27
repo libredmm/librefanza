@@ -10,10 +10,15 @@ class MgstageItem < ApplicationRecord
 
   def derive_fields
     html.css(".detail_data table tr").each do |tr|
-      if tr.at_css("th")&.text&.strip&.start_with? "品番"
+      th = tr.at_css("th")&.text&.strip
+      if th&.start_with? "品番"
         self.normalized_id = Fanza::Id.normalize(tr.at_css("td").text.strip)
+      elsif th&.start_with? "出演"
+        self.actress_names = tr.css("td a").map(&:text).map(&:strip)
       end
     end
+
+    self.actress_names ||= []
   end
 
   def html
@@ -53,12 +58,9 @@ class MgstageItem < ApplicationRecord
   end
 
   def actresses
-    html.css(".detail_data table tr").find { |tr|
-      tr.at_css("th")&.text&.strip&.start_with? "出演"
-    }&.css("td a")&.map { |a|
-      name = a.text.strip
+    actress_names.map { |name|
       FanzaActress.find_by(name: name) || FanzaActress.new(name: name)
-    } || []
+    }
   end
 
   def description

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_27_060116) do
+ActiveRecord::Schema.define(version: 2020_05_27_172233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -51,6 +51,8 @@ ActiveRecord::Schema.define(version: 2020_05_27_060116) do
     t.bigint "javlibrary_page_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "actress_names", array: true
+    t.index ["actress_names"], name: "index_javlibrary_items_on_actress_names", using: :gin
     t.index ["javlibrary_page_id"], name: "index_javlibrary_items_on_javlibrary_page_id"
     t.index ["normalized_id"], name: "index_javlibrary_items_on_normalized_id"
   end
@@ -68,6 +70,8 @@ ActiveRecord::Schema.define(version: 2020_05_27_060116) do
     t.bigint "mgstage_page_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "actress_names", array: true
+    t.index ["actress_names"], name: "index_mgstage_items_on_actress_names", using: :gin
     t.index ["mgstage_page_id"], name: "index_mgstage_items_on_mgstage_page_id"
     t.index ["normalized_id"], name: "index_mgstage_items_on_normalized_id", unique: true
   end
