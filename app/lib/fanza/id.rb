@@ -27,7 +27,7 @@ module Fanza
     end
 
     def self.normalized?(id)
-      id =~ /^[a-z]+-[0-9]+$/i
+      id =~ /^[a-z]+-\d+$/i || id =~ /^T28-\d{3}$/i
     end
 
     private
