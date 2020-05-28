@@ -1,4 +1,4 @@
-class DbJanitor
+class HouseKeeper
   include Sidekiq::Worker
 
   sidekiq_options(
