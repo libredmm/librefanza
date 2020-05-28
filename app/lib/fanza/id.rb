@@ -43,8 +43,8 @@ module Fanza
       return variations unless normalized?(id)
 
       alphas, digits = id.split("-")
-      variations << ("%s%03d" % [alphas, digits]).downcase
-      variations << ("%s%05d" % [alphas, digits]).downcase
+      variations << ("%s%03d" % [alphas, digits.to_i]).downcase
+      variations << ("%s%05d" % [alphas, digits.to_i]).downcase
       variations
     end
 

@@ -107,6 +107,7 @@ RSpec.describe Fanza::Id do
           "T28-526" => Set["T28-526", "t28526", "t2800526"],
           "3DSVR-003" => Set["3DSVR-003", "3dsvr003", "3dsvr00003"],
           "DSVR-005" => Set["DSVR-005", "dsvr005", "dsvr00005"],
+          "EXVR-092" => Set["EXVR-092", "exvr092", "exvr00092"],
         }.each do |original, variations|
           expect(Fanza::Id.variations(original)).to eq(variations)
         end
