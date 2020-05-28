@@ -9,6 +9,25 @@ RSpec.describe "Movies", type: :request do
       get movies_path
       expect(response).to have_http_status(200)
     end
+
+    context "fuzzy searching" do
+      context "with hits" do
+        it "schedules crawling" do
+          create :fanza_item, content_id: "fuzzy001"
+          get movies_path(fuzzy: "FUZZY")
+          expect(response).to have_http_status(200)
+          expect(FanzaItemCrawler).to have_enqueued_sidekiq_job("FUZZY")
+        end
+      end
+
+      context "without hits" do
+        it "does not schedule crawling" do
+          get movies_path(fuzzy: "FUZZY")
+          expect(response).to have_http_status(200)
+          expect(FanzaItemCrawler).not_to have_enqueued_sidekiq_job("FUZZY")
+        end
+      end
+    end
   end
 
   describe "GET /movie/:id" do
