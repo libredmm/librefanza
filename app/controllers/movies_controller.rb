@@ -16,7 +16,7 @@ class MoviesController < ApplicationController
   def show
     @item = FanzaItem.order(date: :desc).find_by(normalized_id: params[:id])
     unless @item
-      @searching = SearchWorker.perform_async params[:id]
+      @searching = MovieSearcher.perform_async params[:id]
       @item = MgstageItem.find_by(normalized_id: params[:id]) ||
               JavlibraryItem.find_by(normalized_id: params[:id])
       @related_items = fuzzy_match(params[:id])

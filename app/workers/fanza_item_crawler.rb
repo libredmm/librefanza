@@ -1,4 +1,4 @@
-class CrawlWorker
+class FanzaItemCrawler
   include Sidekiq::Worker
 
   sidekiq_options(

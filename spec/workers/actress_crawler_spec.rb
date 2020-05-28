@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ActressWorker, type: :worker do
+RSpec.describe ActressCrawler, type: :worker do
   it "creates actresses" do
     10.times do |i|
       create :fanza_actress, id_fanza: i + 1
