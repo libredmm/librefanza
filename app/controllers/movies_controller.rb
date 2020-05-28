@@ -4,6 +4,7 @@ class MoviesController < ApplicationController
   def index
     if params[:fuzzy]
       @items = fuzzy_match(params[:fuzzy])
+      FanzaItemCrawler.perform_async(params[:fuzzy]) unless @items.empty?
     else
       @items = aggregate_and_paginate(
         FanzaItem.all,

@@ -3,8 +3,9 @@ class HouseKeeper
 
   sidekiq_options(
     queue: :low,
-    lock: :until_executed,
-    on_conflict: :log,
+    retry: false,
+    lock: :until_and_while_executing,
+    on_conflict: { client: :log, server: :reject },
   )
 
   def perform()

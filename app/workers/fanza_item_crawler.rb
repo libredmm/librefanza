@@ -4,7 +4,8 @@ class FanzaItemCrawler
   sidekiq_options(
     queue: :low,
     retry: false,
-    lock: :until_executed,
+    lock: :until_expired,
+    lock_ttl: 1.day.to_i,
     on_conflict: :log,
   )
 

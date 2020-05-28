@@ -3,7 +3,7 @@ class MovieSearcher
 
   sidekiq_options(
     queue: :default,
-    retry: false,
+    retry: 3,
     lock: :until_expired,
     lock_ttl: 1.hour.to_i,
     on_conflict: :log,
