@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe MovieSearcher, type: :worker do
   before(:each) do
-    allow(Fanza::Api).to receive(:item_list).and_call_original
+    allow(Fanza::Api).to receive(:search).and_call_original
     url = generate(:url)
     html = [generate(:url), "<html></html>"]
     allow(Mgstage::Api).to receive(:search).and_yield(url, html)
@@ -12,13 +12,13 @@ RSpec.describe MovieSearcher, type: :worker do
   end
 
   it "ignores non ascii keyword" do
-    expect(Fanza::Api).not_to receive(:item_list)
+    expect(Fanza::Api).not_to receive(:search)
     subject.perform "你好"
   end
 
   it "crawls un-normalizable keyword" do
     keyword = "abc"
-    expect(Fanza::Api).not_to receive(:item_list)
+    expect(Fanza::Api).not_to receive(:search)
     subject.perform keyword
     expect(FanzaItemCrawler).to have_enqueued_sidekiq_job(keyword)
   end
@@ -27,7 +27,7 @@ RSpec.describe MovieSearcher, type: :worker do
     id = generate :normalized_id
 
     subject.perform id
-    expect(Fanza::Api).to have_received(:item_list).with(id)
+    expect(Fanza::Api).to have_received(:search).with(id)
   end
 
   context "found on fanza" do
@@ -42,7 +42,7 @@ RSpec.describe MovieSearcher, type: :worker do
 
   context "not found on fanza" do
     before(:each) do
-      allow(Fanza::Api).to receive(:item_list).and_return([])
+      allow(Fanza::Api).to receive(:search).and_return([])
     end
 
     context "previously found on mgstage" do

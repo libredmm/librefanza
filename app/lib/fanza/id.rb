@@ -3,19 +3,20 @@ module Fanza
     def self.normalize(id)
       return nil unless id
 
-      groups = id.gsub("-", "").gsub(/^._/i, "").gsub(/[^a-z0-9]/i, "").split(/(\d+)/).reject(&:empty?)
-      groups.shift if groups.first =~ /\d+/
-      groups.pop if groups.last =~ /\D+/
+      alphas_regex = /(3dsvr|\D+)/i
+      groups = id.gsub("-", "").gsub(/^._/i, "").gsub(/[^a-z0-9]/i, "").split(alphas_regex).reject(&:empty?)
+      groups.shift if groups.first =~ /^\d+$/
+      groups.pop if groups.last =~ alphas_regex
 
       digit_idx = groups.each_with_index.select { |g, i|
-        g =~ /\d+/
+        g =~ /^\d+$/
       }.map { |g, i|
         [g.length, i]
       }.max&.last
       return id unless digit_idx
 
       alpha_idx = groups.each_with_index.select { |g, i|
-        (i < digit_idx) && (g =~ /\D+/)
+        (i < digit_idx) && (g =~ /^(3dsvr|\D+)$/i)
       }.map { |g, i|
         [g.length, i]
       }.max&.last
@@ -27,7 +28,24 @@ module Fanza
     end
 
     def self.normalized?(id)
-      id =~ /^[a-z]+-\d+$/i || id =~ /^T28-\d{3}$/i
+      case id
+      when /^[a-z]+-\d+$/i,
+           /^T28-\d{3}$/i,
+           /^3DSVR-\d{3}$/i
+        true
+      else
+        false
+      end
+    end
+
+    def self.variations(id)
+      variations = Set[id]
+      return variations unless normalized?(id)
+
+      alphas, digits = id.split("-")
+      variations << ("%s%03d" % [alphas, digits]).downcase
+      variations << ("%s%05d" % [alphas, digits]).downcase
+      variations
     end
 
     private

@@ -44,6 +44,20 @@ RSpec.describe Fanza::Id do
         "180_1507" => "180_1507",
         "t28526" => "T28-526",
         "55t2800147" => "T28-147",
+        "13dsvr00003" => "3DSVR-003",
+        "3dsvr00003" => "3DSVR-003",
+        "3DSVR-003" => "3DSVR-003",
+        "dsvr00005" => "DSVR-005",
+        "1073DSVR-0020" => "3DSVR-020",
+        nil => nil,
+        "" => "",
+      }.each do |original, normalized|
+        expect(Fanza::Id.normalize(original)).to eq(normalized)
+      end
+    end
+
+    it "handles invalid inputs" do
+      {
         nil => nil,
         "" => "",
       }.each do |original, normalized|
@@ -64,8 +78,38 @@ RSpec.describe Fanza::Id do
         "ABC-123",
         "edf-456",
         "T28-526",
+        "3DSVR-003",
       ].each do |id|
         expect(Fanza::Id.normalized?(id)).to be_truthy
+      end
+    end
+  end
+
+  describe "#variations" do
+    context "of unnormalized id" do
+      it "returns itself" do
+        [
+          "ABP",
+          "3DSVR",
+        ].each do |original|
+          expect(Fanza::Id.variations(original)).to eq(Set[original])
+        end
+      end
+    end
+
+    context "of normalzied id" do
+      it "works" do
+        {
+          "ABP-123" => Set["ABP-123", "abp123", "abp00123"],
+          "ABP-001" => Set["ABP-001", "abp001", "abp00001"],
+          "XV-1001" => Set["XV-1001", "xv1001", "xv01001"],
+          "HODV-60069" => Set["HODV-60069", "hodv60069"],
+          "T28-526" => Set["T28-526", "t28526", "t2800526"],
+          "3DSVR-003" => Set["3DSVR-003", "3dsvr003", "3dsvr00003"],
+          "DSVR-005" => Set["DSVR-005", "dsvr005", "dsvr00005"],
+        }.each do |original, variations|
+          expect(Fanza::Id.variations(original)).to eq(variations)
+        end
       end
     end
   end
