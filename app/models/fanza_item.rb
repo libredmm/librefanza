@@ -26,7 +26,13 @@ class FanzaItem < ApplicationRecord
 
   def fetch_html!
     if self.raw_html.blank?
-      self.update_column :raw_html, Faraday.get(self.url).body
+      self.update_column(
+        :raw_html,
+        Faraday.new { |conn|
+          conn.use FaradayMiddleware::FollowRedirects
+          conn.adapter Faraday.default_adapter
+        }.get(self.url).body
+      )
     end
   end
 
