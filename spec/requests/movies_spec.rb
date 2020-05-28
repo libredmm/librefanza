@@ -21,7 +21,7 @@ RSpec.describe "Movies", type: :request do
       id = generate :normalized_id
       get movie_path(id)
       expect(response).to have_http_status(404)
-      expect(SearchWorker).to have_enqueued_sidekiq_job(id)
+      expect(MovieSearcher).to have_enqueued_sidekiq_job(id)
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.describe "Movies", type: :request do
 
     it "returns not found when not found" do
       id = generate :normalized_id
-      expect(SearchWorker).to receive(:perform_async).and_return(nil)
+      expect(MovieSearcher).to receive(:perform_async).and_return(nil)
       get movie_path(id, format: :json)
       expect(response).to have_http_status(404)
     end

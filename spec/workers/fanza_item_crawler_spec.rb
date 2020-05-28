@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CrawlWorker, type: :worker do
+RSpec.describe FanzaItemCrawler, type: :worker do
   it "searches fanza sorted by date" do
     id = generate :normalized_id
 

@@ -1,4 +1,4 @@
-class SearchWorker
+class MovieSearcher
   include Sidekiq::Worker
 
   sidekiq_options(
@@ -18,7 +18,7 @@ class SearchWorker
     keyword = Fanza::Id.normalize keyword
     unless Fanza::Id.normalized? keyword
       logger.info "#{keyword} is not normalized, try crawl instead of search"
-      CrawlWorker.perform_async keyword
+      FanzaItemCrawler.perform_async keyword
       return
     end
 

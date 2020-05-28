@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe SearchWorker, type: :worker do
+RSpec.describe MovieSearcher, type: :worker do
   before(:each) do
     allow(Fanza::Api).to receive(:item_list).and_call_original
     url = generate(:url)
@@ -20,7 +20,7 @@ RSpec.describe SearchWorker, type: :worker do
     keyword = "abc"
     expect(Fanza::Api).not_to receive(:item_list)
     subject.perform keyword
-    expect(CrawlWorker).to have_enqueued_sidekiq_job(keyword)
+    expect(FanzaItemCrawler).to have_enqueued_sidekiq_job(keyword)
   end
 
   it "searches fanza first" do

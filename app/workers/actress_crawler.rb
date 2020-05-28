@@ -1,4 +1,4 @@
-class ActressWorker
+class ActressCrawler
   include Sidekiq::Worker
 
   sidekiq_options(

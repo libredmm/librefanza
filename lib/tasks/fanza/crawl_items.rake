@@ -6,7 +6,7 @@ namespace :fanza do
     FanzaItem.distinct.pluck(:normalized_id).map { |id|
       id.split("-").first
     }.sort.uniq.each { |prefix|
-      CrawlWorker.perform_async(prefix)
+      FanzaItemCrawler.perform_async(prefix)
     }
   end
 end
