@@ -14,7 +14,7 @@ class MoviesController < ApplicationController
   end
 
   def show
-    @item = FanzaItem.order(:date).find_by(normalized_id: params[:id])
+    @item = FanzaItem.order(date: :desc).find_by(normalized_id: params[:id])
     unless @item
       @searching = SearchWorker.perform_async params[:id]
       @item = MgstageItem.find_by(normalized_id: params[:id]) ||

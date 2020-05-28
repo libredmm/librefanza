@@ -7,7 +7,7 @@ module ItemsAggregator
            javlibrary_query.distinct.pluck(:normalized_id)).sort.uniq
     paginiated_ids = Kaminari::paginate_array(ids).page(params[:page]).per(30)
     items = paginiated_ids.map { |id|
-      FanzaItem.find_by(normalized_id: id) ||
+      FanzaItem.order(date: :desc).find_by(normalized_id: id) ||
         MgstageItem.find_by(normalized_id: id) ||
         JavlibraryItem.find_by(normalized_id: id)
     }
