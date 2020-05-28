@@ -14,12 +14,13 @@ class MoviesController < ApplicationController
   end
 
   def show
-    @item = FanzaItem.order(date: :desc).find_by(normalized_id: params[:id])
+    id = params[:id].upcase
+    @item = FanzaItem.order(date: :desc).find_by(normalized_id: id)
     unless @item
-      @searching = MovieSearcher.perform_async params[:id]
-      @item = MgstageItem.find_by(normalized_id: params[:id]) ||
-              JavlibraryItem.find_by(normalized_id: params[:id])
-      @related_items = fuzzy_match(params[:id])
+      @searching = MovieSearcher.perform_async id
+      @item = MgstageItem.find_by(normalized_id: id) ||
+              JavlibraryItem.find_by(normalized_id: id)
+      @related_items = fuzzy_match(id)
     end
 
     respond_to do |format|

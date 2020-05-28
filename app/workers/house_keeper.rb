@@ -3,13 +3,13 @@ class HouseKeeper
 
   sidekiq_options(
     queue: :low,
-    retry: false,
     lock: :until_executed,
     on_conflict: :log,
   )
 
   def perform()
     logger.info "Fetching raw HTMLs for Fanza Items"
-    FanzaItem.find_each(&:fetch_html!)
+    FanzaItem.where(raw_html: "").find_each(&:fetch_html!)
+    FanzaItem.where(raw_html: nil).find_each(&:fetch_html!)
   end
 end

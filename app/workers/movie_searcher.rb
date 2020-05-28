@@ -28,7 +28,7 @@ class MovieSearcher
 
   def search_on_fanza(keyword)
     logger.info "Searching #{keyword} on Fanza"
-    Fanza::Api.item_list(keyword) do |json|
+    Fanza::Api.search(keyword) do |json|
       item = FanzaItem.create(
         raw_json: json,
       )

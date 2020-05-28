@@ -15,7 +15,7 @@
       <div class="btn-group mt-3" role="group">
         <%= link_to "Movie Page", movie_path(@item.normalized_id), class: "btn btn-primary" %>
         <%= link_to "Item Page", @item, class: "btn btn-secondary" %>
-        <%= link_to "Refresh", @item, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-warning" %>
+        <%= link_to "Refresh", @item, method: :delete, class: "btn btn-warning" %>
       </div>
     </div>
     <% end %>

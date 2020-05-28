@@ -1,6 +1,14 @@
 require "rails_helper"
 
 RSpec.describe Fanza::Api do
+  describe "#search" do
+    it "delegates to item_list" do
+      id = generate :normalized_id
+      expect(Fanza::Api).to receive(:item_list).at_least(:twice)
+      Fanza::Api.search(id) { next }
+    end
+  end
+
   describe "#item_list" do
     it "calls fanza lazily" do
       Fanza::Api.item_list(generate(:normalized_id)) { break }

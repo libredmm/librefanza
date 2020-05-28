@@ -1,15 +1,10 @@
 module Fanza
   class Api
-    def self.item_list(keyword, sort: "match")
-      return to_enum(:item_list, keyword, sort: sort) unless block_given?
+    def self.search(keyword, sort: "match")
+      return to_enum(:search, keyword, sort: sort) unless block_given?
 
-      [
-        ["mono", "dvd"],
-        ["digital", "video"],
-        ["digital", "videoa"],
-        ["digital", "videoc"],
-      ].each do |service, floor|
-        self.item_list_in_floor(keyword, service: service, floor: floor, sort: sort) do |item|
+      Fanza::Id.variations(keyword).each do |variation|
+        self.item_list(variation, sort: sort) do |item|
           yield item
         end
       end
@@ -40,6 +35,21 @@ module Fanza
     end
 
     private
+
+    def self.item_list(keyword, sort: "match")
+      return to_enum(:item_list, keyword, sort: sort) unless block_given?
+
+      [
+        ["mono", "dvd"],
+        ["digital", "video"],
+        ["digital", "videoa"],
+        ["digital", "videoc"],
+      ].each do |service, floor|
+        self.item_list_in_floor(keyword, service: service, floor: floor, sort: sort) do |item|
+          yield item
+        end
+      end
+    end
 
     def self.item_list_in_floor(keyword, service:, floor:, sort:)
       self.fetch_all do |offset|
