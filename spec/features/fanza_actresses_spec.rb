@@ -10,7 +10,7 @@ RSpec.feature "FanzaActresses", type: :feature do
 
   scenario "fuzzy searching" do
     actress = create :fanza_actress, name: "SPECIAL"
-    3.times { create :fanza_actress }
+    create_list :fanza_actress, 3
     visit fanza_actresses_path(fuzzy: "special")
     expect(page).to have_selector(".card.actress", count: 1)
   end
