@@ -17,9 +17,9 @@
 
             <div class="btn-group">
                 <button type="button" class="btn btn-outline-dark" disabled>
-                    Order by
+                    Sort by
                 </button>
-                <% %i[Name ID].each do |opt| %>
+                <% %i[Name New].each do |opt| %>
                 <% if @order == opt.to_s %>
                 <%= link_to(
                     opt.to_s,

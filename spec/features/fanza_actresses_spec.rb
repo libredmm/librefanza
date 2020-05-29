@@ -22,8 +22,8 @@ RSpec.feature "FanzaActresses", type: :feature do
       create :fanza_actress, id_fanza: 3, name: "Actress C"
     end
 
-    scenario "by id" do
-      visit fanza_actresses_path(order: "id")
+    scenario "by new" do
+      visit fanza_actresses_path(order: "new")
       expect(page).to have_text(/Actress C.+Actress B.+Actress A/m)
     end
 

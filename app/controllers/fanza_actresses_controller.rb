@@ -8,10 +8,10 @@ class FanzaActressesController < ApplicationController
     case params[:order]
     when /name/i
       @actresses = @actresses.order(:name)
-    when /id/i
+    when /new/i
       @actresses = @actresses.order(id_fanza: :desc)
     else
-      @order = "ID"
+      @order = "New"
       @actresses = @actresses.order(id_fanza: :desc)
     end
 
