@@ -17,6 +17,18 @@ RSpec.describe HouseKeeper, type: :worker do
     subject.perform :derive_fields
   end
 
+  it "can create movies" do
+    create(:fanza_item)
+    create(:mgstage_item)
+    create(:javlibrary_item)
+    Movie.destroy_all
+    expect {
+      subject.perform :create_movies
+    }.to change {
+      Movie.count
+    }.by(3)
+  end
+
   it "ignores invalid task" do
     subject.perform :invalid_task
   end
