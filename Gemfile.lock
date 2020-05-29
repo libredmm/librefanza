@@ -105,6 +105,8 @@ GEM
       railties (>= 4.2.0)
     faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
+    faraday-encoding (0.0.5)
+      faraday
     faraday_middleware (1.0.0)
       faraday (~> 1.0)
     ffi (1.12.2)
@@ -300,6 +302,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faraday
+  faraday-encoding
   faraday_middleware
   jbuilder (~> 2.7)
   jquery-rails
