@@ -49,8 +49,6 @@ RSpec.describe Fanza::Id do
         "3DSVR-003" => "3DSVR-003",
         "dsvr00005" => "DSVR-005",
         "1073DSVR-0020" => "3DSVR-020",
-        nil => nil,
-        "" => "",
       }.each do |original, normalized|
         expect(Fanza::Id.normalize(original)).to eq(normalized)
       end
@@ -74,11 +72,13 @@ RSpec.describe Fanza::Id do
       ].each do |id|
         expect(Fanza::Id.normalized?(id)).to be_falsy
       end
+
       [
         "ABC-123",
         "edf-456",
         "T28-526",
         "3DSVR-003",
+        "WVR9C-009",
       ].each do |id|
         expect(Fanza::Id.normalized?(id)).to be_truthy
       end
