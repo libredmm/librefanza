@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :javlibrary_item do
-    javlibrary_page { build :javlibrary_product_page }
+    initialize_with {
+      create(:javlibrary_product_page).javlibrary_item
+    }
   end
 end

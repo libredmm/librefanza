@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :mgstage_item do
-    mgstage_page { build :mgstage_product_page }
+    initialize_with {
+      create(:mgstage_product_page).mgstage_item
+    }
   end
 end

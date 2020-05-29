@@ -25,9 +25,7 @@ RSpec.describe ActressCrawler, type: :worker do
   end
 
   it "starts at tail with overlap" do
-    20.times do
-      create :fanza_actress
-    end
+    create_list :fanza_actress, 20
     expect(Fanza::Api).to receive(:actress_search).with(offset: 11).and_call_original
     subject.perform(10)
   end

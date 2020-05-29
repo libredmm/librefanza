@@ -2,9 +2,7 @@ require "rails_helper"
 
 RSpec.describe "fanza_actresses/index" do
   before :each do
-    5.times do
-      create :fanza_actress
-    end
+    create_list :fanza_actress, 5
     @actresses = FanzaActress.all.page(1)
   end
 
