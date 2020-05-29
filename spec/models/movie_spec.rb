@@ -31,5 +31,19 @@ RSpec.describe Movie, type: :model do
         }
       end
     end
+
+    it "updates date" do
+      item = create :fanza_item
+      movie = item.movie
+
+      another_item = create :fanza_item
+      another_item.update_column(:normalized_id, item.normalized_id)
+
+      expect {
+        another_item.update(date: 1.day.from_now)
+      }.to change {
+        movie.reload.date
+      }
+    end
   end
 end
