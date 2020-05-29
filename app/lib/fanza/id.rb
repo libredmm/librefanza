@@ -12,11 +12,9 @@ module Fanza
       Id.new(id).variations || Set[id]
     end
 
-    attr_reader :orginal, :compressed, :normalized, :variations
+    attr_reader :normalized, :variations
 
     def initialize(original)
-      @original = original
-      @compressed = nil
       @normalized = nil
       @variations = nil
 
