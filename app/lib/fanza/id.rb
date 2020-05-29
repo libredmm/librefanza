@@ -12,9 +12,14 @@ module Fanza
       Id.new(id).variations || Set[id]
     end
 
-    attr_reader :normalized, :variations
+    def self.compress(id)
+      Id.new(id).compressed || id
+    end
+
+    attr_reader :compressed, :normalized, :variations
 
     def initialize(original)
+      @compressed = nil
       @normalized = nil
       @variations = nil
 
@@ -46,6 +51,7 @@ module Fanza
         digits = digits[-3..-1]
       end
 
+      @compressed = "#{alphas}-#{digits.to_i}"
       digits = "%03d" % digits.to_i if digits.length != 2
       @normalized = "#{alphas}-#{digits}"
 

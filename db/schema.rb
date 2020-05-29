@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_27_172233) do
+ActiveRecord::Schema.define(version: 2020_05_29_173336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -82,6 +82,16 @@ ActiveRecord::Schema.define(version: 2020_05_27_172233) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["url"], name: "index_mgstage_pages_on_url", unique: true
+  end
+
+  create_table "movies", force: :cascade do |t|
+    t.string "normalized_id", null: false
+    t.string "compressed_id", null: false
+    t.datetime "date"
+    t.index ["compressed_id"], name: "index_movies_on_compressed_id"
+    t.index ["date", "normalized_id"], name: "index_movies_on_date_and_normalized_id"
+    t.index ["date"], name: "index_movies_on_date"
+    t.index ["normalized_id"], name: "index_movies_on_normalized_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
