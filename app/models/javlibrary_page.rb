@@ -12,10 +12,10 @@ class JavlibraryPage < ApplicationRecord
     end
   end
 
-  after_save :create_item
-  after_touch :create_item
+  after_save :create_or_update_item
+  after_touch :create_or_update_item
 
-  def create_item
+  def create_or_update_item
     if self.javlibrary_item
       self.javlibrary_item.touch
     else
