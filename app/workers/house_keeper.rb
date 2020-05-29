@@ -22,7 +22,8 @@ class HouseKeeper
     when :create_movies
       (FanzaItem.pluck(:normalized_id).to_set +
        MgstageItem.pluck(:normalized_id).to_set +
-       JavlibraryItem.pluck(:normalized_id).to_set).each do |id|
+       JavlibraryItem.pluck(:normalized_id).to_set -
+       Movie.pluck(:normalized_id).to_set).each do |id|
         Movie.create(normalized_id: id)
       end
     else
