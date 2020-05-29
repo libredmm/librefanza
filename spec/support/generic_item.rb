@@ -5,6 +5,21 @@ RSpec.shared_examples "generic item" do
     end
   end
 
+  it "has movie" do
+    expect(subject.movie).to be_persisted
+    expect(subject.movie.normalized_id).to eq(subject.normalized_id)
+  end
+
+  context "when normalized id changes" do
+    it "still has movie with same normalized id" do
+      expect {
+        subject.update(normalized_id: "CHANGED-001")
+      }.to change {
+        subject.movie.normalized_id
+      }.to("CHANGED-001")
+    end
+  end
+
   describe ".derive_fields!" do
     it "derives fields and saves changes" do
       expect(subject).to receive(:derive_fields).once do

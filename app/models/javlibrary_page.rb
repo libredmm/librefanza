@@ -13,17 +13,14 @@ class JavlibraryPage < ApplicationRecord
   end
 
   after_save :create_or_update_item
-  after_touch :create_or_update_item
 
   def create_or_update_item
-    if self.javlibrary_item
-      self.javlibrary_item.touch
-    else
-      begin
-        self.create_javlibrary_item!
-      rescue ActiveRecord::RecordInvalid => e
-        self.javlibrary_item = nil
-      end
+    return unless raw_html_previously_changed?
+
+    begin
+      self.create_javlibrary_item!
+    rescue ActiveRecord::RecordInvalid => e
+      self.javlibrary_item = nil
     end
   end
 
