@@ -30,8 +30,9 @@ class FanzaItem < ApplicationRecord
         :raw_html,
         Faraday.new { |conn|
           conn.use FaradayMiddleware::FollowRedirects
+          conn.response :encoding
           conn.adapter Faraday.default_adapter
-        }.get(self.url).body.force_encoding("utf-8")
+        }.get(self.url).body.encode("utf-8")
       )
     end
   end
