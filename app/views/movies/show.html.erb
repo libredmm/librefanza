@@ -5,30 +5,44 @@
 <h1>
   <span><%= @item.normalized_id %></span>
   <span><%= @item.title %></span>
+  <% if signed_in_as_admin? %>
+  <a class="btn btn-sm btn-danger" data-toggle="collapse" href="#admin_card" role="button" aria-expanded="false"
+    aria-controls="collapseExample">
+    Admin
+  </a>
+  <% end %>
 </h1>
+
+<% if signed_in_as_admin? %>
+<div class="collapse" id="admin_card">
+  <div class="card border-danger mt-3">
+    <div class="card-body">
+      <dl class="row mb-0">
+        <dt class="col-md-3">Movie Page</dt>
+        <dd class="col-md-9"><%= link_to movie_path(@item.normalized_id), movie_path(@item.normalized_id) %></dd>
+        <dt class="col-md-3">Item Page</dt>
+        <dd class="col-md-9"><%= link_to url_for(@item), @item %></dd>
+        <dt class="col-md-3">Data Source</dt>
+        <dd class="col-md-9"><%= link_to @item.url, @item.url %></dd>
+      </dl>
+    </div>
+    <div class="card-footer">
+      <div class="d-flex justify-content-center">
+        <%= link_to "Refresh", @item, method: :delete, class: "btn btn-warning" %>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
 
 <div class="row mt-3 mb-3">
   <div class="col-md-8">
     <%= image_tag @item.cover_image_url, class: "img-fluid" %>
-    <% if signed_in_as_admin? %>
-    <div class="d-flex justify-content-center">
-      <div class="btn-group mt-3" role="group">
-        <%= link_to "Movie Page", movie_path(@item.normalized_id), class: "btn btn-primary" %>
-        <%= link_to "Item Page", @item, class: "btn btn-secondary" %>
-        <%= link_to "Refresh", @item, method: :delete, class: "btn btn-warning" %>
-      </div>
-    </div>
-    <% end %>
   </div>
   <div class="col-md-4">
     <dl>
       <dt>Thumbnail Image</dt>
       <dd><%= image_tag @item.thumbnail_image_url %></dd>
-
-      <% if @item.description.present? %>
-      <dt>Description</dt>
-      <dd><%= @item.description %></dd>
-      <% end %>
 
       <dt>Release Date</dt>
       <dd><%= @item.date.to_date %></dd>
@@ -52,18 +66,20 @@
       <dt>User Rating</dt>
       <dd><%= "%.1f" % @item.review %></dd>
       <% end %>
-
-      <dt>Data Source</dt>
-      <dd><%= link_to @item.url, @item.url %></dd>
     </dl>
   </div>
 </div>
 
-<% if @item.actresses.present? %>
 <dl>
+  <% if @item.description.present? %>
+  <dt>Description</dt>
+  <dd><%= @item.description %></dd>
+  <% end %>
+
+  <% if @item.actresses.present? %>
   <dt>Actresses</dt>
   <dd>
     <%= render partial: "fanza_actresses/cards", object: @item.actresses %>
   </dd>
+  <% end %>
 </dl>
-<% end %>
