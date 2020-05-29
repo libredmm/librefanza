@@ -22,7 +22,7 @@ module Javlibrary
       headers = Javlibrary::Challenger.headers
       Faraday.new(headers: headers) { |conn|
         conn.use FaradayMiddleware::FollowRedirects
-        conn.use FaradayMiddleware::FollowRedirects
+        conn.response :encoding
         conn.adapter Faraday.default_adapter
       }.get(url).body.encode("UTF-8", invalid: :replace, undef: :replace)
     end
