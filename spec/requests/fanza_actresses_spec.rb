@@ -27,4 +27,17 @@ RSpec.describe "FanzaActresses", type: :request do
       expect(response).to have_http_status(200)
     end
   end
+
+  describe "GET /fanza_actresses/:name" do
+    it "works with known name" do
+      actress = create :fanza_actress
+      get fanza_actress_path(actress)
+      expect(response).to have_http_status(200)
+    end
+
+    it "works with unknown name" do
+      get fanza_actress_path("UNKNOWN")
+      expect(response).to have_http_status(200)
+    end
+  end
 end

@@ -18,9 +18,9 @@
 
 <% end %>
 
-<%if @related_items.present? %>
+<%if @related_movies.present? %>
 
 <h2 class="mb-3">You might be looking for</h2>
-<%= render partial: "movies/cards", object: @related_items %>
+<%= render partial: "movies/cards", object: @related_movies %>
 
 <% end %>

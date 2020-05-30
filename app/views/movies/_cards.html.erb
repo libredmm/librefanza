@@ -1,6 +1,6 @@
 <%= render partial: "layouts/pager", locals: { items: cards, name: "movie" } %>
 
-<% cards.in_groups_of(6).each do |group| %>
+<% to_items(cards).in_groups_of(6).each do |group| %>
 <div class="movies card-group mb-3">
   <% group.each do |item| %>
   <div class="card">
@@ -8,7 +8,7 @@
     <%= link_to image_tag(item.thumbnail_image_url, class: "card-image-top img-fluid mx-auto d-block"), movie_path(item.normalized_id) %>
     <div class="card-body">
       <%= link_to item, class: "card-title" do %>
-      <%= link_to movie_path(item.normalized_id) do %>
+      <%= link_to item.movie do %>
       <h5>
         <%= item.normalized_id %>
       </h5>

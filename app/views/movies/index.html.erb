@@ -4,15 +4,40 @@
 
 <nav class="card mb-3">
     <div class="card-body">
-        <%= form_tag movies_path, method: :get, class: "form-inline", id: "fuzzySearch" do %>
-        <div class="input-group">
-            <%= text_field_tag("fuzzy", params[:fuzzy], class: "form-control") %>
-            <div class="input-group-append">
-                <%= submit_tag "Fuzzy Match", class: "btn btn-success" %>
+        <div class="row">
+            <%= form_tag movies_path, method: :get, class: "form-inline ml-3 mr-3", id: "fuzzySearch" do %>
+            <div class="input-group">
+                <%= text_field_tag("fuzzy", params[:fuzzy], class: "form-control") %>
+                <div class="input-group-append">
+                    <%= submit_tag "Fuzzy Match", class: "btn btn-success" %>
+                </div>
+            </div>
+            <% end %>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-dark" disabled>
+                    Sort by
+                </button>
+                <% %i[ID New].each do |opt| %>
+                <% if @order&.downcase == opt.to_s.downcase %>
+                <%= link_to(
+                                opt.to_s,
+                                request.params.except("page", :order),
+                                class: "btn btn-primary active",
+                                role: "button",
+                            ) %>
+                <% else %>
+                <%= link_to(
+                                opt.to_s,
+                                request.params.except("page").merge(order: opt),
+                                class: "btn btn-secondary",
+                                role: "button",
+                            ) %>
+                <% end %>
+                <% end %>
             </div>
         </div>
-        <% end %>
     </div>
 </nav>
 
-<%= render partial: "movies/cards", object: @items %>
+<%= render partial: "movies/cards", object: @movies %>

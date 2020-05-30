@@ -6,7 +6,7 @@ class FanzaItemsController < ApplicationController
   def index
     @items = FanzaItem.order(:normalized_id).all
     @items = @items.page(params[:page])
-    render "movies/index"
+    render "movies/items"
   end
 
   # GET /fanza_items/1
