@@ -32,11 +32,17 @@ class JavlibraryItem < ApplicationRecord
   end
 
   def cover_image_url
-    html.at_css("#video_jacket_img").attr("src").strip.gsub(/^\/\//, "http://")
+    URI.join(
+      javlibrary_page.url,
+      html.at_css("#video_jacket_img").attr("src").strip
+    ).to_s
   end
 
   def thumbnail_image_url
-    cover_image_url.gsub(/pl\.jpg$/, "ps.jpg")
+    URI.join(
+      javlibrary_page.url,
+      cover_image_url.gsub(/pl\.jpg$/, "ps.jpg")
+    ).to_s
   end
 
   def url
