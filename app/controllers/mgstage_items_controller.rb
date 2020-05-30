@@ -4,7 +4,7 @@ class MgstageItemsController < ApplicationController
   def index
     @items = MgstageItem.order(:normalized_id).all
     @items = @items.page(params[:page])
-    render "movies/index"
+    render "movies/items"
   end
 
   # GET /mgstage_items/1

@@ -1,27 +1,30 @@
 class MoviesController < ApplicationController
-  include ItemsAggregator
-
   def index
-    if params[:fuzzy]
-      @items = fuzzy_match(params[:fuzzy])
-      FanzaItemCrawler.perform_async(params[:fuzzy]) unless @items.empty?
+    @movies = Movie.all
+
+    @order = params[:order]
+    case params[:order]
+    when /new/i
+      @movies = @movies.order(date: :desc, normalized_id: :desc)
     else
-      @items = aggregate_and_paginate(
-        FanzaItem.all,
-        MgstageItem.all,
-        JavlibraryItem.all,
-      )
+      @order = "ID"
+      @movies = @movies.order(:normalized_id)
     end
+
+    if params[:fuzzy]
+      @movies = @movies.where("normalized_id ILIKE ?", "%#{params[:fuzzy]}%")
+      FanzaItemCrawler.perform_async(params[:fuzzy]) if @movies.exists?
+    end
+    @movies = @movies.page(params[:page])
   end
 
   def show
     id = params[:id].upcase
-    @item = FanzaItem.order(date: :desc).find_by(normalized_id: id)
+    @movie = Movie.find_by(normalized_id: id)
+    @item = @movie&.preferred_item
     unless @item
       @searching = MovieSearcher.perform_async id
-      @item = MgstageItem.find_by(normalized_id: id) ||
-              JavlibraryItem.find_by(normalized_id: id)
-      @related_items = fuzzy_match(id)
+      @related_movies = Movie.where("normalized_id ILIKE ?", "%#{id}%").order(:normalized_id).page(params[:page])
     end
 
     respond_to do |format|
@@ -42,19 +45,5 @@ class MoviesController < ApplicationController
         end
       }
     end
-  end
-
-  private
-
-  def fuzzy_match(keyword)
-    fanza_query = FanzaItem.where("normalized_id ILIKE ?", "%#{keyword}%")
-    mgstage_query = MgstageItem.where("normalized_id ILIKE ?", "%#{keyword}%")
-    javlibrary_query = JavlibraryItem.where("normalized_id ILIKE ?", "%#{keyword}%")
-
-    aggregate_and_paginate(
-      fanza_query,
-      mgstage_query,
-      javlibrary_query,
-    )
   end
 end

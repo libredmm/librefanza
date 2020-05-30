@@ -8,6 +8,10 @@ class Movie < ApplicationRecord
   validates :normalized_id, presence: true, uniqueness: true
   validates :compressed_id, presence: true
 
+  self.primary_key = :normalized_id
+
+  paginates_per 30
+
   def derive_fields
     self.compressed_id = Fanza::Id.compress(self.normalized_id)
     self.date = self.preferred_item.date

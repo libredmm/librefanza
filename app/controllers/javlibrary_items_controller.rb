@@ -4,7 +4,7 @@ class JavlibraryItemsController < ApplicationController
   def index
     @items = JavlibraryItem.order(:normalized_id).all
     @items = @items.page(params[:page])
-    render "movies/index"
+    render "movies/items"
   end
 
   # GET /javlibrary_items/1
