@@ -19,14 +19,6 @@ class HouseKeeper
       FanzaItem.find_each(&:derive_fields!)
       MgstageItem.find_each(&:derive_fields!)
       JavlibraryItem.find_each(&:derive_fields!)
-    when :create_movies
-      logger.info "Creating movies"
-      (FanzaItem.pluck(:normalized_id).to_set +
-       MgstageItem.pluck(:normalized_id).to_set +
-       JavlibraryItem.pluck(:normalized_id).to_set -
-       Movie.pluck(:normalized_id).to_set).each do |id|
-        Movie.create(normalized_id: id)
-      end
     else
       logger.warn "Invalid task #{task}"
     end
