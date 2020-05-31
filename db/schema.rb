@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_31_074405) do
+ActiveRecord::Schema.define(version: 2020_05_31_201955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -23,7 +23,9 @@ ActiveRecord::Schema.define(version: 2020_05_31_074405) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["fanza_id"], name: "index_fanza_actresses_on_fanza_id", unique: true
+    t.index ["name"], name: "fuzzy_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["name"], name: "index_fanza_actresses_on_name"
+    t.index ["raw_json"], name: "index_fanza_actresses_on_raw_json", opclass: :jsonb_path_ops, using: :gin
   end
 
   create_table "fanza_items", force: :cascade do |t|
@@ -95,6 +97,7 @@ ActiveRecord::Schema.define(version: 2020_05_31_074405) do
     t.index ["compressed_id"], name: "index_movies_on_compressed_id"
     t.index ["date", "normalized_id"], name: "index_movies_on_date_and_normalized_id"
     t.index ["date"], name: "index_movies_on_date"
+    t.index ["normalized_id", "compressed_id"], name: "index_movies_on_normalized_id_and_compressed_id", opclass: :gin_trgm_ops, using: :gin
     t.index ["normalized_id"], name: "index_movies_on_normalized_id", unique: true
   end
 
