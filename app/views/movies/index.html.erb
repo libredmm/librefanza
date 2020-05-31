@@ -6,6 +6,7 @@
     <div class="card-body">
         <div class="row">
             <%= form_tag movies_path, method: :get, class: "form-inline ml-3 mr-3", id: "fuzzySearch" do %>
+            <input name="order" type="hidden" value="<%= @order %>" />
             <div class="input-group">
                 <%= text_field_tag("fuzzy", params[:fuzzy], class: "form-control") %>
                 <div class="input-group-append">
