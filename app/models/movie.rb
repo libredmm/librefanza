@@ -9,6 +9,7 @@ class Movie < ApplicationRecord
 
   validates :normalized_id, presence: true, uniqueness: true
   validates :compressed_id, presence: true
+  validates :date, presence: true
 
   paginates_per 30
 
