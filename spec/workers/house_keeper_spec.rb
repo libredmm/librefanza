@@ -7,20 +7,20 @@ RSpec.describe HouseKeeper, type: :worker do
     subject.perform :fetch_html
   end
 
-  it "can re-derive movies" do
+  it "can re-derive actress" do
     create(:movie)
     expect_any_instance_of(Movie).to receive(:derive_fields!)
-    subject.perform :derive_movies
+    subject.perform :derive_actresses
   end
 
-  it "can re-derive items" do
+  it "can re-derive fields" do
     create(:fanza_item)
     expect_any_instance_of(FanzaItem).to receive(:derive_fields!)
     create(:mgstage_item)
     expect_any_instance_of(MgstageItem).to receive(:derive_fields!)
     create(:javlibrary_item)
     expect_any_instance_of(JavlibraryItem).to receive(:derive_fields!)
-    subject.perform :derive_items
+    subject.perform :derive_fields
   end
 
   it "ignores invalid task" do
