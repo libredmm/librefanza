@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_31_201955) do
+ActiveRecord::Schema.define(version: 2020_05_31_235219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -92,6 +92,8 @@ ActiveRecord::Schema.define(version: 2020_05_31_201955) do
     t.datetime "date"
     t.integer "actress_fanza_ids", array: true
     t.string "actress_names", array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["actress_fanza_ids"], name: "index_movies_on_actress_fanza_ids", using: :gin
     t.index ["actress_names"], name: "index_movies_on_actress_names", using: :gin
     t.index ["compressed_id"], name: "index_movies_on_compressed_id"
