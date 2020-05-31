@@ -45,7 +45,7 @@ FactoryBot.define do
         },
         iteminfo: {
           actress: [{
-            id: actress.id_fanza,
+            id: actress.fanza_id,
             name: actress.name,
           }],
         },

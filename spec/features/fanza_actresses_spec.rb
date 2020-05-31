@@ -17,9 +17,9 @@ RSpec.feature "FanzaActresses", type: :feature do
 
   context "sorting" do
     before(:each) do
-      create :fanza_actress, id_fanza: 1, name: "Actress A"
-      create :fanza_actress, id_fanza: 2, name: "Actress B"
-      create :fanza_actress, id_fanza: 3, name: "Actress C"
+      create :fanza_actress, fanza_id: 1, name: "Actress A"
+      create :fanza_actress, fanza_id: 2, name: "Actress B"
+      create :fanza_actress, fanza_id: 3, name: "Actress C"
     end
 
     scenario "by new" do

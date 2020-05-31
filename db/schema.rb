@@ -10,19 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_29_173336) do
+ActiveRecord::Schema.define(version: 2020_05_31_074405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
   create_table "fanza_actresses", force: :cascade do |t|
-    t.integer "id_fanza"
+    t.integer "fanza_id"
     t.string "name"
     t.jsonb "raw_json"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["id_fanza"], name: "index_fanza_actresses_on_id_fanza", unique: true
+    t.index ["fanza_id"], name: "index_fanza_actresses_on_fanza_id", unique: true
     t.index ["name"], name: "index_fanza_actresses_on_name"
   end
 
@@ -88,6 +88,10 @@ ActiveRecord::Schema.define(version: 2020_05_29_173336) do
     t.string "normalized_id", null: false
     t.string "compressed_id", null: false
     t.datetime "date"
+    t.integer "actress_fanza_ids", array: true
+    t.string "actress_names", array: true
+    t.index ["actress_fanza_ids"], name: "index_movies_on_actress_fanza_ids", using: :gin
+    t.index ["actress_names"], name: "index_movies_on_actress_names", using: :gin
     t.index ["compressed_id"], name: "index_movies_on_compressed_id"
     t.index ["date", "normalized_id"], name: "index_movies_on_date_and_normalized_id"
     t.index ["date"], name: "index_movies_on_date"
