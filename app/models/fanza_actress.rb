@@ -7,6 +7,19 @@ class FanzaActress < ApplicationRecord
 
   paginates_per 45
 
+  def movies
+    joins = Movie.left_joins(:fanza_items, :mgstage_items, :javlibrary_items)
+    if id_fanza
+      query = joins.where(%{fanza_items.raw_json @> '{"iteminfo": {"actress": [{"id": #{id_fanza}}]}}'})
+    else
+      query = joins.where(%{fanza_items.raw_json @> '{"iteminfo": {"actress": [{"name": "#{name}"}]}}'})
+    end
+    query
+      .or(joins.where("mgstage_items.actress_names @> ARRAY[?]::varchar[]", name))
+      .or(joins.where("javlibrary_items.actress_names @> ARRAY[?]::varchar[]", name))
+      .distinct
+  end
+
   def derive_fields
     self.id_fanza = self.as_struct.id
     self.name = self.as_struct.name.strip

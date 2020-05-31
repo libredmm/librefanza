@@ -22,17 +22,6 @@ class FanzaActressesController < ApplicationController
                FanzaActress.order(:id_fanza).find_by(name: params[:id]) ||
                FanzaActress.new(name: params[:id])
 
-    joins = Movie.left_joins(:fanza_items, :mgstage_items, :javlibrary_items)
-    if @actress.id_fanza
-      @movies = joins.where(%{fanza_items.raw_json @> '{"iteminfo": {"actress": [{"id": #{@actress.id_fanza}}]}}'})
-    else
-      @movies = joins.where(%{fanza_items.raw_json @> '{"iteminfo": {"actress": [{"name": "#{@actress.name}"}]}}'})
-    end
-    @movies = @movies
-      .or(joins.where("mgstage_items.actress_names @> ARRAY[?]::varchar[]", @actress.name))
-      .or(joins.where("javlibrary_items.actress_names @> ARRAY[?]::varchar[]", @actress.name))
-      .distinct
-
-    @movies = @movies.page(params[:page])
+    @movies = @actress.movies.page(params[:page])
   end
 end
