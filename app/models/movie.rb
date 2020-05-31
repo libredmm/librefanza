@@ -14,9 +14,9 @@ class Movie < ApplicationRecord
 
   def derive_fields
     self.compressed_id = Fanza::Id.compress(self.normalized_id)
-    self.date = self.preferred_item.date
-    self.actress_fanza_ids = self.preferred_item.actresses.map(&:fanza_id).reject(&:nil?)
-    self.actress_names = self.preferred_item.actresses.map(&:name).reject(&:nil?)
+    self.date = self.preferred_item&.date
+    self.actress_fanza_ids = self.preferred_item&.actresses&.map(&:fanza_id)&.reject(&:nil?)
+    self.actress_names = self.preferred_item&.actresses&.map(&:name)&.reject(&:nil?)
   end
 
   def preferred_item
