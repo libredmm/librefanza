@@ -16,6 +16,7 @@ class HouseKeeper
       FanzaItem.where(raw_html: nil).find_each(batch_size: 100, &:fetch_html!)
     when :derive_fields
       logger.info "Re-deriving fields"
+      Movie.find_each(batch_size: 100, &:derive_fields!)
       FanzaItem.find_each(batch_size: 100, &:derive_fields!)
       MgstageItem.find_each(batch_size: 100, &:derive_fields!)
       JavlibraryItem.find_each(batch_size: 100, &:derive_fields!)

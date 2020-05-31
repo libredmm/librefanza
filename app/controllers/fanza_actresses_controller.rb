@@ -12,7 +12,7 @@ class FanzaActressesController < ApplicationController
     end
 
     if params[:fuzzy]
-      @actresses = @actresses.where("name ILIKE ?", "%#{params[:fuzzy]}")
+      @actresses = @actresses.where("name ILIKE ?", "%#{params[:fuzzy]}%")
     end
     @actresses = @actresses.page(params[:page])
   end
