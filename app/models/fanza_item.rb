@@ -26,14 +26,12 @@ class FanzaItem < ApplicationRecord
 
   def fetch_html!
     if self.raw_html.blank?
-      self.update_column(
-        :raw_html,
-        Faraday.new { |conn|
-          conn.use FaradayMiddleware::FollowRedirects
-          conn.response :encoding
-          conn.adapter Faraday.default_adapter
-        }.get(self.url).body.encode("UTF-8", invalid: :replace, undef: :replace)
-      )
+      html = Faraday.new { |conn|
+        conn.use FaradayMiddleware::FollowRedirects
+        conn.response :encoding
+        conn.adapter Faraday.default_adapter
+      }.get(self.url).body.encode("UTF-8", invalid: :replace, undef: :replace).gsub("\u0000", "")
+      self.update_column(:raw_html, html)
     end
   end
 
