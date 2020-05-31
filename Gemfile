@@ -53,6 +53,10 @@ group :test do
   gem "webmock"
 end
 
+group :production do
+  gem "honeybadger"
+end
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
@@ -69,4 +73,3 @@ gem "clearance"
 gem "rack-mini-profiler"
 gem "faraday_middleware"
 gem "faraday-encoding"
-gem "honeybadger"

@@ -70,8 +70,8 @@ class FanzaItem < ApplicationRecord
   end
 
   def actresses
-    as_struct.iteminfo.actress&.map { |info|
-      FanzaActress.find_by(id_fanza: info.id) || OpenStruct.new(name: info.name&.strip)
+    as_struct.iteminfo&.actress&.map { |info|
+      FanzaActress.find_by(fanza_id: info.id) || OpenStruct.new(name: info.name&.strip)
     } || []
   end
 

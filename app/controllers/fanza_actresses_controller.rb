@@ -8,7 +8,7 @@ class FanzaActressesController < ApplicationController
       @actresses = @actresses.order(:name)
     else
       @order = "New"
-      @actresses = @actresses.order(id_fanza: :desc)
+      @actresses = @actresses.order(fanza_id: :desc)
     end
 
     if params[:fuzzy]
@@ -18,8 +18,8 @@ class FanzaActressesController < ApplicationController
   end
 
   def show
-    @actress = FanzaActress.find_by(id_fanza: params[:id]) ||
-               FanzaActress.order(:id_fanza).find_by(name: params[:id]) ||
+    @actress = FanzaActress.find_by(fanza_id: params[:id]) ||
+               FanzaActress.order(:fanza_id).find_by(name: params[:id]) ||
                FanzaActress.new(name: params[:id])
 
     @movies = @actress.movies.page(params[:page])

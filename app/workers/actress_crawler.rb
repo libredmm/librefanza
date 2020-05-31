@@ -14,7 +14,7 @@ class ActressCrawler
     Fanza::Api.actress_search(offset: offset) do |json|
       actress = FanzaActress.create(raw_json: json)
       unless actress.persisted?
-        actress = FanzaActress.find_by(id_fanza: actress.id_fanza)
+        actress = FanzaActress.find_by(fanza_id: actress.fanza_id)
         actress.raw_json = json
         actress.derive_fields
         actress.save

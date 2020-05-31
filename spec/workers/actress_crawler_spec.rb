@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe ActressCrawler, type: :worker do
   it "creates actresses" do
     10.times do |i|
-      create :fanza_actress, id_fanza: i + 1
+      create :fanza_actress, fanza_id: i + 1
     end
 
     expect {
@@ -15,7 +15,7 @@ RSpec.describe ActressCrawler, type: :worker do
 
   it "updates existing actresses" do
     10.times do |i|
-      create :fanza_actress, id_fanza: i + 1
+      create :fanza_actress, fanza_id: i + 1
     end
     expect {
       subject.perform(10)

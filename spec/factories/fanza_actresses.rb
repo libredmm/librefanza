@@ -1,5 +1,5 @@
 FactoryBot.define do
-  sequence(:id_fanza)
+  sequence(:fanza_id)
 
   sequence(:name) do |i|
     "Actress #{i}"
@@ -7,13 +7,13 @@ FactoryBot.define do
 
   factory :fanza_actress do
     transient {
-      id_fanza
+      fanza_id
       name
     }
 
     raw_json {
       {
-        id: id_fanza,
+        id: fanza_id,
         name: name,
         imageURL: {
           large: generate(:url),
