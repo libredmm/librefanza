@@ -13,7 +13,14 @@ class FanzaItemsController < ApplicationController
   # GET /fanza_items/1.json
   def show
     @item = FanzaItem.find(params[:id])
-    render "movies/show"
+    respond_to do |format|
+      format.html {
+        render "movies/show"
+      }
+      format.json {
+        render json: JSON.pretty_generate(@item.raw_json)
+      }
+    end
   end
 
   # DELETE /fanza_items/1
