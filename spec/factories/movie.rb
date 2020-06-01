@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :movie do
-    normalized_id
+    initialize_with {
+      create(:fanza_item).movie
+    }
   end
 end

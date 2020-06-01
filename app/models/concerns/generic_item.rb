@@ -15,7 +15,7 @@ module GenericItem
     if movie
       movie.touch
     else
-      create_movie(normalized_id: self.normalized_id)
+      create_movie!(normalized_id: self.normalized_id)
     end
   end
 
