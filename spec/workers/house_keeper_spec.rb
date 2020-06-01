@@ -8,7 +8,9 @@ RSpec.describe HouseKeeper, type: :worker do
   end
 
   it "can re-derive actress" do
-    create(:movie)
+    movie = create(:movie)
+    movie.update_column(:actress_fanza_ids, nil)
+    movie.update_column(:actress_names, nil)
     expect_any_instance_of(Movie).to receive(:derive_fields!)
     subject.perform :derive_actresses
   end
