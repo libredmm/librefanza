@@ -22,6 +22,6 @@ class FanzaActressesController < ApplicationController
                FanzaActress.order(:fanza_id).find_by(name: params[:id]) ||
                FanzaActress.new(name: params[:id])
 
-    @movies = @actress.movies.page(params[:page])
+    @movies = @actress.movies.order(:normalized_id).page(params[:page])
   end
 end
