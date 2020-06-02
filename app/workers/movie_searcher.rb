@@ -66,6 +66,8 @@ class MovieSearcher
   end
 
   def search_on_javlibrary(keyword)
+    return if ENV["SKIP_JAVLIBRARY"]
+
     if JavlibraryItem.where(normalized_id: keyword).exists?
       logger.info "#{keyword} alreay found on Javlibrary"
       return true
