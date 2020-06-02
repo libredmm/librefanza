@@ -50,6 +50,10 @@ module Fanza
         alphas = "T28"
         digits = digits[-3..-1]
       end
+      if alphas == "R" and digits =~ /^18(00)?\d{3}$/
+        alphas = "R18"
+        digits = digits[-3..-1]
+      end
 
       @compressed = "#{alphas}-#{digits.to_i}"
       digits = "%03d" % digits.to_i if digits.length != 2
