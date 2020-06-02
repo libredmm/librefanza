@@ -46,11 +46,11 @@ module Fanza
 
       alphas = groups[alpha_idx...digit_idx].join.upcase
       digits = groups[digit_idx]
-      if alphas == "T" and digits =~ /^28(00)?\d{3}$/
+      if alphas == "T" and digits =~ /^280{0,2}\d{3}$/
         alphas = "T28"
         digits = digits[-3..-1]
       end
-      if alphas == "R" and digits =~ /^18(00)?\d{3}$/
+      if alphas == "R" and digits =~ /^180{0,2}\d{3}$/
         alphas = "R18"
         digits = digits[-3..-1]
       end
