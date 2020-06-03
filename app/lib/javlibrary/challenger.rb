@@ -7,14 +7,14 @@ module Javlibrary
     def self.headers
       {
         "User-Agent" => self.user_agent,
-        "Cookie" => "cf_clearance=#{self.cf_clearance}",
+        "Cookie" => "cf_clearance=#{self.cf_clearance}; over18=18",
       }
     end
 
     private
 
     def self.user_agent
-      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Safari/537.36"
     end
 
     def self.cf_clearance
@@ -23,16 +23,24 @@ module Javlibrary
           Rails.logger.info "Refreshing cf clearance"
           Selenium::WebDriver::Chrome.path = ENV["GOOGLE_CHROME_SHIM"] if ENV["GOOGLE_CHROME_SHIM"].present?
           options = Selenium::WebDriver::Chrome::Options.new
-          options.add_argument("headless")
+          # options.headless!
           options.add_argument("user-agent=#{self.user_agent}")
+          options.add_argument("remote-debugging-port=9222")
+          options.add_argument("disable-blink-features=AutomationControlled")
           driver = Selenium::WebDriver.for(:chrome, options: options)
-          Rails.logger.info "Driver user agent: #{driver.execute_script("return navigator.userAgent")}"
           driver.navigate.to "http://www.javlibrary.com/ja/"
-          wait = Selenium::WebDriver::Wait.new(:timeout => 60)
-          prompt = wait.until { driver.find_element(css: "#adultwarningprompt input") }
-          prompt.click
-
-          driver.manage.cookie_named("cf_clearance")[:value]
+          sleep(10)
+          sleeped = 10
+          while true
+            begin
+              return driver.manage.cookie_named("cf_clearance")[:value]
+            rescue Selenium::WebDriver::Error::NoSuchCookieError
+              raise if sleeped >= 30
+              Rails.logger.debug "Waiting for browser to auto redirect"
+              sleep(5)
+              sleeped += 5
+            end
+          end
         ensure
           driver.quit if driver
         end
