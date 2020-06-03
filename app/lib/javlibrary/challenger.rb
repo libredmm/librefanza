@@ -31,9 +31,11 @@ module Javlibrary
           driver.navigate.to "http://www.javlibrary.com/ja/"
           sleep(10)
           sleeped = 10
+          clearance = nil
           while true
             begin
-              return driver.manage.cookie_named("cf_clearance")[:value]
+              clearance = driver.manage.cookie_named("cf_clearance")[:value]
+              break
             rescue Selenium::WebDriver::Error::NoSuchCookieError
               raise if sleeped >= 30
               Rails.logger.debug "Waiting for browser to auto redirect"
@@ -41,6 +43,7 @@ module Javlibrary
               sleeped += 5
             end
           end
+          clearance
         ensure
           driver.quit if driver
         end
