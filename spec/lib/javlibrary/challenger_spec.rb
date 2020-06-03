@@ -5,6 +5,7 @@ RSpec.describe Javlibrary::Challenger do
     driver = spy(:driver)
     allow(driver).to receive_message_chain("manage.cookie_named").and_return({ value: "delicious" })
     allow(Selenium::WebDriver).to receive(:for).and_return(driver)
+    allow(Javlibrary::Challenger).to receive(:sleep)
   end
 
   describe "#headers" do
