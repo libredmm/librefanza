@@ -3,7 +3,7 @@ class MovieSearcher
 
   sidekiq_options(
     queue: :default,
-    retry: 3,
+    retry: true,
     lock: :until_expired,
     lock_ttl: 1.hour.to_i,
     on_conflict: :log,
@@ -22,8 +22,11 @@ class MovieSearcher
       return
     end
 
-    found = search_on_fanza(keyword) || search_on_mgstage(keyword) || search_on_javlibrary(keyword)
-    logger.warn "#{keyword} not found anywhere" unless found
+    found = search_on_fanza(keyword) || search_on_mgstage(keyword)
+    unless found
+      logger.info "#{keyword} not found anywhere, schedule for javlibrary scrape"
+      JavlibraryScraper.perform_async keyword
+    end
   end
 
   def search_on_fanza(keyword)
