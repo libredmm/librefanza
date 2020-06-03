@@ -10,21 +10,8 @@ class JavlibraryScraper
   )
 
   def perform(keyword)
-    unless keyword =~ /^[[:ascii:]]+$/
-      logger.info "#{keyword} not searchable, ignored"
-      return
-    end
-
     keyword = Fanza::Id.normalize keyword
-    unless Fanza::Id.normalized? keyword
-      logger.info "#{keyword} is not normalized"
-      return
-    end
 
-    search_on_javlibrary(keyword)
-  end
-
-  def search_on_javlibrary(keyword)
     if JavlibraryItem.where(normalized_id: keyword).exists?
       logger.info "#{keyword} alreay found on Javlibrary"
       return true

@@ -7,8 +7,6 @@ RSpec.describe MovieSearcher, type: :worker do
     html = [generate(:url), "<html></html>"]
     allow(Mgstage::Api).to receive(:search).and_yield(url, html)
     allow(MgstagePage).to receive(:create)
-    allow(Javlibrary::Api).to receive(:search).and_yield(url, html)
-    allow(JavlibraryPage).to receive(:create)
   end
 
   it "ignores non ascii keyword" do
@@ -36,7 +34,7 @@ RSpec.describe MovieSearcher, type: :worker do
 
       subject.perform id
       expect(Mgstage::Api).not_to have_received(:search)
-      expect(Javlibrary::Api).not_to have_received(:search)
+      expect(JavlibraryScraper).not_to have_enqueued_sidekiq_job
     end
   end
 
@@ -73,42 +71,16 @@ RSpec.describe MovieSearcher, type: :worker do
             page
           }
           subject.perform id
-          expect(Javlibrary::Api).not_to have_received(:search)
+          expect(JavlibraryScraper).not_to have_enqueued_sidekiq_job
         end
       end
 
       context "not found on mgstage" do
-        context "previously found on javlibrary" do
-          it "stops there javlibrary next" do
-            item = create :javlibrary_item
-            id = item.normalized_id
+        it "schedules a javlibrary scraper job" do
+          id = generate :normalized_id
 
-            subject.perform id
-            expect(Javlibrary::Api).not_to have_received(:search).with(id)
-          end
-        end
-
-        context "not previously found on javlibrary" do
-          it "searches javlibrary next" do
-            id = generate :normalized_id
-
-            subject.perform id
-            expect(Javlibrary::Api).to have_received(:search).with(id)
-          end
-
-          context "found on javlibrary" do
-            it "would be happy" do
-              id = generate :normalized_id
-
-              expect(JavlibraryPage).to receive(:find_or_initialize_by) {
-                page = create :javlibrary_product_page
-                page.javlibrary_item.update_column(:normalized_id, id)
-                expect(page).to receive(:save)
-                page
-              }
-              subject.perform id
-            end
-          end
+          subject.perform id
+          expect(JavlibraryScraper).to have_enqueued_sidekiq_job(id)
         end
       end
     end
