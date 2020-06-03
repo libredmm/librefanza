@@ -2,7 +2,7 @@ class JavlibraryScraper
   include Sidekiq::Worker
 
   sidekiq_options(
-    queue: :macos,
+    queue: :sidecar,
     retry: false,
     lock: :until_expired,
     lock_ttl: 1.day.to_i,
