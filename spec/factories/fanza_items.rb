@@ -49,7 +49,6 @@ FactoryBot.define do
             name: actress.name,
           }],
         },
-        date: DateTime.now.to_s,
       }
     }
   end
