@@ -102,14 +102,15 @@ RSpec.describe Fanza::Id do
     context "of normalzied id" do
       it "works" do
         {
-          "ABP-123" => Set["ABP-123", "abp123", "abp00123"],
-          "ABP-001" => Set["ABP-001", "abp001", "abp00001"],
+          "ABP-123" => Set["ABP-123", "ABP-0123", "abp123", "abp00123"],
+          "ABP-001" => Set["ABP-001", "ABP-0001", "abp001", "abp00001"],
           "XV-1001" => Set["XV-1001", "xv1001", "xv01001"],
           "HODV-60069" => Set["HODV-60069", "hodv60069"],
-          "T28-526" => Set["T28-526", "t28526", "t2800526"],
-          "3DSVR-003" => Set["3DSVR-003", "3dsvr003", "3dsvr00003"],
-          "DSVR-005" => Set["DSVR-005", "dsvr005", "dsvr00005"],
-          "EXVR-092" => Set["EXVR-092", "exvr092", "exvr00092"],
+          "T28-526" => Set["T28-526", "T28-0526", "t28526", "t2800526"],
+          "3DSVR-003" => Set["3DSVR-003", "3DSVR-0003", "3dsvr003", "3dsvr00003"],
+          "DSVR-005" => Set["DSVR-005", "DSVR-0005", "dsvr005", "dsvr00005"],
+          "EXVR-092" => Set["EXVR-092", "EXVR-0092", "exvr092", "exvr00092"],
+          "SRTD-117" => Set["SRTD-117", "SRTD-0117", "srtd117", "srtd00117"],
         }.each do |original, variations|
           expect(Fanza::Id.variations(original)).to eq(variations)
         end
