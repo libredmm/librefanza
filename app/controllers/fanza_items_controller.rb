@@ -18,7 +18,7 @@ class FanzaItemsController < ApplicationController
         render "movies/show"
       }
       format.json {
-        render json: JSON.pretty_generate(@item.raw_json)
+        render json: JSON.pretty_generate(@item.safe_json)
       }
     end
   end

@@ -36,7 +36,11 @@ class FanzaItem < ApplicationRecord
   end
 
   def as_struct
-    RecursiveOpenStruct.new(raw_json, recurse_over_arrays: true)
+    RecursiveOpenStruct.new(safe_json, recurse_over_arrays: true)
+  end
+
+  def safe_json
+    raw_json.except("affiliateURL", "affiliateURLsp")
   end
 
   def html
