@@ -15,7 +15,7 @@
         <tr>
             <td><%= link_to page.id, page %></td>
             <td><%= link_to page.url, page.url %></td>
-            <td><%= page.created_at %></td>
+            <td><%= page.created_at.in_time_zone("Pacific Time (US & Canada)") %></td>
             <td>
                 <% if page.item %>
                 <%= link_to page.item.normalized_id, page.item %>
