@@ -61,6 +61,7 @@ module Fanza
 
       @variations = Set[
         @normalized,
+        ("%s-%04d" % [alphas, digits.to_i]).upcase,
         ("%s%03d" % [alphas, digits.to_i]).downcase,
         ("%s%05d" % [alphas, digits.to_i]).downcase,
       ]
