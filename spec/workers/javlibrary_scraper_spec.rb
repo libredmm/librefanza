@@ -33,7 +33,7 @@ RSpec.describe JavlibraryScraper, type: :worker do
         expect(JavlibraryPage).to receive(:find_or_initialize_by) {
           page = create :javlibrary_product_page
           page.javlibrary_item.update_column(:normalized_id, id)
-          expect(page).to receive(:save)
+          expect(page).to receive(:save!)
           page
         }
         subject.perform id
