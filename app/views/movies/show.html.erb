@@ -32,7 +32,7 @@
   <div class="col-md-4">
     <dl>
       <dt>Thumbnail Image</dt>
-      <dd><%= image_tag @item.thumbnail_image_url %></dd>
+      <dd><%= image_tag @item.thumbnail_image_url, class: "img-fluid" %></dd>
 
       <dt>Release Date</dt>
       <dd><%= @item.date.to_date %></dd>
