@@ -23,9 +23,7 @@ module Javlibrary
           Rails.logger.info "Refreshing cf clearance"
           Selenium::WebDriver::Chrome.path = ENV["GOOGLE_CHROME_SHIM"] if ENV["GOOGLE_CHROME_SHIM"].present?
           options = Selenium::WebDriver::Chrome::Options.new
-          # options.headless!
           options.add_argument("user-agent=#{self.user_agent}")
-          options.add_argument("remote-debugging-port=9222")
           options.add_argument("disable-blink-features=AutomationControlled")
           driver = Selenium::WebDriver.for(:chrome, options: options)
           driver.navigate.to "http://www.javlibrary.com/ja/"
@@ -37,7 +35,7 @@ module Javlibrary
               clearance = driver.manage.cookie_named("cf_clearance")[:value]
               break
             rescue Selenium::WebDriver::Error::NoSuchCookieError
-              raise if sleeped >= 30
+              raise if sleeped >= 300
               Rails.logger.debug "Waiting for browser to auto redirect"
               sleep(5)
               sleeped += 5
