@@ -18,4 +18,13 @@ RSpec.describe GapFiller, type: :worker do
     expect(MovieSearcher).to have_enqueued_sidekiq_job("ABC-001")
     expect(MovieSearcher).to have_enqueued_sidekiq_job("ABC-002")
   end
+
+  it "stops at 999" do
+    create :fanza_item, content_id: "ABC-1111"
+
+    subject.perform "ABC"
+
+    expect(MovieSearcher).to have_enqueued_sidekiq_job("ABC-999")
+    expect(MovieSearcher).not_to have_enqueued_sidekiq_job("ABC-1000")
+  end
 end

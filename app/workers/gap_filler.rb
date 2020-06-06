@@ -14,6 +14,7 @@ class GapFiller
     }.reject(&:nil?).to_set
     return if nums.empty?
     1.upto(nums.max) do |i|
+      break if i > 999
       MovieSearcher.perform_async("%s-%03d" % [prefix, i]) unless i.in? nums
     end
   end
