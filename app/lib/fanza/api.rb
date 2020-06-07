@@ -1,6 +1,6 @@
 module Fanza
   class Api
-    def self.search(keyword, sort: "match")
+    def self.search(keyword: nil, sort: "match")
       return to_enum(:search, keyword, sort: sort) unless block_given?
 
       Fanza::Id.variations(keyword).each do |variation|

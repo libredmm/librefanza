@@ -12,7 +12,7 @@ class FanzaItemCrawler
   def perform(keyword)
     logger.info "Crawling #{keyword} on Fanza"
     failure_in_a_row = 0
-    Fanza::Api.search(keyword, sort: "date") do |json|
+    Fanza::Api.search(keyword: keyword, sort: "date") do |json|
       item = FanzaItem.create(
         raw_json: json,
       )

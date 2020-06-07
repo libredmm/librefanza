@@ -25,7 +25,7 @@ RSpec.describe MovieSearcher, type: :worker do
     id = generate :normalized_id
 
     subject.perform id
-    expect(Fanza::Api).to have_received(:search).with(id)
+    expect(Fanza::Api).to have_received(:search).with(keyword: id)
   end
 
   context "found on fanza" do
