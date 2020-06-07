@@ -10,13 +10,6 @@ class HouseKeeper
 
   def perform(task)
     case task.to_sym
-    when :fetch_html
-      logger.info "Fetching missing raw HTMLs"
-      FanzaItem.where(raw_html: "").find_each(batch_size: 100, &:fetch_html!)
-      FanzaItem.where(raw_html: nil).find_each(batch_size: 100, &:fetch_html!)
-    when :derive_actresses
-      logger.info "Re-deriving actresses"
-      Movie.where(actress_fanza_ids: nil).find_each(batch_size: 100, &:derive_fields!)
     when :derive_fields
       logger.info "Re-deriving fields"
       Movie.find_each(batch_size: 100, &:derive_fields!)
