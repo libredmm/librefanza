@@ -2,12 +2,14 @@ class MoviesController < ApplicationController
   def index
     @movies = Movie.all
 
-    @order = params[:order]
-    case params[:order]
-    when /new/i
+    @order = params[:order]&.downcase&.to_sym
+    case @order
+    when :release_date
       @movies = @movies.order(date: :desc, normalized_id: :desc)
+    when :date_added
+      @movies = @movies.order(id: :desc)
     else
-      @order = "ID"
+      @order = :title
       @movies = @movies.order(:normalized_id)
     end
 
