@@ -5,7 +5,7 @@ RSpec.describe Fanza::Api do
     it "delegates to item_list" do
       id = generate :normalized_id
       expect(Fanza::Api).to receive(:item_list).at_least(:twice)
-      Fanza::Api.search(id) { next }
+      Fanza::Api.search(keyword: id) { next }
     end
   end
 
