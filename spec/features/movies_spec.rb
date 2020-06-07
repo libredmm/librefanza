@@ -11,19 +11,24 @@ RSpec.feature "Movies", type: :feature do
 
   context "sorting" do
     before(:each) do
-      create :fanza_item, content_id: "AA"
-      create :fanza_item, content_id: "BB"
-      create :fanza_item, content_id: "CC"
+      create :fanza_item, content_id: "AA", date: 3.day.ago
+      create :fanza_item, content_id: "BB", date: 1.day.ago
+      create :fanza_item, content_id: "CC", date: 2.day.ago
     end
 
-    scenario "by new" do
-      visit movies_path(order: "new")
-      expect(page).to have_text(/CC.+BB.+AA/m)
-    end
-
-    scenario "by id" do
-      visit movies_path(order: "id")
+    scenario "by title" do
+      visit movies_path(order: "title")
       expect(page).to have_text(/AA.+BB.+CC/m)
+    end
+
+    scenario "by release date" do
+      visit movies_path(order: "release_date")
+      expect(page).to have_text(/BB.+CC.+AA/m)
+    end
+
+    scenario "by date added" do
+      visit movies_path(order: "date_added")
+      expect(page).to have_text(/CC.+BB.+AA/m)
     end
   end
 end

@@ -19,17 +19,17 @@
                 <button type="button" class="btn btn-outline-dark" disabled>
                     Sort by
                 </button>
-                <% %i[ID New].each do |opt| %>
-                <% if @order&.downcase == opt.to_s.downcase %>
+                <% (signed_in_as_admin? ? %i[title release_date date_added] : %i[title release_date]).each do |opt| %>
+                <% if @order == opt %>
                 <%= link_to(
-                                opt.to_s,
+                                opt.to_s.titleize,
                                 request.params.except("page", :order),
                                 class: "btn btn-primary active",
                                 role: "button",
                             ) %>
                 <% else %>
                 <%= link_to(
-                                opt.to_s,
+                                opt.to_s.titleize,
                                 request.params.except("page").merge(order: opt),
                                 class: "btn btn-secondary",
                                 role: "button",

@@ -21,7 +21,7 @@ FactoryBot.define do
       floor_code { "dvd" }
       content_id
       title
-      maker_product { nil }
+      date { DateTime.now }
       actress { create(:fanza_actress) }
     end
 
@@ -38,7 +38,7 @@ FactoryBot.define do
         },
         affiliateURL: generate(:url),
         affiliateURLsp: generate(:url),
-        date: DateTime.now.to_s,
+        date: date.to_s,
         review: {
           count: 10,
           average: 4.0,
