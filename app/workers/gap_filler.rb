@@ -3,7 +3,6 @@ class GapFiller
 
   sidekiq_options(
     queue: :low,
-    retry: false,
     lock: :until_and_while_executing,
     on_conflict: { client: :log, server: :reject },
   )

@@ -3,7 +3,6 @@ class MovieSearcher
 
   sidekiq_options(
     queue: :default,
-    retry: true,
     lock: :until_expired,
     lock_ttl: 1.hour.to_i,
     on_conflict: :log,
@@ -32,9 +31,7 @@ class MovieSearcher
   def search_on_fanza(keyword)
     logger.info "Searching #{keyword} on Fanza"
     Fanza::Api.search(keyword: keyword) do |json|
-      item = FanzaItem.create(
-        raw_json: json,
-      )
+      item = FanzaItem.create(raw_json: json)
       break if item.normalized_id == keyword
     end
 
