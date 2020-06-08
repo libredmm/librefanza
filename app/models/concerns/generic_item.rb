@@ -4,6 +4,7 @@ module GenericItem
   included do
     belongs_to :movie, foreign_key: :normalized_id, primary_key: :normalized_id, optional: true
     after_save :create_or_update_movie
+    after_destroy :destroy_obsolete_movie
   end
 
   def create_or_update_movie
@@ -17,6 +18,11 @@ module GenericItem
     else
       create_movie!(normalized_id: self.normalized_id)
     end
+  end
+
+  def destroy_obsolete_movie
+    movie = Movie.find_by(normalized_id: normalized_id)
+    movie.destroy if movie && !movie.preferred_item
   end
 
   def attributes

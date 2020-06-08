@@ -18,6 +18,27 @@ RSpec.shared_examples "generic item" do
         subject.movie.normalized_id
       }.to("CHANGED-001")
     end
+
+    it "destroys old obsolete movie" do
+      old_id = subject.normalized_id
+      new_id = "#{old_id}1"
+      expect {
+        subject.update(normalized_id: new_id)
+      }.to change {
+        Movie.exists?(normalized_id: old_id)
+      }.from(true).to(false)
+    end
+  end
+
+  context "on destroy" do
+    it "destroys old obsolete movie" do
+      id = subject.normalized_id
+      expect {
+        subject.destroy
+      }.to change {
+        Movie.exists?(normalized_id: id)
+      }.from(true).to(false)
+    end
   end
 
   describe ".derive_fields!" do
