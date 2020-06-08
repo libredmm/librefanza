@@ -3,5 +3,5 @@
 :queues:
   - critical
   - default
-  - low
   - sidecar
+  - low
