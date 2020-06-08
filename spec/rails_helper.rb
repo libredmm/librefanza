@@ -78,7 +78,7 @@ RSpec.configure do |config|
             items: [{
               service_code: request.uri.query_values["service"],
               floor_code: request.uri.query_values["floor"],
-              content_id: request.uri.query_values["keyword"],
+              content_id: request.uri.query_values["keyword"] || generate(:normalized_id),
               title: "Title",
               URL: generate(:url),
               imageURL: {

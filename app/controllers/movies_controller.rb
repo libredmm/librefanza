@@ -13,10 +13,7 @@ class MoviesController < ApplicationController
       @movies = @movies.order(:normalized_id)
     end
 
-    if params[:fuzzy]
-      @movies = @movies.where("normalized_id ILIKE ?", "%#{params[:fuzzy]}%")
-      FanzaItemCrawler.perform_async(params[:fuzzy]) if @movies.exists?
-    end
+    @movies = @movies.where("normalized_id ILIKE ?", "%#{params[:fuzzy]}%") if params[:fuzzy]
     @movies = @movies.page(params[:page])
   end
 

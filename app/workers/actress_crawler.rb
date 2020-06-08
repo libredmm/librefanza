@@ -3,7 +3,6 @@ class ActressCrawler
 
   sidekiq_options(
     queue: :critical,
-    retry: false,
     lock: :until_and_while_executing,
     on_conflict: { client: :log, server: :reject },
   )

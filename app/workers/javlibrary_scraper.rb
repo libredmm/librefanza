@@ -3,9 +3,8 @@ class JavlibraryScraper
 
   sidekiq_options(
     queue: :sidecar,
-    retry: true,
     lock: :until_expired,
-    lock_ttl: 1.day.to_i,
+    lock_ttl: 1.hour.to_i,
     on_conflict: :log,
   )
 
