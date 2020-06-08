@@ -14,11 +14,9 @@ RSpec.describe MovieSearcher, type: :worker do
     subject.perform "你好"
   end
 
-  it "crawls un-normalizable keyword" do
-    keyword = "abc"
+  it "ignores un-normalizable keyword" do
     expect(Fanza::Api).not_to receive(:search)
-    subject.perform keyword
-    expect(FanzaItemCrawler).to have_enqueued_sidekiq_job(keyword)
+    subject.perform "abc"
   end
 
   it "searches fanza first" do

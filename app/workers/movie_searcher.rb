@@ -16,8 +16,7 @@ class MovieSearcher
 
     keyword = Fanza::Id.normalize keyword
     unless Fanza::Id.normalized? keyword
-      logger.info "#{keyword} is not normalized, try crawl instead of search"
-      FanzaItemCrawler.perform_async keyword
+      logger.info "#{keyword} is not normalized"
       return
     end
 
