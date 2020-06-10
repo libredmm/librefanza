@@ -7,8 +7,7 @@
     <% if item %>
     <%= link_to image_tag(item.thumbnail_image_url, class: "card-image-top img-fluid mx-auto d-block"), movie_path(item.normalized_id) %>
     <div class="card-body">
-      <%= link_to item, class: "card-title" do %>
-      <%= link_to item.movie do %>
+      <%= link_to item.movie, class: "card-title" do %>
       <h5>
         <%= item.normalized_id %>
       </h5>
@@ -17,7 +16,6 @@
           <%= item.title %>
         </small>
       </h6>
-      <% end %>
       <% end %>
     </div>
     <% end %>
