@@ -100,4 +100,8 @@ class FanzaItem < ApplicationRecord
   def directors
     as_struct.iteminfo&.director&.map(&:name)&.map(&:strip) || []
   end
+
+  def logo_url
+    "https://p.dmm.co.jp/p/affiliate/web_service/r18_88_35.gif"
+  end
 end
