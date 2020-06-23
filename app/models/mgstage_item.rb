@@ -92,4 +92,8 @@ class MgstageItem < ApplicationRecord
   def directors
     []
   end
+
+  def logo_url
+    "https://static.mgstage.com/mgs/img/pc/top_logo.jpg"
+  end
 end

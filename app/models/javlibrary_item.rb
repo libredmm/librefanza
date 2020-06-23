@@ -82,4 +82,8 @@ class JavlibraryItem < ApplicationRecord
   def directors
     html.css("span.director").map(&:text).map(&:strip) || []
   end
+
+  def logo_url
+    "http://www.javlibrary.com/img/logo-main-big.gif"
+  end
 end

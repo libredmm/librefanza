@@ -60,9 +60,18 @@
         External Links
       </dt>
       <dd>
-        <%= link_to "https://www.javbus.com/search/#{@item.normalized_id}" do %>
-        <%= image_tag "https://www.javbus.com/images/logo.png", class: "img-fluid javbus" %>
-        <% end %>
+        <ul class="list-inline external-links">
+          <li class="list-inline-item">
+            <%= link_to @item.url do %>
+            <%= image_tag @item.logo_url, class: "img-fluid" %>
+            <% end %>
+          </li>
+          <li class="list-inline-item">
+            <%= link_to "https://www.javbus.com/search/#{@item.normalized_id}" do %>
+            <%= image_tag "https://www.javbus.com/images/logo.png", class: "img-fluid javbus" %>
+            <% end %>
+          </li>
+        </ul>
       </dd>
     </dl>
   </div>

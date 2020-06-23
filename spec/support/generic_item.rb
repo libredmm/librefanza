@@ -1,5 +1,5 @@
 RSpec.shared_examples "generic item" do
-  %i[actresses cover_image_url date description directors genres labels makers review subtitle thumbnail_image_url title url].each do |key|
+  %i[actresses cover_image_url date description directors genres labels logo_url makers review subtitle thumbnail_image_url title url].each do |key|
     it "has #{key}" do
       expect(subject.send(key)).not_to be_nil
     end
