@@ -31,7 +31,6 @@ class MovieSearcher
     logger.info "Searching #{keyword} on Fanza"
     Fanza::Api.search(keyword: keyword) do |json|
       item = FanzaItem.create(raw_json: json)
-      break if item.normalized_id == keyword
     end
 
     if FanzaItem.where(normalized_id: keyword).exists?
@@ -52,7 +51,6 @@ class MovieSearcher
 
     Mgstage::Api.search(keyword) do |url, raw_html|
       page = MgstagePage.create(url: url, raw_html: raw_html)
-      break if page&.mgstage_item&.normalized_id == keyword
     end
 
     if MgstageItem.where(normalized_id: keyword).exists?
