@@ -23,7 +23,9 @@
           <dt class="col-md-3">Item Page</dt>
           <dd class="col-md-9"><%= link_to url_for(@item), @item %></dd>
           <dt class="col-md-3">Data Source</dt>
-          <dd class="col-md-9"><%= link_to @item.url, @item.url %></dd>
+          <dd class="col-md-9 text-truncate"><%= link_to @item.url, @item.url %></dd>
+          <dt class="col-md-3">Date Added</dt>
+          <dd class="col-md-9"><%= time_tag @item.created_at %></dd>
         </dl>
       </div>
     </div>
