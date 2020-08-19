@@ -21,8 +21,8 @@ class Movie < ApplicationRecord
   end
 
   def preferred_item
-    self.fanza_items.order(date: :desc).first ||
-      self.mgstage_items.first ||
+    self.mgstage_items.first ||
+      self.fanza_items.order(date: :desc).first ||
       self.javlibrary_items.first
   end
 end
