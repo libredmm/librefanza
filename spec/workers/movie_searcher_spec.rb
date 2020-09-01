@@ -14,6 +14,23 @@ RSpec.describe MovieSearcher, type: :worker do
     subject.perform "你好"
   end
 
+  context "with blackhole pattern" do
+    it "blackholes matched keyword" do
+      ENV["BLACKHOLE_PATTERN"] = "(carib|pondo)"
+      expect(Fanza::Api).not_to receive(:search)
+      subject.perform "CARIBPR-200901"
+    end
+  end
+
+  context "without blackhole pattern" do
+    it "blackholes nothing" do
+      ENV["BLACKHOLE_PATTERN"] = nil
+      id = "CARIBPR-200901"
+      subject.perform id
+      expect(Fanza::Api).to have_received(:search).with(keyword: id)
+    end
+  end
+
   it "ignores un-normalizable keyword" do
     expect(Fanza::Api).not_to receive(:search)
     subject.perform "abc"
