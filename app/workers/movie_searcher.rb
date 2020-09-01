@@ -14,6 +14,11 @@ class MovieSearcher
       return
     end
 
+    if keyword =~ Regexp.new(ENV.fetch("BLACKHOLE_PATTERN", "^$"), Regexp::IGNORECASE)
+      logger.info "#{keyword} blackholed"
+      return
+    end
+
     keyword = Fanza::Id.normalize keyword
     unless Fanza::Id.normalized? keyword
       logger.info "#{keyword} is not normalized"
