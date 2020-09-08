@@ -5,7 +5,7 @@ class FanzaItem < ApplicationRecord
   validates :raw_json, presence: true
   validates :content_id, presence: true, uniqueness: true
   validates :normalized_id, presence: true
-  validates :floor_code, inclusion: { in: %w[dvd video videoa videoc] }
+  validates :floor_code, inclusion: { in: %w[dvd nikkatsu video videoa videoc] }
   validates :service_code, inclusion: { in: %w[digital mono] }
 
   after_save :fetch_html!
