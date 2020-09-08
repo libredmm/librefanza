@@ -55,6 +55,7 @@ module Fanza
     def self.item_list(keyword:, sort:, start_date:, end_date:)
       [
         ["mono", "dvd"],
+        ["digital", "nikkatsu"],
         ["digital", "video"],
         ["digital", "videoa"],
         ["digital", "videoc"],
