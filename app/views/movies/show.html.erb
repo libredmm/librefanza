@@ -54,6 +54,11 @@
       <% end %>
       <% end %>
 
+      <% if @item.volume.present? %>
+      <dt>Volume</dt>
+      <dd><%= (@item.volume / 60) %> minutes</dd>
+      <% end %>
+
       <% if @item.review.present? %>
       <dt>User Rating</dt>
       <dd><%= "%.1f" % @item.review %></dd>

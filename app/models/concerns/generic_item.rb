@@ -41,6 +41,7 @@ module GenericItem
       "thumbnail_image_url" => nil,
       "title" => nil,
       "url" => nil,
+      "volume" => nil,
     }
   end
 end

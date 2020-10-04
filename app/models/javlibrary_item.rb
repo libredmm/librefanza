@@ -83,6 +83,10 @@ class JavlibraryItem < ApplicationRecord
     html.css("span.director").map(&:text).map(&:strip) || []
   end
 
+  def volume
+    html.css("#video_length span.text").text.to_i.minutes
+  end
+
   def logo_url
     "http://www.javlibrary.com/img/logo-main-big.gif"
   end
