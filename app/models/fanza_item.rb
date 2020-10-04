@@ -101,6 +101,10 @@ class FanzaItem < ApplicationRecord
     as_struct.iteminfo&.director&.map(&:name)&.map(&:strip) || []
   end
 
+  def volume
+    as_struct.volume&.to_i&.minutes
+  end
+
   def logo_url
     "https://p.dmm.co.jp/p/affiliate/web_service/r18_88_35.gif"
   end

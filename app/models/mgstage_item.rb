@@ -93,6 +93,12 @@ class MgstageItem < ApplicationRecord
     []
   end
 
+  def volume
+    html.css(".detail_data table tr").find { |tr|
+      tr.at_css("th")&.text&.strip&.start_with? "収録時間"
+    }&.css("td")&.text&.to_i&.minutes
+  end
+
   def logo_url
     "https://static.mgstage.com/mgs/img/pc/top_logo.jpg"
   end

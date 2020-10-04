@@ -5,6 +5,10 @@ RSpec.shared_examples "generic item" do
     end
   end
 
+  it "has volume" do
+    expect(subject.volume).to be_a(ActiveSupport::Duration).or be_nil
+  end
+
   it "has movie" do
     expect(subject.movie).to be_persisted
     expect(subject.movie.normalized_id).to eq(subject.normalized_id)
