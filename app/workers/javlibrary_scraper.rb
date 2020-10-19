@@ -12,10 +12,10 @@ class JavlibraryScraper
     keyword = Fanza::Id.normalize keyword
 
     if JavlibraryItem.where(normalized_id: keyword).exists?
-      logger.info "#{keyword} alreay found on Javlibrary"
+      logger.info "[JAVLIBRARY] [ALREADY_FOUND] #{keyword}"
       return true
     end
-    logger.info "Searching #{keyword} on Javlibrary"
+    logger.info "[JAVLIBRARY] [SEARCHING] #{keyword}"
 
     Javlibrary::Api.search(keyword) do |url, raw_html|
       page = JavlibraryPage.find_or_initialize_by(url: url)
@@ -25,10 +25,10 @@ class JavlibraryScraper
     end
 
     if JavlibraryItem.where(normalized_id: keyword).exists?
-      logger.info "#{keyword} found on Javlibrary"
+      logger.info "[JAVLIBRARY] [FOUND] #{keyword}"
       true
     else
-      logger.info "#{keyword} not found on Javlibrary"
+      logger.info "[JAVLIBRARY] [NOT_FOUND] #{keyword}"
       false
     end
   end
