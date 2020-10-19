@@ -10,59 +10,58 @@ class MovieSearcher
 
   def perform(keyword)
     unless keyword =~ /^[[:ascii:]]+$/
-      logger.info "#{keyword} not searchable, ignored"
+      logger.info "[NON_ASCII] #{keyword}"
       return
     end
 
     if keyword =~ Regexp.new(ENV.fetch("BLACKHOLE_PATTERN", "^$"), Regexp::IGNORECASE)
-      logger.info "#{keyword} blackholed"
+      logger.info "[BLACKHOLED] #{keyword}"
       return
     end
 
     keyword = Fanza::Id.normalize keyword
     unless Fanza::Id.normalized? keyword
-      logger.info "#{keyword} is not normalized"
+      logger.info "[UNNORMALIZED] #{keyword}"
       return
     end
 
     found = search_on_fanza(keyword) || search_on_mgstage(keyword)
     unless found
-      logger.info "#{keyword} not found anywhere, schedule for javlibrary scrape"
       JavlibraryScraper.perform_async keyword
     end
   end
 
   def search_on_fanza(keyword)
-    logger.info "Searching #{keyword} on Fanza"
+    logger.info "[FANZA] [SEARCHING] #{keyword}"
     Fanza::Api.search(keyword: keyword) do |json|
       item = FanzaItem.create(raw_json: json)
     end
 
     if FanzaItem.where(normalized_id: keyword).exists?
-      logger.info "#{keyword} found on Fanza"
+      logger.info "[FANZA] [FOUND] #{keyword}"
       true
     else
-      logger.info "#{keyword} not found on Fanza"
+      logger.info "[FANZA] [NOT_FOUND] #{keyword}"
       false
     end
   end
 
   def search_on_mgstage(keyword)
     if MgstageItem.where(normalized_id: keyword).exists?
-      logger.info "#{keyword} alreay found on Mgstage"
+      logger.info "[MGSTAGE] [ALREADY_FOUND] #{keyword}"
       return true
     end
-    logger.info "Searching #{keyword} on Mgstage"
+    logger.info "[MGSTAGE] [SEARCHING] #{keyword}"
 
     Mgstage::Api.search(keyword) do |url, raw_html|
       page = MgstagePage.create(url: url, raw_html: raw_html)
     end
 
     if MgstageItem.where(normalized_id: keyword).exists?
-      logger.info "#{keyword} found on Mgstage"
+      logger.info "[MGSTAGE] [FOUND] #{keyword}"
       true
     else
-      logger.info "#{keyword} not found on Mgstage"
+      logger.info "[MGSTAGE] [NOT_FOUND] #{keyword}"
       false
     end
   end
