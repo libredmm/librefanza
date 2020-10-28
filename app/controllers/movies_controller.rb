@@ -14,6 +14,7 @@ class MoviesController < ApplicationController
     end
 
     @movies = @movies.where("normalized_id ILIKE ?", "%#{params[:fuzzy]}%") if params[:fuzzy]
+    @movies = @movies.where("normalized_id ILIKE ?", "#{params[:prefix]}%") if params[:prefix]
     @movies = @movies.page(params[:page])
   end
 
