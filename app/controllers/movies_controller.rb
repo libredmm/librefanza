@@ -12,9 +12,14 @@ class MoviesController < ApplicationController
       @order = :title
       @movies = @movies.order(:normalized_id)
     end
-
-    @movies = @movies.where("normalized_id ILIKE ?", "%#{params[:fuzzy]}%") if params[:fuzzy]
-    @movies = @movies.where("normalized_id ILIKE ?", "#{params[:prefix]}%") if params[:prefix]
+    if params[:fuzzy]
+      case params[:commit]
+      when /Prefix/
+        @movies = @movies.where("normalized_id ILIKE ?", "#{params[:fuzzy]}%")
+      else
+        @movies = @movies.where("normalized_id ILIKE ?", "%#{params[:fuzzy]}%")
+      end
+    end
     @movies = @movies.page(params[:page])
   end
 

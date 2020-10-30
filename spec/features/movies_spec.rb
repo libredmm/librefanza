@@ -12,7 +12,7 @@ RSpec.feature "Movies", type: :feature do
   scenario "prefix search" do
     bp = create :fanza_item, content_id: "bp456"
     abp = create :fanza_item, content_id: "abp123"
-    visit movies_path(prefix: "bp")
+    visit movies_path(fuzzy: "bp", commit: "Prefix")
     expect(page).to have_text(bp.normalized_id)
     expect(page).not_to have_text(abp.normalized_id)
   end
