@@ -12,7 +12,7 @@ RSpec.describe "Pages", type: :request do
     context "for un-normalizable query" do
       it "redirects to fuzzy search movie page" do
         get search_path(q: "abC")
-        expect(response).to redirect_to(movies_path(fuzzy: "abC"))
+        expect(response).to redirect_to(movies_path(fuzzy: "abC", commit: "Prefix"))
       end
     end
   end

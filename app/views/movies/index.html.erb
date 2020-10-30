@@ -11,6 +11,7 @@
                 <%= text_field_tag("fuzzy", params[:fuzzy], class: "form-control") %>
                 <div class="input-group-append">
                     <%= submit_tag "Fuzzy Match", class: "btn btn-success" %>
+                    <%= submit_tag "Prefix Match", class: "btn btn-primary" %>
                 </div>
             </div>
             <% end %>
