@@ -17,6 +17,14 @@ RSpec.feature "Movies", type: :feature do
     expect(page).not_to have_text(abp.normalized_id)
   end
 
+  scenario "with hidden movies" do
+    movie = create :movie
+    hidden = create :movie, is_hidden: true
+    visit movies_path
+    expect(page).to have_text(movie.normalized_id)
+    expect(page).not_to have_text(hidden.normalized_id)
+  end
+
   context "sorting" do
     before(:each) do
       create :fanza_item, content_id: "AA", date: 3.day.ago

@@ -15,6 +15,14 @@ RSpec.feature "FanzaActresses", type: :feature do
     expect(page).to have_selector(".card.actress", count: 1)
   end
 
+  scenario "with hidden actresses" do
+    actress = create :fanza_actress
+    hidden = create :fanza_actress, is_hidden: true
+    visit fanza_actresses_path
+    expect(page).to have_text(actress.name)
+    expect(page).not_to have_text(hidden.name)
+  end
+
   context "sorting" do
     before(:each) do
       create :fanza_actress, fanza_id: 1, name: "Actress A"

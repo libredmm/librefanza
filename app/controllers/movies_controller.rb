@@ -34,7 +34,7 @@ class MoviesController < ApplicationController
 
     respond_to do |format|
       format.html {
-        if @item
+        if @item && !@movie.is_hidden?
           render
         else
           render :not_found, status: :not_found

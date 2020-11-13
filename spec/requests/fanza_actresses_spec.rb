@@ -13,6 +13,8 @@ require "rails_helper"
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "FanzaActresses", type: :request do
+  let(:actress) { create :fanza_actress }
+
   describe "GET /fanza_actresses" do
     it "works" do
       get fanza_actresses_path
@@ -22,7 +24,6 @@ RSpec.describe "FanzaActresses", type: :request do
 
   describe "GET /fanza_actresses/:id" do
     it "works" do
-      actress = create :fanza_actress
       get fanza_actress_path(actress)
       expect(response).to have_http_status(200)
     end
@@ -30,14 +31,33 @@ RSpec.describe "FanzaActresses", type: :request do
 
   describe "GET /fanza_actresses/:name" do
     it "works with known name" do
-      actress = create :fanza_actress
-      get fanza_actress_path(actress)
+      get fanza_actress_path(actress.name)
       expect(response).to have_http_status(200)
     end
 
     it "works with unknown name" do
       get fanza_actress_path("UNKNOWN")
       expect(response).to have_http_status(200)
+    end
+  end
+
+  context "when hidden" do
+    let(:hidden_actress) { create :fanza_actress, is_hidden: true }
+
+    describe "GET /fanza_actresses/:id" do
+      it "returns not found" do
+        expect {
+          get fanza_actress_path(hidden_actress)
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    describe "GET /fanza_actresses/:name" do
+      it "returns not found" do
+        expect {
+          get fanza_actress_path(hidden_actress.name)
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
   end
 end
