@@ -22,6 +22,8 @@ class FanzaActressesController < ApplicationController
                FanzaActress.order(:fanza_id).find_by(name: params[:id]) ||
                FanzaActress.new(name: params[:id])
 
+    raise ActiveRecord::RecordNotFound if @actress.is_hidden?
+
     @movies = @actress.movies.order(:normalized_id).page(params[:page])
   end
 end

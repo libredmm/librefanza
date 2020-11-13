@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_31_235219) do
+ActiveRecord::Schema.define(version: 2020_11_13_201050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2020_05_31_235219) do
     t.jsonb "raw_json"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "is_hidden", default: false, null: false
     t.index ["fanza_id"], name: "index_fanza_actresses_on_fanza_id", unique: true
     t.index ["name"], name: "fuzzy_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["name"], name: "index_fanza_actresses_on_name"
@@ -94,6 +95,7 @@ ActiveRecord::Schema.define(version: 2020_05_31_235219) do
     t.string "actress_names", array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "is_hidden", default: false, null: false
     t.index ["actress_fanza_ids"], name: "index_movies_on_actress_fanza_ids", using: :gin
     t.index ["actress_names"], name: "index_movies_on_actress_names", using: :gin
     t.index ["compressed_id"], name: "index_movies_on_compressed_id"

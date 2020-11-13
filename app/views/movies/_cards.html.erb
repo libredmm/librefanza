@@ -4,7 +4,7 @@
 <div class="movies card-group mb-3">
   <% group.each do |item| %>
   <div class="card">
-    <% if item %>
+    <% if item && !item.movie.is_hidden? %>
     <%= link_to image_tag(item.thumbnail_image_url, class: "card-image-top img-fluid mx-auto d-block"), movie_path(item.normalized_id) %>
     <div class="card-body">
       <%= link_to item.movie, class: "card-title" do %>
