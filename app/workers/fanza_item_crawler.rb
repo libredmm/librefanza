@@ -2,7 +2,7 @@ class FanzaItemCrawler
   include Sidekiq::Worker
 
   sidekiq_options(
-    queue: :low,
+    queue: :critical,
     lock: :until_and_while_executing,
     on_conflict: { client: :log, server: :reject },
   )
