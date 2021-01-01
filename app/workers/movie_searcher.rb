@@ -26,7 +26,7 @@ class MovieSearcher
     end
 
     found = search_on_fanza(keyword) || search_on_mgstage(keyword)
-    unless found
+    unless found || ENV["JAVLIBRARY_DISABLED"]
       JavlibraryScraper.perform_async keyword
     end
   end
