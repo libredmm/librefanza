@@ -25,16 +25,24 @@ RSpec.describe "FanzaItems", type: :request do
     end
 
     context "with format json" do
-      it "returns raw json" do
+      it "works" do
         get fanza_item_path(item, format: :json, as: user)
         expect(response).to have_http_status(200)
-        expect(response.body).to include("content_id")
+        expect(response.body).to include("normalized_id")
       end
 
-      it "filters out affiliate info" do
-        get fanza_item_path(item, format: :json, as: user)
-        expect(response).to have_http_status(200)
-        expect(response.body).not_to include("affiliate")
+      context "requesting raw" do
+        it "returns raw json" do
+          get fanza_item_path(item, format: :json, raw: true, as: user)
+          expect(response).to have_http_status(200)
+          expect(response.body).to include("content_id")
+        end
+
+        it "filters out affiliate info" do
+          get fanza_item_path(item, format: :json, raw: true, as: user)
+          expect(response).to have_http_status(200)
+          expect(response.body).not_to include("affiliate")
+        end
       end
     end
   end
