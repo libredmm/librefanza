@@ -19,20 +19,14 @@ RSpec.describe "JavlibraryItems", type: :request do
   end
 
   describe "GET /javlibrary_items/:id" do
-    it "works as admin" do
-      get javlibrary_item_path(item, as: admin)
+    it "works" do
+      get javlibrary_item_path(item, as: user)
       expect(response).to have_http_status(200)
-    end
-
-    it "rejects other users" do
-      expect {
-        get javlibrary_item_path(item, as: user)
-      }.to raise_error(ActionController::RoutingError)
     end
   end
 
   describe "DELETE /javlibrary_items/:id" do
-    it "works as admin" do
+    it "works for admin" do
       delete javlibrary_item_path(item, as: admin)
       expect(response).to have_http_status(200)
     end
