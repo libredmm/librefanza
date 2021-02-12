@@ -51,6 +51,11 @@ RSpec.describe Fanza::Id do
         "1073DSVR-0020" => "3DSVR-020",
         "h_093r1800294" => "R18-294",
         "h_093r180125" => "R18-125",
+        "5520id00044" => "20ID-044",
+        "5526id00044" => "26ID-044",
+        "6id00044" => "ID-044",
+        "id00044" => "ID-044",
+        "ID-044" => "ID-044",
       }.each do |original, normalized|
         expect(Fanza::Id.normalize(original)).to eq(normalized)
       end
@@ -81,6 +86,8 @@ RSpec.describe Fanza::Id do
         "T28-526",
         "3DSVR-003",
         "WVR9C-009",
+        "20ID-044",
+        "ID-044",
       ].each do |id|
         expect(Fanza::Id.normalized?(id)).to be_truthy
       end
@@ -111,6 +118,8 @@ RSpec.describe Fanza::Id do
           "DSVR-005" => Set["DSVR-005", "DSVR-0005", "dsvr005", "dsvr00005"],
           "EXVR-092" => Set["EXVR-092", "EXVR-0092", "exvr092", "exvr00092"],
           "SRTD-117" => Set["SRTD-117", "SRTD-0117", "srtd117", "srtd00117"],
+          "20ID-044" => Set["20ID-044", "20ID-0044", "20id044", "20id00044"],
+          "ID-044" => Set["ID-044", "ID-0044", "id044", "id00044"],
         }.each do |original, variations|
           expect(Fanza::Id.variations(original)).to eq(variations)
         end
