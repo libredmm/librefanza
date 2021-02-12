@@ -25,7 +25,7 @@ module Fanza
 
       return unless original.present?
 
-      alphas_regex = /(3dsvr|\D+)/i
+      alphas_regex = /(3dsvr|\d\did|\D+)/i
       groups = original.gsub("-", "").gsub(/^._/i, "").gsub(/[^a-z0-9]/i, "").split(alphas_regex).reject(&:empty?)
       groups.shift if groups.first =~ /^\d+$/
       groups.pop if groups.last =~ alphas_regex
@@ -38,7 +38,7 @@ module Fanza
       return unless digit_idx
 
       alpha_idx = groups.each_with_index.select { |g, i|
-        (i < digit_idx) && (g =~ /^(3dsvr|\D+)$/i)
+        (i < digit_idx) && (g =~ /^(3dsvr|\d\did|\D+)$/i)
       }.map { |g, i|
         [g.length, i]
       }.max&.last
