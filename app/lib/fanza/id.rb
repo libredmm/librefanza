@@ -25,7 +25,7 @@ module Fanza
 
       return unless original.present?
 
-      alphas_regex = /(3dsvr|\d\did|\D+)/i
+      alphas_regex = /(3dsvr|\d\did|t28|r18|\D+)/i
       groups = original.gsub("-", "").gsub(/^._/i, "").gsub(/[^a-z0-9]/i, "").split(alphas_regex).reject(&:empty?)
       groups.shift if groups.first =~ /^\d+$/
       groups.pop if groups.last =~ alphas_regex
@@ -38,7 +38,7 @@ module Fanza
       return unless digit_idx
 
       alpha_idx = groups.each_with_index.select { |g, i|
-        (i < digit_idx) && (g =~ /^(3dsvr|\d\did|\D+)$/i)
+        (i < digit_idx) && (g[alphas_regex] == g)
       }.map { |g, i|
         [g.length, i]
       }.max&.last
@@ -46,14 +46,6 @@ module Fanza
 
       alphas = groups[alpha_idx...digit_idx].join.upcase
       digits = groups[digit_idx]
-      if alphas == "T" and digits =~ /^280{0,2}\d{3}$/
-        alphas = "T28"
-        digits = digits[-3..-1]
-      end
-      if alphas == "R" and digits =~ /^180{0,2}\d{3}$/
-        alphas = "R18"
-        digits = digits[-3..-1]
-      end
 
       @compressed = "#{alphas}-#{digits.to_i}"
       digits = "%03d" % digits.to_i if digits.length != 2
