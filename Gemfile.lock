@@ -170,7 +170,7 @@ GEM
       racc (~> 1.4)
     pg (1.2.3)
     public_suffix (4.0.6)
-    puma (4.3.7)
+    puma (5.2.1)
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
@@ -329,7 +329,7 @@ DEPENDENCIES
   listen (~> 3.2)
   nokogiri
   pg (>= 0.18, < 2.0)
-  puma (~> 4.1)
+  puma
   rack-mini-profiler
   rails (~> 6.0.3, >= 6.0.3.1)
   recursive-open-struct
