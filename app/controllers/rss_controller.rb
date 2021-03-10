@@ -7,7 +7,7 @@ class RssController < ApplicationController
 
     src = Nokogiri::XML URI.parse(params[:src]).open
     src.xpath("//channel/item").each do |item|
-      title = item.xpath("./title").text
+      title = item.xpath("./title").text.upcase
 
       in_plex = title.split.to_set & plex
       unless in_plex.empty?
