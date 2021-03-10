@@ -16,6 +16,9 @@ RSpec.describe "Rss", type: :request do
 <item>
 <title><![CDATA[壬癸 GHI-789]]></title>
 </item>
+<item>
+<title><![CDATA[abc-456]]></title>
+</item>
 </channel>
 </rss>
 XML
@@ -40,6 +43,7 @@ XML
       expect(response.body).not_to include("ABC-123")
       expect(response.body).to include("DEF-456")
       expect(response.body).not_to include("GHI-789")
+      expect(response.body).not_to include("abc-456")
     end
   end
 end
