@@ -315,9 +315,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootsnap (>= 1.4.2)
+  bootsnap
   byebug
-  capybara (>= 2.15)
+  capybara
   clearance
   database_cleaner-active_record
   dotenv-rails
@@ -326,12 +326,12 @@ DEPENDENCIES
   faraday-encoding
   faraday_middleware
   honeybadger
-  jbuilder (~> 2.7)
+  jbuilder
   jquery-rails
   kaminari
-  listen (~> 3.2)
+  listen
   nokogiri
-  pg (>= 0.18, < 2.0)
+  pg
   puma
   rack-mini-profiler
   rails
@@ -339,17 +339,17 @@ DEPENDENCIES
   rexml
   rspec-rails
   rspec-sidekiq
-  sass-rails (>= 6)
+  sass-rails
   selenium-webdriver
   sidekiq
   sidekiq-unique-jobs
   simplecov
   spring
-  spring-watcher-listen (~> 2.0.0)
-  turbolinks (~> 5)
+  spring-watcher-listen
+  turbolinks
   tzinfo-data
   warning
-  web-console (>= 3.3.0)
+  web-console
   webdrivers
   webmock
   webpacker
