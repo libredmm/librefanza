@@ -48,4 +48,14 @@ RSpec.describe JavlibraryPage, type: :model do
       }.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
+
+  describe "access denied page" do
+    it "gets rejected" do
+      url = generate :url
+      html = "Access denied"
+      expect {
+        JavlibraryPage.create!(url: url, raw_html: html)
+      }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+  end
 end
