@@ -5,10 +5,17 @@ class JavlibraryPage < ApplicationRecord
   validates :raw_html, presence: true
 
   validate :html_should_not_be_challenged
+  validate :html_should_not_be_denied_access
 
   def html_should_not_be_challenged
-    if raw_html.include? "challenge-form"
+    if raw_html.downcase.include? "challenge-form"
       errors.add(:raw_html, "is challenged")
+    end
+  end
+
+  def html_should_not_be_denied_access
+    if raw_html.downcase.include? "access denied"
+      errors.add(:raw_html, "is denied access")
     end
   end
 
