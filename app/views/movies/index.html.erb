@@ -1,41 +1,46 @@
 <% content_for :title do %>
-<%= params[:fuzzy] %>
+<%= params[:q] %>
 <% end %>
 
 <nav class="card mb-3">
     <div class="card-body">
         <div class="row">
-            <%= form_tag movies_path, method: :get, class: "form-inline ml-3 mr-3", id: "fuzzySearch" do %>
+            <%= form_tag movies_path, method: :get, class: "form-inline ml-3", id: "search" do %>
             <input name="order" type="hidden" value="<%= @order %>" />
+            <input name="style" type="hidden" value="<%= @style %>" />
             <div class="input-group">
-                <%= text_field_tag("fuzzy", params[:fuzzy], class: "form-control") %>
+                <%= text_field_tag("q", params[:q], class: "form-control") %>
                 <div class="input-group-append">
-                    <%= submit_tag "Fuzzy Match", class: "btn btn-success" %>
-                    <%= submit_tag "Prefix Match", class: "btn btn-primary" %>
+                    <%= submit_tag "Search", class: "btn btn-success" %>
                 </div>
             </div>
             <% end %>
 
-            <div class="btn-group">
+            <div class="btn-group ml-3">
+                <button type="button" class="btn btn-outline-dark" disabled>
+                    Style
+                </button>
+                <% %i[fuzzy prefix].each do |style| %>
+                <%= link_to(
+                    style.to_s.titleize,
+                    request.params.except("page").merge(style: style),
+                    class: (@style==style ? "btn btn-primary active" : "btn btn-secondary"),
+                    role: "button",
+                ) %>
+                <% end %>
+            </div>
+
+            <div class="btn-group ml-3">
                 <button type="button" class="btn btn-outline-dark" disabled>
                     Sort by
                 </button>
                 <% (signed_in_as_admin? ? %i[title release_date date_added] : %i[title release_date]).each do |opt| %>
-                <% if @order == opt %>
                 <%= link_to(
-                                opt.to_s.titleize,
-                                request.params.except("page", :order),
-                                class: "btn btn-primary active",
-                                role: "button",
-                            ) %>
-                <% else %>
-                <%= link_to(
-                                opt.to_s.titleize,
-                                request.params.except("page").merge(order: opt),
-                                class: "btn btn-secondary",
-                                role: "button",
-                            ) %>
-                <% end %>
+                    opt.to_s.titleize,
+                    request.params.except("page").merge(order: opt),
+                    class: (@order==opt ? "btn btn-primary active" : "btn btn-secondary"),
+                    role: "button",
+                ) %>
                 <% end %>
             </div>
         </div>
