@@ -1,29 +1,38 @@
+<% render_pager = local_assigns.fetch(:render_pager, true) %>
+<% always_link_to_movie = local_assigns.fetch(:link_to_movie, true) %>
+
+<% if render_pager %>
 <%= render partial: "layouts/pager", locals: { items: cards, name: "movie" } %>
+<% end %>
 
 <% to_items(cards).in_groups_of(6).each do |group| %>
 <div class="movies card-group mb-3">
   <% group.each do |item| %>
   <div class="card">
     <% if item %>
-    <%= link_to image_tag(item.thumbnail_image_url, class: "card-image-top img-fluid mx-auto d-block"), movie_path(item.normalized_id) %>
-    <div class="card-body">
-      <%= link_to item.movie, class: "card-title" do %>
-      <h5>
-        <%= item.normalized_id %>
-      </h5>
-      <h6 class="text-truncate">
-        <small>
-          <%= item.title %>
-        </small>
-      </h6>
-      <% end %>
-    </div>
+      <% link_dst = (always_link_to_movie || item.preferred? )? item.movie : item %>
+      <%= link_to(
+        image_tag(item.thumbnail_image_url, class: "card-image-top img-fluid mx-auto d-block"),
+        link_dst
+      )%>
+      <div class="card-body">
+        <%= link_to link_dst, class: "card-title" do %>
+        <h5>
+          <%= item.normalized_id %>
+        </h5>
+        <h6 class="text-truncate">
+          <small>
+            <%= item.title %>
+          </small>
+        </h6>
+        <% end %>
+      </div>
     <% end %>
   </div>
   <% end %>
 </div>
 <% end %>
 
-<% if cards.present? %>
+<% if render_pager and cards.present? %>
 <%= render partial: "layouts/pager", locals: { items: cards, name: "movie" } %>
 <% end %>

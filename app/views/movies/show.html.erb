@@ -26,14 +26,6 @@
           <dd class="col-md-9 text-truncate"><%= link_to @item.url, @item.url %></dd>
           <dt class="col-md-3">Date Added</dt>
           <dd class="col-md-9"><%= time_tag @item.created_at %></dd>
-          <dt class="col-md-3">Other versions</dt>
-          <dd class="col-md-9">
-            <ul class="list-unstyled">
-              <% @item.movie.items.excluding(@item).each do |it| %>
-                <li><%= link_to url_for(it), it %></li>
-              <% end %>
-            </ul>
-          </dd>
         </dl>
       </div>
     </div>
@@ -83,7 +75,7 @@
           </li>
           <li class="list-inline-item">
             <%= link_to "https://www.javbus.com/search/#{@item.normalized_id}" do %>
-            <%= image_tag "https://www.javbus.com/images/logo.png", class: "img-fluid javbus" %>
+            <%= image_tag "javbus.png", class: "img-fluid javbus" %>
             <% end %>
           </li>
         </ul>
@@ -102,6 +94,17 @@
   <dt>Actresses</dt>
   <dd>
     <%= render partial: "fanza_actresses/cards", object: @item.actresses %>
+  </dd>
+  <% end %>
+
+  <% if @item.movie.items.count > 1 %>
+  <dt>Other versions</dt>
+  <dd>
+    <%= render(
+      partial: "movies/cards",
+      object: Kaminari.paginate_array(@item.movie.items.excluding(@item)).page(1).per(20),
+      locals: { render_pager: false, link_to_movie: false }
+    )%>
   </dd>
   <% end %>
 </dl>

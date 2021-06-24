@@ -44,4 +44,8 @@ module GenericItem
       "volume" => nil,
     }
   end
+
+  def preferred?
+    movie.preferred_item == self
+  end
 end

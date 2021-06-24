@@ -46,4 +46,15 @@ RSpec.describe Movie, type: :model do
       }
     end
   end
+
+  it "prefers fanza items" do
+    javlibrary_item = create :javlibrary_item
+    fanza_item = create :fanza_item, content_id: javlibrary_item.normalized_id
+    movie = javlibrary_item.movie
+
+    expect(fanza_item.movie).to eq(movie)
+    expect(movie.preferred_item).to eq(fanza_item)
+    expect(fanza_item.preferred?).to eq(true)
+    expect(javlibrary_item.preferred?).to eq(false)
+  end
 end
