@@ -3,7 +3,7 @@
   <div>
     <p>
       <%= page_entries_info items, entry_name: name %>
-      <% if items.exists? and items.has_attribute? :date %>
+      <% if !items.is_a?(Kaminari::PaginatableArray) and items.exists? and items.has_attribute? :date %>
         <br/>
         <small class="text-secondary">
         Released between
