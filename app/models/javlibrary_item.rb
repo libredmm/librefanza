@@ -39,10 +39,11 @@ class JavlibraryItem < ApplicationRecord
   end
 
   def thumbnail_image_url
-    URI.join(
-      javlibrary_page.url,
+    if cover_image_url.end_with? "pl.jpg"
       cover_image_url.gsub(/pl\.jpg$/, "ps.jpg")
-    ).to_s
+    else
+      "http://imageproxy.libredmm.com/cx.53/" + cover_image_url
+    end
   end
 
   def url
