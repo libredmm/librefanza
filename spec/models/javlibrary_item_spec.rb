@@ -31,7 +31,7 @@ RSpec.describe JavlibraryItem, type: :model do
         allow(subject).to receive(:cover_image_url).and_return(
           "http://img53.pixhost.to/images/65/199386628_1618292ll.jpg"
         )
-        expect(subject.thumbnail_image_url).to start_with("http://imageproxy.libredmm.com/")
+        expect(subject.thumbnail_image_url).to start_with("https://imageproxy.libredmm.com/")
       end
     end
   end

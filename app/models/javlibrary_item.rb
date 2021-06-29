@@ -42,7 +42,7 @@ class JavlibraryItem < ApplicationRecord
     if cover_image_url.end_with? "pl.jpg"
       cover_image_url.gsub(/pl\.jpg$/, "ps.jpg")
     else
-      "http://imageproxy.libredmm.com/cx.53/" + cover_image_url
+      "https://imageproxy.libredmm.com/cx.53/" + cover_image_url
     end
   end
 
