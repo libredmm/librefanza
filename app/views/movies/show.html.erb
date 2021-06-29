@@ -26,6 +26,7 @@
           <dd class="col-md-9 text-truncate"><%= link_to @item.url, @item.url %></dd>
           <dt class="col-md-3">Date Added</dt>
           <dd class="col-md-9"><%= time_tag @item.created_at %></dd>
+          <% if @movie %>
           <dt class="col-md-3">Cover Image</dt>
           <dd class="col-md-9">
             <%= form_tag @movie, method: :put, class: "row", id: "update" do %>
@@ -39,6 +40,7 @@
               </div>
             <% end %>
           </dd>
+          <% end %>
         </dl>
       </div>
     </div>
