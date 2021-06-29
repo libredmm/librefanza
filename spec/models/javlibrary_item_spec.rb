@@ -19,7 +19,7 @@ RSpec.describe JavlibraryItem, type: :model do
       subject.movie.cover_image_url = "dummy_url"
     }.to change {
       subject.cover_image_url
-    }.to("dummy_url")
+    }.to("https://imageproxy.libredmm.com/dummy_url")
   end
 
   describe "thumbnail_image_url" do
@@ -36,10 +36,18 @@ RSpec.describe JavlibraryItem, type: :model do
 
     context "when cover image is not from dmm" do
       it "crops thumbnail from cover" do
-        allow(subject).to receive(:cover_image_url).and_return(
-          "http://img53.pixhost.to/images/65/199386628_1618292ll.jpg"
-        )
-        expect(subject.thumbnail_image_url).to start_with("https://imageproxy.libredmm.com/")
+        allow(subject).to receive(:cover_image_url).and_return("dummy_url")
+        expect(subject.thumbnail_image_url).to eq("https://imageproxy.libredmm.com/cx.53/dummy_url")
+      end
+    end
+
+    context "when cover image is overridden" do
+      it "does not double proxy" do
+        expect {
+          subject.movie.cover_image_url = "dummy_url"
+        }.to change {
+          subject.thumbnail_image_url
+        }.to("https://imageproxy.libredmm.com/cx.53/dummy_url")
       end
     end
   end
