@@ -14,6 +14,14 @@ RSpec.describe JavlibraryItem, type: :model do
     end
   end
 
+  it "uses cover image url of movie when available" do
+    expect {
+      subject.movie.cover_image_url = "dummy_url"
+    }.to change {
+      subject.cover_image_url
+    }.to("dummy_url")
+  end
+
   describe "thumbnail_image_url" do
     context "when cover image is from dmm" do
       it "guesses thumbnail from dmm" do
