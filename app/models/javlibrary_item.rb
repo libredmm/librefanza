@@ -32,14 +32,14 @@ class JavlibraryItem < ApplicationRecord
   end
 
   def cover_image_url
-    URI.join(
+    movie.cover_image_url || URI.join(
       javlibrary_page.url,
       html.at_css("#video_jacket_img").attr("src").strip
     ).to_s
   end
 
   def thumbnail_image_url
-    if cover_image_url.end_with? "pl.jpg"
+    if cover_image_url =~ /\/\/pics\.dmm\.co\.jp.*pl.jpg$/
       cover_image_url.gsub(/pl\.jpg$/, "ps.jpg")
     else
       "https://imageproxy.libredmm.com/cx.53/" + cover_image_url
