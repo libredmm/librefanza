@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :mgstage_items, only: %i[show]
 
   constraints Clearance::Constraints::SignedIn.new { |user| user.is_admin? } do
+    resources :movies, only: %i[update]
     resources :fanza_items, only: %i[index destroy]
     resources :javlibrary_items, only: %i[index destroy]
     resources :javlibrary_pages, only: %i[index show]

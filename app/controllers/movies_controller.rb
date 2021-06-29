@@ -54,4 +54,11 @@ class MoviesController < ApplicationController
       }
     end
   end
+
+  def update
+    id = params[:id].upcase
+    @movie = Movie.find_by(normalized_id: id)
+    @movie.update params.permit(:cover_image_url)
+    redirect_to @movie
+  end
 end
