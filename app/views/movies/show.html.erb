@@ -31,9 +31,9 @@
             <%= form_tag @movie, method: :put, class: "row", id: "update" do %>
               <div class="col-md-12">
                 <div class="input-group">
-                  <%= text_field_tag "cover_image_url", nil, class: "form-control" %>
+                  <%= text_field_tag "cover_image_url", @movie.cover_image_url, class: "form-control" %>
                   <div class="input-group-append">
-                    <%= submit_tag "Override" , class: "btn btn-success" %>
+                    <%= submit_tag "Update" , class: "btn btn-success" %>
                   </div>
                 </div>
               </div>
