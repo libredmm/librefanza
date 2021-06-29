@@ -26,6 +26,19 @@
           <dd class="col-md-9 text-truncate"><%= link_to @item.url, @item.url %></dd>
           <dt class="col-md-3">Date Added</dt>
           <dd class="col-md-9"><%= time_tag @item.created_at %></dd>
+          <dt class="col-md-3">Cover Image</dt>
+          <dd class="col-md-9">
+            <%= form_tag @movie, method: :put, class: "row", id: "update" do %>
+              <div class="col-md-12">
+                <div class="input-group">
+                  <%= text_field_tag "cover_image_url", nil, class: "form-control" %>
+                  <div class="input-group-append">
+                    <%= submit_tag "Override" , class: "btn btn-success" %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </dd>
         </dl>
       </div>
     </div>

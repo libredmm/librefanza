@@ -2,6 +2,8 @@ require "rails_helper"
 
 RSpec.describe "Movies", type: :request do
   let(:movie) { create :movie }
+  let(:user) { create(:user) }
+  let(:admin) { create(:admin) }
 
   describe "GET /movies" do
     it "works" do
@@ -41,6 +43,19 @@ RSpec.describe "Movies", type: :request do
       expect(MovieSearcher).to receive(:perform_async).and_return(nil)
       get movie_path(id, format: :json)
       expect(response).to have_http_status(404)
+    end
+  end
+
+  describe "PUT /movie/:id" do
+    it "works for admin" do
+      put movie_path(movie, as: admin)
+      expect(response).to have_http_status(302)
+    end
+
+    it "rejects other users" do
+      expect {
+        put movie_path(movie, as: user)
+      }.to raise_error(ActionController::RoutingError)
     end
   end
 
