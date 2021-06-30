@@ -73,4 +73,24 @@ RSpec.shared_examples "generic item" do
       }.from(false).to(true)
     end
   end
+
+  describe "cover_image_url" do
+    it "uses cover image from movie with proxy when available" do
+      expect {
+        subject.movie.cover_image_url = "dummy_url"
+      }.to change {
+        subject.cover_image_url
+      }.to("https://imageproxy.libredmm.com/dummy_url")
+    end
+  end
+
+  describe "thumbnail_image_url" do
+    it "crops cover image from movie with proxy when available" do
+      expect {
+        subject.movie.cover_image_url = "dummy_url"
+      }.to change {
+        subject.thumbnail_image_url
+      }.to("https://imageproxy.libredmm.com/cx.53/dummy_url")
+    end
+  end
 end
