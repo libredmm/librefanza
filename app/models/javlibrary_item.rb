@@ -1,5 +1,4 @@
 class JavlibraryItem < ApplicationRecord
-  include Derivable
   include GenericItem
 
   belongs_to :javlibrary_page
@@ -32,21 +31,17 @@ class JavlibraryItem < ApplicationRecord
   end
 
   def cover_image_url
-    if movie.cover_image_url
-      "https://imageproxy.libredmm.com/" + movie.cover_image_url
-    else
-      URI.join(
-        javlibrary_page.url,
-        html.at_css("#video_jacket_img").attr("src").strip
-      ).to_s
-    end
+    URI.join(
+      javlibrary_page.url,
+      html.at_css("#video_jacket_img").attr("src").strip
+    ).to_s
   end
 
   def thumbnail_image_url
     if cover_image_url =~ /\/\/pics\.dmm\.co\.jp.*pl.jpg$/
       cover_image_url.gsub(/pl\.jpg$/, "ps.jpg")
     else
-      "https://imageproxy.libredmm.com/cx.53/" + (movie.cover_image_url || cover_image_url)
+      "https://imageproxy.libredmm.com/cx.53/" + cover_image_url
     end
   end
 

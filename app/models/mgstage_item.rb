@@ -1,5 +1,4 @@
 class MgstageItem < ApplicationRecord
-  include Derivable
   include GenericItem
 
   belongs_to :mgstage_page

@@ -1,5 +1,4 @@
 class FanzaItem < ApplicationRecord
-  include Derivable
   include GenericItem
 
   validates :raw_json, presence: true

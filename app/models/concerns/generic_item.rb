@@ -2,6 +2,9 @@ module GenericItem
   extend ActiveSupport::Concern
 
   included do
+    include Derivable
+    prepend CoverImageOverridable
+
     belongs_to :movie, foreign_key: :normalized_id, primary_key: :normalized_id, optional: true
     after_save :create_or_update_movie
     after_destroy :destroy_obsolete_movie
