@@ -3,7 +3,7 @@ require "open-uri"
 class RssController < ApplicationController
   def pipe
     plex = URI.parse(params[:plex]).read.split.to_set
-    blacklist = URI.parse(params[:blacklist]).read.split.to_set
+    blacklist = params.include?(:blacklist) ? URI.parse(params[:blacklist]).read.split.to_set : Set[]
 
     src = Nokogiri::XML URI.parse(params[:src]).open
     src.xpath("//channel/item").each do |item|
