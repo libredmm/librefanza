@@ -19,6 +19,9 @@ RSpec.describe "Rss", type: :request do
 <item>
 <title><![CDATA[abc-456]]></title>
 </item>
+<item>
+<title><![CDATA[JKL-001]]></title>
+</item>
 </channel>
 </rss>
 XML
@@ -29,6 +32,9 @@ XML
     )
     @blacklist_stub = stub_request(:any, %r{blacklist.example.com}).to_return(
       body: "GHI\nJKL",
+    )
+    @whitelist_stub = stub_request(:any, %r{whitelist.example.com}).to_return(
+      body: "GHI",
     )
   end
 
@@ -56,6 +62,18 @@ XML
       expect(response.body).to include("DEF-456")
       expect(response.body).to include("GHI-789")
       expect(response.body).not_to include("abc-456")
+    end
+
+    it "prioritizes whitelist over blacklist" do
+      get rss_pipe_path(
+        src: "https://rss.example.com",
+        plex: "https://plex.example.com",
+        blacklist: "https://blacklist.example.com",
+        whitelist: "https://whitelist.example.com",
+      )
+      expect(response).to have_http_status(200)
+      expect(response.body).to include("GHI-789")
+      expect(response.body).not_to include("JKL-001")
     end
   end
 end
