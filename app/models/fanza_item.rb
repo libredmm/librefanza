@@ -7,8 +7,6 @@ class FanzaItem < ApplicationRecord
   validates :floor_code, inclusion: { in: %w[dvd nikkatsu video videoa videoc] }
   validates :service_code, inclusion: { in: %w[digital mono] }
 
-  after_save :fetch_html!
-
   paginates_per 30
 
   def derive_fields
@@ -21,16 +19,16 @@ class FanzaItem < ApplicationRecord
     self.date = DateTime.parse(self.as_struct.date)
     self.floor_code = self.as_struct.floor_code.strip
     self.service_code = self.as_struct.service_code.strip
-  end
 
-  def fetch_html!
-    if self.raw_html.blank?
-      html = Faraday.new { |conn|
+    begin
+      raw_html = self.raw_html || Faraday.new { |conn|
         conn.use FaradayMiddleware::FollowRedirects
         conn.response :encoding
         conn.adapter Faraday.default_adapter
       }.get(self.url).body.encode("UTF-8", invalid: :replace, undef: :replace).gsub("\u0000", "")
-      self.update_column(:raw_html, html)
+
+      self.description = Nokogiri::HTML(self.raw_html).css(".mg-b20.lh4")&.text&.strip
+    rescue
     end
   end
 
@@ -40,10 +38,6 @@ class FanzaItem < ApplicationRecord
 
   def safe_json
     raw_json.except("affiliateURL", "affiliateURLsp")
-  end
-
-  def html
-    Nokogiri::HTML(self.raw_html)
   end
 
   ###################
@@ -74,10 +68,6 @@ class FanzaItem < ApplicationRecord
     as_struct.iteminfo&.actress&.map { |info|
       FanzaActress.find_by(fanza_id: info.id) || FanzaActress.new(name: info.name&.strip)
     } || []
-  end
-
-  def description
-    html.css(".mg-b20.lh4")&.text&.strip
   end
 
   def genres
