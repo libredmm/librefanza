@@ -20,15 +20,17 @@ class FanzaItem < ApplicationRecord
     self.floor_code = self.as_struct.floor_code.strip
     self.service_code = self.as_struct.service_code.strip
 
-    begin
-      raw_html = self.raw_html || Faraday.new { |conn|
-        conn.use FaradayMiddleware::FollowRedirects
-        conn.response :encoding
-        conn.adapter Faraday.default_adapter
-      }.get(self.url).body.encode("UTF-8", invalid: :replace, undef: :replace).gsub("\u0000", "")
+    if self.description.blank?
+      begin
+        raw_html = self.raw_html || Faraday.new { |conn|
+          conn.use FaradayMiddleware::FollowRedirects
+          conn.response :encoding
+          conn.adapter Faraday.default_adapter
+        }.get(self.url).body.encode("UTF-8", invalid: :replace, undef: :replace).gsub("\u0000", "")
 
-      self.description = Nokogiri::HTML(self.raw_html).css(".mg-b20.lh4")&.text&.strip
-    rescue
+        self.description = Nokogiri::HTML(self.raw_html).css(".mg-b20.lh4")&.text&.strip
+      rescue
+      end
     end
   end
 
