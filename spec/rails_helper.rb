@@ -73,7 +73,7 @@ RSpec.configure do |config|
         {
           result: {
             result_count: request.uri.query_values["hits"].to_i,
-            total_count: request.uri.query_values["hits"].to_i * 10,
+            total_count: request.uri.query_values["hits"].to_i * 2,
             first_position: request.uri.query_values["offset"].to_i,
             items: [{
               service_code: request.uri.query_values["service"],
