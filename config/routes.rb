@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :fanza_items, only: %i[show]
   resources :javlibrary_items, only: %i[show]
   resources :mgstage_items, only: %i[show]
+  resources :sod_items, only: %i[show]
 
   constraints Clearance::Constraints::SignedIn.new { |user| user.is_admin? } do
     resources :movies, only: %i[update]

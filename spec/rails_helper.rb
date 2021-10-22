@@ -117,6 +117,10 @@ RSpec.configure do |config|
       },
     )
 
+    @sod_stub = stub_request(:any, %r{ec.sod.co.jp}).to_return(
+      body: "<html></html>",
+    )
+
     @mgstage_stub = stub_request(:any, %r{mgstage.com}).to_return(
       body: "<html></html>",
     )

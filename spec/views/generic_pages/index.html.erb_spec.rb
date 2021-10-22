@@ -20,4 +20,12 @@ RSpec.describe "generic_pages/index" do
     expect(rendered).to have_text(product_page.url)
     expect(rendered).to have_text(search_page.url)
   end
+
+  it "works with sod pages" do
+    page = create :sod_page
+    @pages = SodPage.all.page(1)
+
+    render
+    expect(rendered).to have_text(page.url)
+  end
 end

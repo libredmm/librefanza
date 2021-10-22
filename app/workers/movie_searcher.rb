@@ -29,10 +29,6 @@ class MovieSearcher
   end
 
   def search_on_fanza(keyword)
-    if FanzaItem.where(normalized_id: keyword).exists?
-      logger.info "[FANZA] [ALREADY_FOUND] #{keyword}"
-      return true
-    end
     logger.info "[FANZA] [SEARCHING] #{keyword}"
     Fanza::Api.search(keyword: keyword) do |json|
       item = FanzaItem.create(raw_json: json)
