@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     resources :movies, only: %i[update]
     resources :fanza_items, only: %i[index destroy]
     resources :javlibrary_items, only: %i[index destroy]
-    resources :javlibrary_pages, only: %i[index show]
+    resources :javlibrary_pages, only: %i[index show new create]
     resources :mgstage_items, only: %i[index destroy]
     resources :mgstage_pages, only: %i[index show]
     resources :sod_items, only: %i[index destroy]

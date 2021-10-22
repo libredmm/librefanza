@@ -1,0 +1,8 @@
+<h2>New Javlibrary Page</h2>
+
+<%= bootstrap_form_for @page do |f| %>
+    <%= f.text_field :url %>
+    <%= f.text_area :raw_html, rows: 10 %>
+    <%= f.submit "Create", class: "btn btn-success" %>
+    <%= link_to "Back", javlibrary_pages_path, class: "btn btn-secondary" %>
+<% end %>
