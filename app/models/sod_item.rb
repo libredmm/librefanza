@@ -56,7 +56,7 @@ class SodItem < ApplicationRecord
     html.css("table#v_introduction tr").find { |tr|
       tr.at_css("td.v_intr_ti")&.text&.strip&.start_with? "発売年月日"
     }&.then { |tr|
-      DateTime.parse(tr.at_css("td.v_intr_tx")&.text&.strip.gsub(/[年月日]/, '').gsub(/\s+/, '-'))
+      DateTime.parse(tr.at_css("td.v_intr_tx")&.text&.strip.gsub(/[年月日]/, "").gsub(/\s+/, "-"))
     }
   end
 
@@ -105,6 +105,6 @@ class SodItem < ApplicationRecord
   end
 
   def logo_url
-    "https://ec.sod.co.jp/prime/image/logo.png"
+    "https://ec.sod.co.jp/prime/image/logo-b.png"
   end
 end
