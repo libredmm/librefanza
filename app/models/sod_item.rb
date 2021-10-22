@@ -24,6 +24,10 @@ class SodItem < ApplicationRecord
     Nokogiri.HTML(sod_page.raw_html)
   end
 
+  def proxy_with_referer(image_url)
+    "https://imageproxy.libredmm.com/_ref#{Base64.encode64(url)}/#{image_url}"
+  end
+
   ###################
   # Items interface #
   ###################
@@ -37,11 +41,11 @@ class SodItem < ApplicationRecord
   end
 
   def cover_image_url
-    html.at_css("div.videos_samimg > a")&.attr("href")&.strip
+    proxy_with_referer html.at_css("div.videos_samimg > a")&.attr("href")&.strip
   end
 
   def thumbnail_image_url
-    html.at_css("div.videos_samimg > a > img")&.attr("src")&.strip
+    proxy_with_referer html.at_css("div.videos_samimg > a > img")&.attr("src")&.strip
   end
 
   def url
