@@ -4,11 +4,9 @@ FactoryBot.define do
       fixture_date { "2021-10-22" }
     end
 
-    factory :sod_product_page do
-      url {
-        "https://ec.sod.co.jp/prime/videos/?id=STARS-455"
-      }
-    end
+    url {
+      "https://ec.sod.co.jp/prime/videos/?id=STARS-455"
+    }
 
     raw_html {
       File.open(
