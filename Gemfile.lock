@@ -69,6 +69,9 @@ GEM
     bindex (0.8.1)
     bootsnap (1.9.1)
       msgpack (~> 1.0)
+    bootstrap_form (4.5.0)
+      actionpack (>= 5.2)
+      activemodel (>= 5.2)
     brpoplpush-redis_script (0.1.2)
       concurrent-ruby (~> 1.0, >= 1.0.5)
       redis (>= 1.0, <= 5.0)
@@ -331,6 +334,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  bootstrap_form
   byebug
   capybara
   clearance
