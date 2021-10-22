@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_21_205018) do
+ActiveRecord::Schema.define(version: 2021_10_22_175250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -37,7 +37,6 @@ ActiveRecord::Schema.define(version: 2021_10_21_205018) do
     t.string "normalized_id"
     t.datetime "date"
     t.string "floor_code"
-    t.text "raw_html"
     t.string "service_code"
     t.text "description"
     t.index ["content_id"], name: "index_fanza_items_on_content_id"
