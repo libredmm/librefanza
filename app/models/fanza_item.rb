@@ -29,7 +29,7 @@ class FanzaItem < ApplicationRecord
         }.get(self.url).body.encode("UTF-8", invalid: :replace, undef: :replace).gsub("\u0000", "")
 
         self.description = Nokogiri::HTML(raw_html).css(".mg-b20.lh4")&.text&.strip
-      rescue
+      rescue Exception
       end
     end
   end

@@ -22,6 +22,13 @@ RSpec.describe FanzaItem, type: :model do
     }.to("MAKER-123")
   end
 
+  describe "derive_fields" do
+    it "works with invalid url" do
+      allow(subject).to receive(:url).and_return("http://bad.url/")
+      subject.derive_fields
+    end
+  end
+
   describe ".actresses" do
     it "returns empty array when no provided" do
       expect {
