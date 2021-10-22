@@ -49,7 +49,6 @@ RSpec.describe MovieSearcher, type: :worker do
 
       subject.perform id
       expect(Mgstage::Api).not_to have_received(:search)
-      expect(JavlibraryScraper).not_to have_enqueued_sidekiq_job
     end
   end
 
@@ -86,25 +85,6 @@ RSpec.describe MovieSearcher, type: :worker do
             page
           }
           subject.perform id
-          expect(JavlibraryScraper).not_to have_enqueued_sidekiq_job
-        end
-      end
-
-      context "not found on mgstage" do
-        it "schedules a javlibrary scraper job" do
-          id = generate :normalized_id
-
-          subject.perform id
-          expect(JavlibraryScraper).to have_enqueued_sidekiq_job(id)
-        end
-
-        it "does not schedule javlibrary scraper job when explicitly disabled" do
-          ENV["JAVLIBRARY_DISABLED"] = "1"
-
-          id = generate :normalized_id
-
-          subject.perform id
-          expect(JavlibraryScraper).not_to have_enqueued_sidekiq_job(id)
         end
       end
     end
