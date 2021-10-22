@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     resources :javlibrary_pages, only: %i[index show]
     resources :mgstage_items, only: %i[index destroy]
     resources :mgstage_pages, only: %i[index show]
+    resources :sod_items, only: %i[index destroy]
+    resources :sod_pages, only: %i[index show]
     mount Sidekiq::Web => "/sidekiq"
   end
 end

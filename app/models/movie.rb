@@ -4,6 +4,7 @@ class Movie < ApplicationRecord
   self.primary_key = :normalized_id
 
   has_many :fanza_items, foreign_key: :normalized_id, primary_key: :normalized_id
+  has_many :sod_items, foreign_key: :normalized_id, primary_key: :normalized_id
   has_many :mgstage_items, foreign_key: :normalized_id, primary_key: :normalized_id
   has_many :javlibrary_items, foreign_key: :normalized_id, primary_key: :normalized_id
 
@@ -22,11 +23,12 @@ class Movie < ApplicationRecord
 
   def preferred_item
     self.fanza_items.order(date: :asc).first ||
+      self.sod_items.first ||
       self.mgstage_items.first ||
       self.javlibrary_items.first
   end
 
   def items
-    self.fanza_items + self.mgstage_items + self.javlibrary_items
+    self.fanza_items + self.sod_items + self.mgstage_items + self.javlibrary_items
   end
 end

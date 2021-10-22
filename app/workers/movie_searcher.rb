@@ -25,10 +25,14 @@ class MovieSearcher
       return
     end
 
-    found = search_on_fanza(keyword) || search_on_mgstage(keyword)
+    found = search_on_fanza(keyword) || search_on_sod(keyword) || search_on_mgstage(keyword)
   end
 
   def search_on_fanza(keyword)
+    if FanzaItem.where(normalized_id: keyword).exists?
+      logger.info "[FANZA] [ALREADY_FOUND] #{keyword}"
+      return true
+    end
     logger.info "[FANZA] [SEARCHING] #{keyword}"
     Fanza::Api.search(keyword: keyword) do |json|
       item = FanzaItem.create(raw_json: json)
@@ -39,6 +43,26 @@ class MovieSearcher
       true
     else
       logger.info "[FANZA] [NOT_FOUND] #{keyword}"
+      false
+    end
+  end
+
+  def search_on_sod(keyword)
+    if SodItem.where(normalized_id: keyword).exists?
+      logger.info "[SOD] [ALREADY_FOUND] #{keyword}"
+      return true
+    end
+    logger.info "[SOD] [SEARCHING] #{keyword}"
+
+    Sod::Api.search(keyword) do |url, raw_html|
+      page = SodPage.create(url: url, raw_html: raw_html)
+    end
+
+    if SodItem.where(normalized_id: keyword).exists?
+      logger.info "[SOD] [FOUND] #{keyword}"
+      true
+    else
+      logger.info "[SOD] [NOT_FOUND] #{keyword}"
       false
     end
   end
