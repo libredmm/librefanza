@@ -28,7 +28,7 @@ class FanzaItem < ApplicationRecord
           conn.adapter Faraday.default_adapter
         }.get(self.url).body.encode("UTF-8", invalid: :replace, undef: :replace).gsub("\u0000", "")
 
-        self.description = Nokogiri::HTML(self.raw_html).css(".mg-b20.lh4")&.text&.strip
+        self.description = Nokogiri::HTML(raw_html).css(".mg-b20.lh4")&.text&.strip
       rescue
       end
     end
