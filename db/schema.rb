@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_22_175250) do
+ActiveRecord::Schema.define(version: 2021_10_22_185506) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -106,6 +106,24 @@ ActiveRecord::Schema.define(version: 2021_10_22_175250) do
     t.index ["normalized_id"], name: "index_movies_on_normalized_id", unique: true
   end
 
+  create_table "sod_items", force: :cascade do |t|
+    t.string "normalized_id"
+    t.bigint "sod_page_id", null: false
+    t.string "actress_names", array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["actress_names"], name: "index_sod_items_on_actress_names", using: :gin
+    t.index ["sod_page_id"], name: "index_sod_items_on_sod_page_id"
+  end
+
+  create_table "sod_pages", force: :cascade do |t|
+    t.string "url"
+    t.text "raw_html"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["url"], name: "index_sod_pages_on_url", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -122,4 +140,5 @@ ActiveRecord::Schema.define(version: 2021_10_22_175250) do
 
   add_foreign_key "javlibrary_items", "javlibrary_pages"
   add_foreign_key "mgstage_items", "mgstage_pages"
+  add_foreign_key "sod_items", "sod_pages"
 end
