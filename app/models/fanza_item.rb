@@ -26,7 +26,11 @@ class FanzaItem < ApplicationRecord
           conn.use FaradayMiddleware::FollowRedirects
           conn.response :encoding
           conn.adapter Faraday.default_adapter
-        }.get(self.url).body.encode("UTF-8", invalid: :replace, undef: :replace).gsub("\u0000", "")
+        }.get(self.url) { |req|
+          req.headers = {
+            "Cookie" => "age_check_done=1",
+          }
+        }.body.encode("UTF-8", invalid: :replace, undef: :replace).gsub("\u0000", "")
 
         self.description = Nokogiri::HTML(raw_html).css(".mg-b20.lh4")&.text&.strip
       rescue Exception
