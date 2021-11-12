@@ -5,6 +5,8 @@
 <h1>
   <span><%= @item.normalized_id %></span>
   <span><%= @item.title %></span>
+</h1>
+<div>
   <% if signed_in_as_admin? %>
   <%= link_to "Re-Search", @movie, method: :delete, class: "btn btn-danger" %>
   <%= link_to "Re-Derive", @item, method: :delete, class: "btn btn-warning" %>
@@ -13,7 +15,7 @@
   <%= link_to "Demote", fanza_item_path(@item, priority_inc: -1), method: :put, class: "btn btn-danger" %>
   <% end %>
   <% end %>
-</h1>
+</div>
 
 <div class="row mt-3 mb-3">
   <div class="col-md-8">
