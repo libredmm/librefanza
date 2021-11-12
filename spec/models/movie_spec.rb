@@ -57,4 +57,14 @@ RSpec.describe Movie, type: :model do
     expect(fanza_item.preferred?).to eq(true)
     expect(javlibrary_item.preferred?).to eq(false)
   end
+
+  it "prefers fanza items with highest priority" do
+    low_pri = create :fanza_item
+    hi_pri = create :fanza_item, content_id: low_pri.normalized_id, priority: 1
+    movie = low_pri.movie
+
+    expect(movie.preferred_item).to eq(hi_pri)
+    expect(hi_pri.preferred?).to eq(true)
+    expect(low_pri.preferred?).to eq(false)
+  end
 end

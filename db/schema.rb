@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_22_185506) do
+ActiveRecord::Schema.define(version: 2021_11_12_220153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -39,12 +39,14 @@ ActiveRecord::Schema.define(version: 2021_10_22_185506) do
     t.string "floor_code"
     t.string "service_code"
     t.text "description"
+    t.integer "priority", default: 0, null: false
     t.index ["content_id"], name: "index_fanza_items_on_content_id"
     t.index ["date"], name: "index_fanza_items_on_date"
     t.index ["floor_code"], name: "index_fanza_items_on_floor_code"
     t.index ["normalized_id", "content_id"], name: "index_fanza_items_on_normalized_id_and_content_id", opclass: :gin_trgm_ops, using: :gin
     t.index ["normalized_id", "date"], name: "index_fanza_items_on_normalized_id_and_date"
     t.index ["normalized_id"], name: "index_fanza_items_on_normalized_id"
+    t.index ["priority"], name: "index_fanza_items_on_priority"
     t.index ["raw_json"], name: "index_fanza_items_on_raw_json", opclass: :jsonb_path_ops, using: :gin
     t.index ["service_code"], name: "index_fanza_items_on_service_code"
   end
