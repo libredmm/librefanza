@@ -22,7 +22,7 @@ class Movie < ApplicationRecord
   end
 
   def preferred_item
-    self.fanza_items.order(date: :asc).first ||
+    self.fanza_items.order(priority: :desc).order(date: :asc).first ||
       self.sod_items.first ||
       self.mgstage_items.first ||
       self.javlibrary_items.first
