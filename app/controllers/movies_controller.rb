@@ -61,4 +61,11 @@ class MoviesController < ApplicationController
     @movie.update params.permit(:cover_image_url)
     redirect_to @movie
   end
+
+  def destroy
+    id = params[:id].upcase
+    @movie = Movie.find_by(normalized_id: id)
+    @searching = MovieSearcher.perform_async id
+    redirect_to @movie
+  end
 end

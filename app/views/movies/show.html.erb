@@ -6,7 +6,8 @@
   <span><%= @item.normalized_id %></span>
   <span><%= @item.title %></span>
   <% if signed_in_as_admin? %>
-  <%= link_to "Refresh", @item, method: :delete, class: "btn btn-danger" %>
+  <%= link_to "Re-Search", @movie, method: :delete, class: "btn btn-danger" %>
+  <%= link_to "Re-Derive", @item, method: :delete, class: "btn btn-warning" %>
   <% end %>
 </h1>
 

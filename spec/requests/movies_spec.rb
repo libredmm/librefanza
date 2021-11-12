@@ -59,6 +59,20 @@ RSpec.describe "Movies", type: :request do
     end
   end
 
+  describe "DELETE /fanza_items/:id" do
+    it "works for admin" do
+      expect(MovieSearcher).to receive(:perform_async).and_return(nil)
+      delete movie_path(movie, as: admin)
+      expect(response).to have_http_status(302)
+    end
+
+    it "rejects other users" do
+      expect {
+        delete movie_path(movie, as: user)
+      }.to raise_error(ActionController::RoutingError)
+    end
+  end
+
   context "when hidden" do
     let(:hidden_movie) { create :movie, is_hidden: true }
 
