@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   constraints Clearance::Constraints::SignedIn.new { |user| user.is_admin? } do
     resources :movies, only: %i[update destroy]
-    resources :fanza_items, only: %i[index destroy]
+    resources :fanza_items, only: %i[index destroy update]
     resources :javlibrary_items, only: %i[index destroy]
     resources :javlibrary_pages, only: %i[index show new create]
     resources :mgstage_items, only: %i[index destroy]

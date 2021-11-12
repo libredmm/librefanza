@@ -34,4 +34,12 @@ class FanzaItemsController < ApplicationController
     @item.derive_fields!
     render "movies/show"
   end
+
+  # PUT /fanza_items/1
+  # PUT /fanza_items/1.json
+  def update
+    @item = FanzaItem.find(params[:id])
+    @item.update(priority: @item.priority + params[:priority_inc].to_i) if params[:priority_inc]
+    render "movies/show"
+  end
 end

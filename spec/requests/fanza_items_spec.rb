@@ -59,4 +59,20 @@ RSpec.describe "FanzaItems", type: :request do
       }.to raise_error(ActionController::RoutingError)
     end
   end
+
+  describe "PUT /fanza_items/:id" do
+    it "works for admin" do
+      expect {
+        put fanza_item_path(item, priority_inc: 2, as: admin)
+      }.to change {
+        item.reload.priority
+      }.by(2)
+    end
+
+    it "rejects other users" do
+      expect {
+        put fanza_item_path(item, as: user)
+      }.to raise_error(ActionController::RoutingError)
+    end
+  end
 end

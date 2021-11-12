@@ -8,6 +8,10 @@
   <% if signed_in_as_admin? %>
   <%= link_to "Re-Search", @movie, method: :delete, class: "btn btn-danger" %>
   <%= link_to "Re-Derive", @item, method: :delete, class: "btn btn-warning" %>
+  <% if @item.is_a? FanzaItem %>
+  <%= link_to "Promote", fanza_item_path(@item, priority_inc: 1), method: :put, class: "btn btn-success" %>
+  <%= link_to "Demote", fanza_item_path(@item, priority_inc: -1), method: :put, class: "btn btn-danger" %>
+  <% end %>
   <% end %>
 </h1>
 
@@ -27,6 +31,10 @@
           <dd class="col-md-9 text-truncate"><%= link_to @item.url, @item.url %></dd>
           <dt class="col-md-3">Date Added</dt>
           <dd class="col-md-9"><%= time_tag @item.created_at %></dd>
+          <% if @item.has_attribute? :priority %>
+          <dt class="col-md-3">Priority</dt>
+          <dd class="col-md-9"><%= @item.priority %></dd>
+          <% end %>
           <% if @movie %>
           <dt class="col-md-3">Cover Image</dt>
           <dd class="col-md-9">
