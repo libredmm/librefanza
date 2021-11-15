@@ -61,12 +61,25 @@ RSpec.describe "FanzaItems", type: :request do
   end
 
   describe "PUT /fanza_items/:id" do
-    it "works for admin" do
-      expect {
+    context "for admin" do
+      it "changes priority" do
+        expect {
+          put fanza_item_path(item, priority_inc: 2, as: admin)
+        }.to change {
+          item.reload.priority
+        }.by(2)
+      end
+
+      it "redirects to movie if new item preferred" do
         put fanza_item_path(item, priority_inc: 2, as: admin)
-      }.to change {
-        item.reload.priority
-      }.by(2)
+        expect(response).to redirect_to(item.movie)
+      end
+
+      it "redirects to item if new item not preferred" do
+        create :fanza_item, content_id: item.normalized_id
+        put fanza_item_path(item, priority_inc: -2, as: admin)
+        expect(response).to redirect_to(item)
+      end
     end
 
     it "rejects other users" do
