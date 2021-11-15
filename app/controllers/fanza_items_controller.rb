@@ -40,6 +40,10 @@ class FanzaItemsController < ApplicationController
   def update
     @item = FanzaItem.find(params[:id])
     @item.update(priority: @item.priority + params[:priority_inc].to_i) if params[:priority_inc]
-    render "movies/show"
+    if @item.preferred?
+      redirect_to @item.movie
+    else
+      redirect_to @item
+    end
   end
 end
