@@ -25,7 +25,7 @@ class SodItem < ApplicationRecord
   end
 
   def proxy_with_referer(image_url)
-    "https://imageproxy.libredmm.com/_ref#{Base64.encode64(url)}/#{image_url}"
+    "https://imageproxy.libredmm.com/_ref#{Base64.strict_encode64(url)}/#{image_url}"
   end
 
   ###################
