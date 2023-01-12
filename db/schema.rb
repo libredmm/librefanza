@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 2021_11_12_220153) do
 
   create_table "javlibrary_items", force: :cascade do |t|
     t.string "normalized_id"
-    t.bigint "javlibrary_page_id", null: false
+    t.integer "javlibrary_page_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "actress_names", array: true
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 2021_11_12_220153) do
 
   create_table "mgstage_items", force: :cascade do |t|
     t.string "normalized_id"
-    t.bigint "mgstage_page_id", null: false
+    t.integer "mgstage_page_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "actress_names", array: true
