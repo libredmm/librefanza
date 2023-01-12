@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Fanza::Id do
+RSpec.describe Fanza::Id, focus: true do
   describe "#normalize" do
     it "works" do
       {
@@ -56,6 +56,8 @@ RSpec.describe Fanza::Id do
         "6id00044" => "ID-044",
         "id00044" => "ID-044",
         "ID-044" => "ID-044",
+        "55t028633" => "T28-633",
+        "T-28633" => "T28-633",
       }.each do |original, normalized|
         expect(Fanza::Id.normalize(original)).to eq(normalized)
       end

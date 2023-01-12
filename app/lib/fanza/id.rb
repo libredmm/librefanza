@@ -49,6 +49,11 @@ module Fanza
 
       @compressed = "#{alphas}-#{digits.to_i}"
       digits = "%03d" % digits.to_i if digits.length != 2
+
+      if alphas == "T" && digits.length == 5 && digits.start_with?("28")
+        alphas = "T28"
+        digits = digits[2..-1]
+      end
       @normalized = "#{alphas}-#{digits}"
 
       @variations = Set[
