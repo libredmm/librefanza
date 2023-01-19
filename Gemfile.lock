@@ -149,7 +149,7 @@ GEM
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
-    globalid (1.0.0)
+    globalid (1.0.1)
       activesupport (>= 5.0)
     hashdiff (1.0.1)
     honeybadger (5.0.2)
