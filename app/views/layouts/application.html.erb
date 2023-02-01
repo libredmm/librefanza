@@ -41,18 +41,17 @@
         </li>
         <% if signed_in_as_admin? %>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle dropdown-toggle-split" href="#" id="moviesDropdownMenu" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           </a>
-          <div class="dropdown-menu" aria-labelledby="moviesDropdownMenu">
-            <%= link_to "Fanza Items", fanza_items_path, class: "dropdown-item" %>
-            <%= link_to "SOD Items", sod_items_path, class: "dropdown-item" %>
-            <%= link_to "SOD Pages", sod_pages_path, class: "dropdown-item" %>
-            <%= link_to "Javlibrary Items", javlibrary_items_path, class: "dropdown-item" %>
-            <%= link_to "Javlibrary Pages", javlibrary_pages_path, class: "dropdown-item" %>
-            <%= link_to "Mgstage Items", mgstage_items_path, class: "dropdown-item" %>
-            <%= link_to "Mgstage Pages", mgstage_pages_path, class: "dropdown-item" %>
-          </div>
+          <ul class="dropdown-menu">
+            <li><%= link_to "Fanza Items", fanza_items_path, class: "dropdown-item" %></li>
+            <li><%= link_to "SOD Items", sod_items_path, class: "dropdown-item" %></li>
+            <li><%= link_to "SOD Pages", sod_pages_path, class: "dropdown-item" %></li>
+            <li><%= link_to "Javlibrary Items", javlibrary_items_path, class: "dropdown-item" %></li>
+            <li><%= link_to "Javlibrary Pages", javlibrary_pages_path, class: "dropdown-item" %></li>
+            <li><%= link_to "Mgstage Items", mgstage_items_path, class: "dropdown-item" %></li>
+            <li><%= link_to "Mgstage Pages", mgstage_pages_path, class: "dropdown-item" %></li>
+          </ul>
         </li>
         <% end %>
 
@@ -64,17 +63,16 @@
         <%= render "movies/search" %>
         <% if signed_in? %>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="userDropdownMenu" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
             <%= current_user.email %>
           </a>
-          <div class="dropdown-menu" aria-labelledby="userDropdownMenu">
+          <ul class="dropdown-menu">
             <% if signed_in_as_admin? %>
-            <%= link_to "Sidekiq", sidekiq_web_path, class: "dropdown-item" %>
-            <div class="dropdown-divider"></div>
+            <li><%= link_to "Sidekiq", sidekiq_web_path, class: "dropdown-item" %></li>
+            <li><hr class="dropdown-divider"/></li>
             <% end %>
-            <%= link_to (t ".sign_out"), sign_out_path, method: :delete, class: "dropdown-item" %>
-          </div>
+            <li><%= link_to (t ".sign_out"), sign_out_path, method: :delete, class: "dropdown-item" %></li>
+          </ul>
         </li>
         <% else %>
         <li class="nav-item">
