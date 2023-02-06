@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Fanza::Id, focus: true do
+RSpec.describe Fanza::Id do
   describe "#normalize" do
     it "works" do
       {
