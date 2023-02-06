@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_12_220153) do
-
+ActiveRecord::Schema[7.0].define(version: 2023_02_06_233131) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -20,8 +19,8 @@ ActiveRecord::Schema.define(version: 2021_11_12_220153) do
     t.integer "fanza_id"
     t.string "name"
     t.jsonb "raw_json"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "is_hidden", default: false, null: false
     t.index ["fanza_id"], name: "index_fanza_actresses_on_fanza_id", unique: true
     t.index ["name"], name: "fuzzy_name", opclass: :gin_trgm_ops, using: :gin
@@ -32,10 +31,10 @@ ActiveRecord::Schema.define(version: 2021_11_12_220153) do
   create_table "fanza_items", force: :cascade do |t|
     t.string "content_id"
     t.jsonb "raw_json"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "normalized_id"
-    t.datetime "date"
+    t.datetime "date", precision: nil
     t.string "floor_code"
     t.string "service_code"
     t.text "description"
@@ -54,8 +53,8 @@ ActiveRecord::Schema.define(version: 2021_11_12_220153) do
   create_table "javlibrary_items", force: :cascade do |t|
     t.string "normalized_id"
     t.integer "javlibrary_page_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "actress_names", array: true
     t.index ["actress_names"], name: "index_javlibrary_items_on_actress_names", using: :gin
     t.index ["javlibrary_page_id"], name: "index_javlibrary_items_on_javlibrary_page_id"
@@ -65,16 +64,16 @@ ActiveRecord::Schema.define(version: 2021_11_12_220153) do
   create_table "javlibrary_pages", force: :cascade do |t|
     t.string "url"
     t.text "raw_html"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["url"], name: "index_javlibrary_pages_on_url", unique: true
   end
 
   create_table "mgstage_items", force: :cascade do |t|
     t.string "normalized_id"
     t.integer "mgstage_page_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "actress_names", array: true
     t.index ["actress_names"], name: "index_mgstage_items_on_actress_names", using: :gin
     t.index ["mgstage_page_id"], name: "index_mgstage_items_on_mgstage_page_id"
@@ -84,19 +83,19 @@ ActiveRecord::Schema.define(version: 2021_11_12_220153) do
   create_table "mgstage_pages", force: :cascade do |t|
     t.string "url"
     t.text "raw_html"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["url"], name: "index_mgstage_pages_on_url", unique: true
   end
 
   create_table "movies", force: :cascade do |t|
     t.string "normalized_id", null: false
     t.string "compressed_id", null: false
-    t.datetime "date"
+    t.datetime "date", precision: nil
     t.integer "actress_fanza_ids", array: true
     t.string "actress_names", array: true
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "is_hidden", default: false, null: false
     t.string "cover_image_url"
     t.index ["actress_fanza_ids"], name: "index_movies_on_actress_fanza_ids", using: :gin
@@ -112,8 +111,8 @@ ActiveRecord::Schema.define(version: 2021_11_12_220153) do
     t.string "normalized_id"
     t.bigint "sod_page_id", null: false
     t.string "actress_names", array: true
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["actress_names"], name: "index_sod_items_on_actress_names", using: :gin
     t.index ["sod_page_id"], name: "index_sod_items_on_sod_page_id"
   end
@@ -121,14 +120,14 @@ ActiveRecord::Schema.define(version: 2021_11_12_220153) do
   create_table "sod_pages", force: :cascade do |t|
     t.string "url"
     t.text "raw_html"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["url"], name: "index_sod_pages_on_url", unique: true
   end
 
   create_table "users", force: :cascade do |t|
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "email", null: false
     t.string "encrypted_password", limit: 128, null: false
     t.string "confirmation_token", limit: 128
