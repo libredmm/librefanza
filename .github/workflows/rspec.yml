@@ -9,6 +9,14 @@ name: Rspec
 
 on: push
 
+env:
+  RAILS_ENV: test
+  PGHOST: localhost
+  PGPORT: 5432
+  PGDATABASE: postgres
+  PGUSER: postgres
+  PGPASSWORD: postgres
+
 jobs:
   test:
     runs-on: ubuntu-20.04
@@ -16,10 +24,6 @@ jobs:
     services:
       postgres:
         image: postgres:12.3
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
         ports:
         - 5432:5432
         # needed because the postgres container does not provide a healthcheck
@@ -33,22 +37,7 @@ jobs:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Prepare database
       run: bundle exec rails db:prepare
-      env:
-        RAILS_ENV: test
-        PGHOST: localhost
-        PGPORT: 5432
-        PGDATABASE: postgres
-        PGUSER: postgres
-        PGPASSWORD: postgres
     - name: Prepare for test
       run: bundle exec rails test:prepare
-      env:
-        RAILS_ENV: test
     - name: Run tests
       run: bundle exec rspec
-      env:
-        PGHOST: localhost
-        PGPORT: 5432
-        PGDATABASE: postgres
-        PGUSER: postgres
-        PGPASSWORD: postgres
