@@ -16,7 +16,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-18.04
-    
+
     services:
       postgres:
         image: postgres:12.3
@@ -30,14 +30,7 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up bundler cache
-      uses: actions/cache@v1
-      with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-gems-
+    - uses: actions/checkout@v3
     - name: Get yarn cache path
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -51,10 +44,8 @@ jobs:
           ${{ runner.os }}-yarn-
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
-    - name: Bundle install
-      run: |
-        bundle config path vendor/bundle
-        bundle install --jobs 4 --retry 3
+      with:
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Yarn install
       run: yarn install
     - name: Prepare database
