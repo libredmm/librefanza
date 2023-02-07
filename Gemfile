@@ -11,10 +11,17 @@ gem "pg"
 gem "puma"
 # Use SCSS for stylesheets
 gem "sass-rails"
-# Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem "webpacker"
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem "turbolinks"
+
+# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+gem "sprockets-rails"
+# Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
+gem "jsbundling-rails"
+# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
+gem "turbo-rails"
+# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+gem "stimulus-rails"
+# Bundle and process CSS [https://github.com/rails/cssbundling-rails]
+gem "cssbundling-rails"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder"
 # Use Active Model has_secure_password
@@ -25,7 +32,8 @@ gem "jbuilder"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
-gem "bootstrap_form", "5.0.0"
+
+gem "bootstrap_form", "~> 5.1"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -40,9 +48,6 @@ group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem "web-console"
   gem "listen"
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem "spring"
-  gem "spring-watcher-listen"
   gem "dotenv-rails"
 end
 

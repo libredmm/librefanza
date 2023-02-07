@@ -12,8 +12,8 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <%= stylesheet_link_tag "application", media: "all", 'data-turbolinks-track': "reload" %>
-  <%= javascript_pack_tag "application", 'data-turbolinks-track': "reload" %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload" , defer: true %>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114278390-1"></script>
@@ -71,7 +71,7 @@
             <li><%= link_to "Sidekiq", sidekiq_web_path, class: "dropdown-item" %></li>
             <li><hr class="dropdown-divider"/></li>
             <% end %>
-            <li><%= link_to (t ".sign_out"), sign_out_path, method: :delete, class: "dropdown-item" %></li>
+            <li><%= link_to (t ".sign_out"), sign_out_path, data: { "turbo-method": :delete }, class: "dropdown-item" %></li>
           </ul>
         </li>
         <% else %>
