@@ -66,7 +66,7 @@ jobs:
         PGDATABASE: postgres
         PGUSER: postgres
         PGPASSWORD: postgres
-     - name: Prepare for test
+    - name: Prepare for test
       run: bundle exec rails test:prepare
       env:
         RAILS_ENV: test
