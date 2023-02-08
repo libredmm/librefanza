@@ -30,14 +30,7 @@ class FanzaActress < ApplicationRecord
     self.fanza_id.to_s
   end
 
-  def attributes
-    {
-      "name" => nil,
-      "image_url" => nil,
-    }
-  end
-
   def attribute_names_for_serialization
-    attributes.keys
+    %w(name image_url)
   end
 end

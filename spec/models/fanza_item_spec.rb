@@ -40,6 +40,10 @@ RSpec.describe FanzaItem, type: :model do
   end
 
   describe ".as_json" do
+    it "includes title" do
+      expect(subject.as_json).to include("title")
+    end
+
     it "filters out affiliate urls" do
       expect(subject.as_json).not_to include("affiliateURL")
       expect(subject.as_json).not_to include("affiliateURLsp")

@@ -13,4 +13,10 @@ RSpec.describe FanzaActress, type: :model do
       expect(actress.image_url).to eq(actress.as_struct.imageURL.small)
     end
   end
+
+  describe ".as_json" do
+    it "contains image url" do
+      expect(actress.as_json).to include("image_url")
+    end
+  end
 end

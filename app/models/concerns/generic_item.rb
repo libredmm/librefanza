@@ -28,28 +28,8 @@ module GenericItem
     movie.destroy if movie && !movie.preferred_item
   end
 
-  def attributes
-    {
-      "actresses" => nil,
-      "cover_image_url" => nil,
-      "date" => nil,
-      "description" => nil,
-      "directors" => nil,
-      "genres" => nil,
-      "labels" => nil,
-      "makers" => nil,
-      "normalized_id" => nil,
-      "review" => nil,
-      "subtitle" => nil,
-      "thumbnail_image_url" => nil,
-      "title" => nil,
-      "url" => nil,
-      "volume" => nil,
-    }
-  end
-
   def attribute_names_for_serialization
-    attributes.keys
+    %w(actresses cover_image_url date description directors genres labels makers normalized_id review subtitle thumbnail_image_url title url volume)
   end
 
   def preferred?
