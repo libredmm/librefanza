@@ -36,4 +36,8 @@ class FanzaActress < ApplicationRecord
       "image_url" => nil,
     }
   end
+
+  def attribute_names_for_serialization
+    attributes.keys
+  end
 end
