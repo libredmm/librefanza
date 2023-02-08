@@ -48,6 +48,10 @@ module GenericItem
     }
   end
 
+  def attribute_names_for_serialization
+    attributes.keys
+  end
+
   def preferred?
     movie.preferred_item == self
   end
