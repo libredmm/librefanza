@@ -8,11 +8,11 @@
 </h1>
 <div>
   <% if signed_in_as_admin? %>
-  <%= link_to "Re-Search", @movie, method: :delete, class: "btn btn-danger" %>
-  <%= link_to "Re-Derive", @item, method: :delete, class: "btn btn-warning" %>
+  <%= link_to "Re-Search", @movie, data: { "turbo-method": :delete }, class: "btn btn-danger" %>
+  <%= link_to "Re-Derive", @item, data: { "turbo-method": :delete }, class: "btn btn-warning" %>
   <% if @item.is_a? FanzaItem %>
-  <%= link_to "Promote", fanza_item_path(@item, priority_inc: 1), method: :put, class: "btn btn-success" %>
-  <%= link_to "Demote", fanza_item_path(@item, priority_inc: -1), method: :put, class: "btn btn-danger" %>
+  <%= link_to "Promote", fanza_item_path(@item, priority_inc: 1), data: { "turbo-method": :put }, class: "btn btn-success" %>
+  <%= link_to "Demote", fanza_item_path(@item, priority_inc: -1), data: { "turbo-method": :put }, class: "btn btn-danger" %>
   <% end %>
   <% end %>
 </div>
@@ -40,7 +40,7 @@
           <% if @movie %>
           <dt class="col-md-3">Cover Image</dt>
           <dd class="col-md-9">
-            <%= form_tag @movie, method: :put, class: "row", id: "update" do %>
+            <%= form_tag @movie, data: { "turbo-method": :put }, class: "row", id: "update" do %>
               <div class="col-md-12">
                 <div class="input-group">
                   <%= text_field_tag "cover_image_url", @movie.cover_image_url, class: "form-control" %>
