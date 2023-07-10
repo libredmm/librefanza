@@ -40,7 +40,7 @@ RSpec.describe Movie, type: :model do
       another_item.update_column(:normalized_id, item.normalized_id)
 
       expect {
-        another_item.update(date: 1.day.ago)
+        another_item.update(date: 1.day.from_now)
       }.to change {
         movie.reload.date
       }
