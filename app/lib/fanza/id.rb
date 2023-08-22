@@ -25,7 +25,7 @@ module Fanza
 
       return unless original.present?
 
-      alphas_regex = /(3dsvr|\d\did|t28|r18|\D+)/i
+      alphas_regex = /(3dsvr|\d\did|t28|r18|4k|\D+)/i
       groups = original.gsub("-", "").gsub(/^._/i, "").gsub(/[^a-z0-9]/i, "").split(alphas_regex).reject(&:empty?)
       groups.shift if groups.first =~ /^\d+$/
       groups.pop if groups.last =~ alphas_regex
