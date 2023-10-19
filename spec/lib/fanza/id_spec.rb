@@ -58,6 +58,7 @@ RSpec.describe Fanza::Id do
         "ID-044" => "ID-044",
         "55t028633" => "T28-633",
         "T-28633" => "T28-633",
+        "4KDVAJ-594" => "DVAJ-594",
         "4kdvaj00594" => "DVAJ-594",
       }.each do |original, normalized|
         expect(Fanza::Id.normalize(original)).to eq(normalized)
