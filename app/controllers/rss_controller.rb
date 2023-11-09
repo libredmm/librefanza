@@ -17,13 +17,17 @@ class RssController < ApplicationController
         next
       end
 
-      in_whitelist = title.split(/[-\s]/).to_set & whitelist
+      series = title.split(/[-\s]/).map { |token|
+        token.gsub(/^\d{3}/i, "")
+      }.to_set
+
+      in_whitelist = series & whitelist
       unless in_whitelist.empty?
         logger.debug "[MATCH_WHITELIST] #{in_whitelist}"
         next
       end
 
-      in_blacklist = title.split(/[-\s]/).to_set & blacklist
+      in_blacklist = series & blacklist
       unless in_blacklist.empty?
         logger.debug "[MATCH_BLACKLIST] #{in_blacklist}"
         item.remove

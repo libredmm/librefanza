@@ -22,6 +22,9 @@ RSpec.describe "Rss", type: :request do
 <item>
 <title><![CDATA[JKL-001]]></title>
 </item>
+<item>
+<title><![CDATA[123JKL-456]]></title>
+</item>
 </channel>
 </rss>
 XML
@@ -50,6 +53,7 @@ XML
       expect(response.body).to include("DEF-456")
       expect(response.body).not_to include("GHI-789")
       expect(response.body).not_to include("abc-456")
+      expect(response.body).not_to include("123JKL-456")
     end
 
     it "works without blacklist" do
