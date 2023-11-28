@@ -42,24 +42,36 @@ RSpec.describe Fanza::Id do
         "GHT-000A" => "GHT-000",
         "BIC-MAN" => "BIC-MAN",
         "180_1507" => "180_1507",
-        "t28526" => "T28-526",
-        "55t2800147" => "T28-147",
+        # DSVR
         "13dsvr00003" => "3DSVR-003",
         "3dsvr00003" => "3DSVR-003",
         "3DSVR-003" => "3DSVR-003",
         "dsvr00005" => "DSVR-005",
         "1073DSVR-0020" => "3DSVR-020",
+        # R18
         "h_093r1800294" => "R18-294",
         "h_093r180125" => "R18-125",
+        # ID
         "5520id00044" => "20ID-044",
         "5526id00044" => "26ID-044",
         "6id00044" => "ID-044",
         "id00044" => "ID-044",
         "ID-044" => "ID-044",
+        # T28
+        "t28526" => "T28-526",
+        "55t2800147" => "T28-147",
         "55t028633" => "T28-633",
         "T-28633" => "T28-633",
+        # 4Kxxxx
         "4KDVAJ-594" => "DVAJ-594",
         "4kdvaj00594" => "DVAJ-594",
+        # DGxxxx
+        "DGCEAD-001" => "CEAD-001",
+        "DGCEMD-001" => "CEMD-001",
+        "DGCESD-001" => "CESD-001",
+        "DGCEDG-001" => "DGCEDG-001",
+        "DGCFDG-001" => "DGCFDG-001",
+        "DGYA-001" => "DGYA-001",
       }.each do |original, normalized|
         expect(Fanza::Id.normalize(original)).to eq(normalized)
       end

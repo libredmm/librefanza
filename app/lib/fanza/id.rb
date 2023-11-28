@@ -47,6 +47,8 @@ module Fanza
       alphas = groups[alpha_idx...digit_idx].join.upcase
       digits = groups[digit_idx]
 
+      alphas = alphas[2..-1] if ["DGCEAD", "DGCEMD", "DGCESD"].include? alphas
+
       @compressed = "#{alphas}-#{digits.to_i}"
       digits = "%03d" % digits.to_i if digits.length != 2
 
