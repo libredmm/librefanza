@@ -40,7 +40,7 @@
           <% if @movie %>
           <dt class="col-md-3">Cover Image</dt>
           <dd class="col-md-9">
-            <%= form_tag @movie, data: { "turbo-method": :put }, class: "row", id: "update" do %>
+            <%= form_tag @movie, method: :put, class: "row", id: "update" do %>
               <div class="col-md-12">
                 <div class="input-group">
                   <%= text_field_tag "cover_image_url", @movie.cover_image_url, class: "form-control" %>
