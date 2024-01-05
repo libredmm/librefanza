@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.1.3"
+ruby "3.3.0"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~>7.0.4"
@@ -83,3 +83,8 @@ gem "faraday_middleware"
 gem "faraday-encoding"
 gem "rexml"
 gem "rack-attack"
+
+# These gems will no longer be part of the default gems since Ruby 3.4.0
+gem "mutex_m"
+gem "bigdecimal"
+gem "base64"
