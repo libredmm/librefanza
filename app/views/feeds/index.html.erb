@@ -1,0 +1,32 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Feeds</h1>
+
+<div id="feeds">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">URI</th>
+        <th scope="col">Host</th>
+        <th scope="col">Created at</th>
+        <th scope="col">Updated at</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tobody>
+    <% @feeds.each do |feed| %>
+      <tr>
+        <th scope="row">
+          <%= link_to feed.id, feed %>
+        </th>
+        <td><%= feed.uri %></td>
+        <td><%= feed.host %></td>
+        <td><%= time_ago_in_words(feed.created_at) %> ago</td>
+        <td><%= time_ago_in_words(feed.updated_at) %> ago</td>
+        <td><%= link_to "Destroy", feed, data: { "turbo-method": :delete }, class: "btn btn-danger"%></td>
+      </tr>
+    <% end %>
+    </tobody>
+  </table>
+</div>

@@ -126,6 +126,26 @@ RSpec.configure do |config|
       body: "<html></html>",
     )
 
+    @rss_stub = stub_request(:any, %r{rss.example.com}).to_return(
+      body: %q{
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+<channel>
+<title>RSS Title</title>
+<link>https://example.com</link>
+<item>
+<title>Item 1</title>
+<link>https://example.com/items/1</link>
+</item>
+<item>
+<title>Item 2</title>
+<link>https://example.com/items/2</link>
+</item>
+</channel>
+</rss>
+},
+    )
+
     stub_request(:any, %r{http://example.com/}).to_return(
       body: "<html></html>",
     )
