@@ -30,7 +30,7 @@ RSpec.describe "Rss", type: :request do
 XML
 },
     )
-    @plex_stub = stub_request(:any, %r{plex.example.com}).to_return(
+    @plex_stub = stub_request(:any, %r{exclude.example.com}).to_return(
       body: "ABC-123\nABC-456",
     )
     @blacklist_stub = stub_request(:any, %r{blacklist.example.com}).to_return(
@@ -45,7 +45,7 @@ XML
     it "works" do
       get rss_pipe_path(
         src: "https://rss.example.com",
-        plex: "https://plex.example.com",
+        exclude: "https://exclude.example.com",
         blacklist: "https://blacklist.example.com",
       )
       expect(response).to have_http_status(200)
@@ -59,7 +59,7 @@ XML
     it "works without blacklist" do
       get rss_pipe_path(
         src: "https://rss.example.com",
-        plex: "https://plex.example.com",
+        exclude: "https://exclude.example.com",
       )
       expect(response).to have_http_status(200)
       expect(response.body).not_to include("ABC-123")
@@ -71,7 +71,7 @@ XML
     it "prioritizes whitelist over blacklist" do
       get rss_pipe_path(
         src: "https://rss.example.com",
-        plex: "https://plex.example.com",
+        exclude: "https://exclude.example.com",
         blacklist: "https://blacklist.example.com",
         whitelist: "https://whitelist.example.com",
       )
