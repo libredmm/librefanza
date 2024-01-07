@@ -6,10 +6,26 @@ class RssController < ApplicationController
     blacklist = params.include?(:blacklist) ? URI.parse(params[:blacklist]).read.split.to_set : Set[]
     whitelist = params.include?(:whitelist) ? URI.parse(params[:whitelist]).read.split.to_set : Set[]
 
+    minus_guids = Set[]
+    if params.include?(:minus)
+      minus_feed = Feed.find_or_create_by(uri: params[:minus])
+      Nokogiri::XML(minus_feed.content).xpath("//channel/item").each do |item|
+        guid = item.xpath("./guid").text.upcase
+        minus_guids << guid if guid.present?
+      end
+    end
+
     feed = Feed.find_or_create_by(uri: params[:src])
     src = Nokogiri::XML(feed.content)
     src.xpath("//channel/item").each do |item|
       title = item.xpath("./title").text.upcase
+      guid = item.xpath("./guid").text.upcase
+
+      if guid.present? && minus_guids.include?(guid)
+        logger.debug "[MINUS] guid"
+        item.remove
+        next
+      end
 
       excluded = title.split.to_set & exclude
       unless excluded.empty?

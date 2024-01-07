@@ -25,6 +25,10 @@ RSpec.describe "Rss", type: :request do
 <item>
 <title><![CDATA[123JKL-456]]></title>
 </item>
+<item>
+<title><![CDATA[MINUS-123]]></title>
+<guid>abcdef</guid>
+</item>
 </channel>
 </rss>
 XML
@@ -39,6 +43,23 @@ XML
     @whitelist_stub = stub_request(:any, %r{whitelist.example.com}).to_return(
       body: "GHI",
     )
+    @minus_stub = stub_request(:any, %r{minus.example.com}).to_return(
+      body: %q{
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+<channel>
+<item>
+<title><![CDATA[MINUS-123]]></title>
+<guid>abcdef</guid>
+</item>
+<item>
+<title><![CDATA[NOGUID-456]]></title>
+</item>
+</channel>
+</rss>
+XML
+},
+    )
   end
 
   describe "GET /pipe" do
@@ -47,6 +68,7 @@ XML
         src: "https://rss.example.com",
         exclude: "https://exclude.example.com",
         blacklist: "https://blacklist.example.com",
+        minus: "https://minus.example.com",
       )
       expect(response).to have_http_status(200)
       expect(response.body).not_to include("ABC-123")
@@ -54,6 +76,7 @@ XML
       expect(response.body).not_to include("GHI-789")
       expect(response.body).not_to include("abc-456")
       expect(response.body).not_to include("123JKL-456")
+      expect(response.body).not_to include("MINUS-123")
     end
 
     it "works without blacklist" do
