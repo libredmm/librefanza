@@ -8,14 +8,14 @@ class RssController < ApplicationController
 
     minus_guids = Set[]
     if params.include?(:minus)
-      minus_feed = Feed.find_or_create_by(uri: params[:minus])
+      minus_feed = Feed.by_uri(params[:minus])
       Nokogiri::XML(minus_feed.content).xpath("//channel/item").each do |item|
         guid = item.xpath("./guid").text.upcase
         minus_guids << guid if guid.present?
       end
     end
 
-    feed = Feed.find_or_create_by(uri: params[:src])
+    feed = Feed.by_uri(params[:src])
     src = Nokogiri::XML(feed.content)
     src.xpath("//channel/item").each do |item|
       title = item.xpath("./title").text.upcase

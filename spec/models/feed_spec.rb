@@ -70,4 +70,12 @@ RSpec.describe Feed, type: :model do
       expect { subject.refresh! }.to raise_error ActiveRecord::RecordInvalid
     end
   end
+
+  describe "by_uri" do
+    it "updates accessed at" do
+      expect {
+        Feed.by_uri(subject.uri)
+      }.to change { subject.reload.accessed_at }
+    end
+  end
 end

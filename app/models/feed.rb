@@ -31,4 +31,10 @@ class Feed < ApplicationRecord
     fetch_content
     save!
   end
+
+  def self.by_uri(uri)
+    feed = find_or_create_by(uri: uri)
+    feed.touch :accessed_at
+    feed
+  end
 end

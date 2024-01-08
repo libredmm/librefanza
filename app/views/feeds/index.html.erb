@@ -11,6 +11,7 @@
         <th scope="col">Host</th>
         <th scope="col">Created at</th>
         <th scope="col">Updated at</th>
+        <th scope="col">Accessed at</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -24,6 +25,7 @@
         <td><%= feed.host %></td>
         <td><%= time_ago_in_words(feed.created_at) %> ago</td>
         <td><%= time_ago_in_words(feed.updated_at) %> ago</td>
+        <td><%= time_ago_in_words(feed.accessed_at) %> ago</td>
         <td><%= link_to "Destroy", feed, data: { "turbo-method": :delete }, class: "btn btn-danger"%></td>
       </tr>
     <% end %>
