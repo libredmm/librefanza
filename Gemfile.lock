@@ -450,6 +450,7 @@ DEPENDENCIES
   sidekiq (< 7)
   sidekiq-unique-jobs (~> 7.1)
   simplecov
+  sprockets-rails
   stimulus-rails
   turbo-rails
   tzinfo-data
