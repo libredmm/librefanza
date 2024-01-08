@@ -8,7 +8,6 @@
       <tr>
         <th scope="col">ID</th>
         <th scope="col">URI</th>
-        <th scope="col">Host</th>
         <th scope="col">Created at</th>
         <th scope="col">Updated at</th>
         <th scope="col">Accessed at</th>
@@ -21,8 +20,12 @@
         <th scope="row">
           <%= link_to feed.id, feed %>
         </th>
-        <td><%= feed.uri %></td>
-        <td><%= feed.host %></td>
+        <td>
+          <button class="btn btn-outline-primary btn-small" data-clipboard-text="<%= CGI.escape(feed.uri) %>">
+            <%= feed.uri %>
+          </button>
+        </td>
+        </td>
         <td><%= time_ago_in_words(feed.created_at) %> ago</td>
         <td><%= time_ago_in_words(feed.updated_at) %> ago</td>
         <td><%= time_ago_in_words(feed.accessed_at) %> ago</td>

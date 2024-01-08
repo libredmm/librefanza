@@ -5,3 +5,6 @@ window.process = { env: { NODE_ENV: 'production' } };
 import '@popperjs/core'
 import 'bootstrap'
 import 'controllers'
+
+import ClipboardJS from 'clipboard'
+new ClipboardJS('.btn');
