@@ -3,3 +3,4 @@
 //= link_tree ../../javascript .js
 //= link application.css
 //= link bootstrap.js
+//= link clipboard.js
