@@ -121,6 +121,9 @@ RSpec.configure do |config|
     @mgstage_stub = stub_request(:any, %r{mgstage.com}).to_return(
       body: "<html></html>",
     )
+    @mgstage_search_stub = stub_request(:any, %r{mgstage.com/search}).to_return(
+      body: "<html><div class='search_list'><h5><a href='https://www.mgstage.com/product/product_detail/ABC-123/'>ABC-123</a></h5></div></html>",
+    )
 
     @javlibrary_stub = stub_request(:any, %r{javlibrary.com}).to_return(
       body: "<html></html>",

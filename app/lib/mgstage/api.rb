@@ -4,12 +4,18 @@ module Mgstage
       return to_enum(:search, keyword) unless block_given?
 
       Fanza::Id.variations(keyword).each do |variation|
-        search_url = "https://www.mgstage.com/search/cSearch.php?search_word=#{variation}"
-        search_page = self.get(search_url).body
-        Nokogiri::HTML(search_page).css("div.search_list h5 a").each do |a|
-          url = URI::join(search_url, a.attr(:href)).to_s
-          yield url, self.get(url).body
+        self.search_raw(variation) do |url, html|
+          yield url, html
         end
+      end
+    end
+
+    def self.search_raw(raw_keyword)
+      search_url = "https://www.mgstage.com/search/cSearch.php?search_word=#{raw_keyword}"
+      search_page = self.get(search_url).body
+      Nokogiri::HTML(search_page).css("div.search_list h5 a").each do |a|
+        url = URI::join(search_url, a.attr(:href)).to_s
+        yield url, self.get(url).body
       end
     end
 
