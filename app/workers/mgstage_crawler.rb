@@ -7,14 +7,8 @@ class MgstageCrawler
     on_conflict: { client: :log, server: :reject },
   )
 
-  def perform(series, min, max)
+  def perform(series)
     Mgstage::Api.search_raw(series.upcase) do |url|
-      self.crawl_page url
-    end
-
-    min.upto(max) do |id|
-      code = "%s-%03d" % [series.upcase, id]
-      url = Mgstage::Api.product_detail_url code
       self.crawl_page url
     end
   end

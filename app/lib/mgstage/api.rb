@@ -11,16 +11,18 @@ module Mgstage
     end
 
     def self.search_raw(raw_keyword)
-      search_url = "https://www.mgstage.com/search/cSearch.php?search_word=#{raw_keyword}"
-      search_page = self.get(search_url).body
-      Nokogiri::HTML(search_page).css("div.search_list h5 a").each do |a|
-        url = URI::join(search_url, a.attr(:href)).to_s
-        yield url
+      1.upto(100) do |page|
+        search_url = "https://www.mgstage.com/search/cSearch.php?search_word=#{raw_keyword}&page=#{page}"
+        Rails.logger.info("[MGSTAGE] #{search_url}")
+        search_resp = self.get(search_url)
+        empty_page = true
+        Nokogiri::HTML(search_resp.body).css("div.search_list h5 a").each do |a|
+          url = URI::join(search_url, a.attr(:href)).to_s
+          empty_page = false
+          yield url
+        end
+        break if empty_page
       end
-    end
-
-    def self.product_detail_url(code)
-      "https://www.mgstage.com/product/product_detail/#{code}/"
     end
 
     def self.get(url)
