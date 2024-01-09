@@ -8,11 +8,19 @@
 </h1>
 <div>
   <% if signed_in_as_admin? %>
-  <%= link_to "Re-Search", @movie, data: { "turbo-method": :delete }, class: "btn btn-danger" %>
-  <%= link_to "Re-Derive", @item, data: { "turbo-method": :delete }, class: "btn btn-warning" %>
+  <div class="d-inline-block">
+    <%= button_to "Re-Search", @movie, method: :delete, class: "btn btn-danger d-inline" %>
+  </div>
+  <div class="d-inline-block">
+    <%= button_to "Re-Derive", @item, method: :delete, class: "btn btn-warning" %>
+  </div>
   <% if @item.is_a? FanzaItem %>
-  <%= link_to "Promote", fanza_item_path(@item, priority_inc: 1), data: { "turbo-method": :put }, class: "btn btn-success" %>
-  <%= link_to "Demote", fanza_item_path(@item, priority_inc: -1), data: { "turbo-method": :put }, class: "btn btn-danger" %>
+  <div class="d-inline-block">
+    <%= button_to "Promote", fanza_item_path(@item, priority_inc: 1), method: :put, class: "btn btn-success" %>
+  </div>
+  <div class="d-inline-block">
+    <%= button_to "Demote", fanza_item_path(@item, priority_inc: -1), method: :put, class: "btn btn-danger" %>
+  </div>
   <% end %>
   <% end %>
 </div>

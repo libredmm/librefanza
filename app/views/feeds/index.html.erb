@@ -29,7 +29,7 @@
         <td><%= time_ago_in_words(feed.created_at) %> ago</td>
         <td><%= time_ago_in_words(feed.updated_at) %> ago</td>
         <td><%= time_ago_in_words(feed.accessed_at) %> ago</td>
-        <td><%= link_to "Destroy", feed, data: { "turbo-method": :delete }, class: "btn btn-danger"%></td>
+        <td><%= button_to "Destroy", feed, method: :delete, class: "btn btn-danger"%></td>
       </tr>
     <% end %>
     </tobody>
