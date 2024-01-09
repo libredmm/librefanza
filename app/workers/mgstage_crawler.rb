@@ -9,6 +9,7 @@ class MgstageCrawler
 
   def perform(series, min, max)
     Mgstage::Api.search_raw(series.upcase) do |url, html|
+      logger.info "[MGSTAGE] [CRAWLED] #{url}"
       MgstagePage.create(url: url, raw_html: html)
     end
 
@@ -18,6 +19,7 @@ class MgstageCrawler
       next if MgstagePage.exists? url: url
       resp = Mgstage::Api.get url
       next unless resp.status == 200
+      logger.info "[MGSTAGE] [CRAWLED] #{url}"
       MgstagePage.create(url: url, raw_html: resp.body)
     end
   end
