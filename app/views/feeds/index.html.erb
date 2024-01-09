@@ -3,14 +3,14 @@
 <h1>Feeds</h1>
 
 <div id="feeds">
-  <table class="table">
+  <table class="table table-responsive table-striped">
     <thead>
       <tr>
         <th scope="col">ID</th>
-        <th scope="col">URI</th>
-        <th scope="col">Created at</th>
-        <th scope="col">Updated at</th>
-        <th scope="col">Accessed at</th>
+        <th scope="col">Tag</th>
+        <th scope="col">Created</th>
+        <th scope="col">Updated</th>
+        <th scope="col">Accessed</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -18,18 +18,33 @@
     <% @feeds.each do |feed| %>
       <tr>
         <th scope="row">
-          <%= link_to feed.id, feed %>
+          <%= link_to feed.id, feed, class: "btn" %>
         </th>
-        <td>
-          <button class="btn btn-outline-primary btn-small" data-clipboard-text="<%= CGI.escape(feed.uri) %>">
+        <td colspan="4">
+          <button class="btn text-break" data-clipboard-text="<%= feed.uri %>">
             <%= feed.uri %>
           </button>
         </td>
+        <td>
+          <button class="btn btn-info data-clipboard-text="<%= CGI.escape(feed.uri) %>">
+            Escaped
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">
+        </th>
+        <td>
+          <%= bootstrap_form_for feed do |f| %>
+            <%= f.text_field :tag, label_as_placeholder: true, append: f.primary('Update') %>
+          <% end %>
         </td>
         <td><%= time_ago_in_words(feed.created_at) %> ago</td>
         <td><%= time_ago_in_words(feed.updated_at) %> ago</td>
         <td><%= time_ago_in_words(feed.accessed_at) %> ago</td>
-        <td><%= button_to "Destroy", feed, method: :delete, class: "btn btn-danger"%></td>
+        <td>
+          <%= button_to "Destroy", feed, method: :delete, class: "btn btn-danger" %>
+        </td>
       </tr>
     <% end %>
     </tobody>

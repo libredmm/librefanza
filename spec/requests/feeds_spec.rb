@@ -55,4 +55,17 @@ RSpec.describe "/feeds", type: :request do
       }.to raise_error(ActionController::RoutingError)
     end
   end
+
+  describe "PUT /feeds/:id" do
+    it "works for admin" do
+      put feed_path(feed, as: admin, params: { feed: { tag: "new tag" } })
+      expect(response).to be_redirect
+    end
+
+    it "rejects other users" do
+      expect {
+        put feed_path(feed, as: user, params: { feed: { tag: "new tag" } })
+      }.to raise_error(ActionController::RoutingError)
+    end
+  end
 end

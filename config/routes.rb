@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     resources :mgstage_pages, only: %i[index show]
     resources :sod_items, only: %i[index destroy]
     resources :sod_pages, only: %i[index show]
-    resources :feeds, only: %i[index show destroy]
+    resources :feeds, only: %i[index show destroy update]
     mount Sidekiq::Web => "/sidekiq"
   end
 end
