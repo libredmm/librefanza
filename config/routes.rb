@@ -3,7 +3,7 @@ require "sidekiq_unique_jobs/web"
 Rails.application.routes.draw do
   root "pages#index"
   get "/search", to: "pages#search"
-  get "rss/pipe"
+  get "feeds/pipe"
 
   resources :movies, only: %i[show]
   resources :fanza_actresses, only: %i[show], path: "actresses"
