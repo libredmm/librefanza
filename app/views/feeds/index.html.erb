@@ -26,8 +26,8 @@
           </button>
         </td>
         <td>
-          <button class="btn btn-info data-clipboard-text="<%= CGI.escape(feed.uri) %>">
-            Escaped
+          <button class="btn btn-info" data-clipboard-text="<%= CGI.escape(feed.uri) %>">
+            <i class="bi bi-clipboard"></i>
           </button>
         </td>
       </tr>
@@ -36,14 +36,22 @@
         </th>
         <td>
           <%= bootstrap_form_for feed do |f| %>
-            <%= f.text_field :tag, label_as_placeholder: true, append: f.primary('Update') %>
+            <%= f.text_field(
+              :tag,
+              label_as_placeholder: true,
+              append: f.primary {
+                content_tag(:i, nil, class: "bi bi-tag")
+              }
+            ) %>
           <% end %>
         </td>
         <td><%= time_ago_in_words(feed.created_at) %> ago</td>
         <td><%= time_ago_in_words(feed.updated_at) %> ago</td>
         <td><%= time_ago_in_words(feed.accessed_at) %> ago</td>
         <td>
-          <%= button_to "Destroy", feed, method: :delete, class: "btn btn-danger" %>
+          <%= button_to feed, method: :delete, class: "btn btn-danger" do %>
+            <i class="bi bi-trash"></i>
+          <% end %>
         </td>
       </tr>
     <% end %>
