@@ -17,16 +17,14 @@
     <tobody>
     <% @feeds.each do |feed| %>
       <tr>
-        <th scope="row">
+        <th scope="row" class="align-middle">
           <%= link_to feed.id, feed, class: "btn" %>
         </th>
-        <td colspan="4">
-          <button class="btn text-break" data-clipboard-text="<%= feed.uri %>">
-            <%= feed.uri %>
-          </button>
+        <td colspan="4" class="align-middle text-break">
+          <%= link_to feed.uri, feed.uri %>
         </td>
-        <td>
-          <button class="btn btn-info" data-clipboard-text="<%= CGI.escape(feed.uri) %>">
+        <td class="align-middle">
+          <button class="btn btn-info" data-clipboard-text="<%= feed.uri %>">
             <i class="bi bi-clipboard"></i>
           </button>
         </td>
@@ -34,21 +32,22 @@
       <tr>
         <th scope="row">
         </th>
-        <td>
-          <%= bootstrap_form_for feed do |f| %>
+        <td class="align-middle">
+          <%= bootstrap_form_for feed, class: "mt-3" do |f| %>
             <%= f.text_field(
               :tag,
               label_as_placeholder: true,
               append: f.primary {
                 content_tag(:i, nil, class: "bi bi-tag")
-              }
+              },
+              wrapper: { class: '' },
             ) %>
           <% end %>
         </td>
-        <td><%= time_ago_in_words(feed.created_at) %> ago</td>
-        <td><%= time_ago_in_words(feed.updated_at) %> ago</td>
-        <td><%= time_ago_in_words(feed.accessed_at) %> ago</td>
-        <td>
+        <td class="align-middle"><%= time_ago_in_words(feed.created_at) %> ago</td>
+        <td class="align-middle"><%= time_ago_in_words(feed.updated_at) %> ago</td>
+        <td class="align-middle"><%= time_ago_in_words(feed.accessed_at) %> ago</td>
+        <td class="align-middle">
           <%= button_to feed, method: :delete, class: "btn btn-danger" do %>
             <i class="bi bi-trash"></i>
           <% end %>
