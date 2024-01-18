@@ -2,11 +2,13 @@
 <%= @item.normalized_id %>
 <% end %>
 
-<h1>
-  <span><%= @item.normalized_id %></span>
-  <span><%= @item.title %></span>
-</h1>
-<div>
+<button class="btn text-start" data-clipboard-text="<%= @item.normalized_id %>">
+  <h1>
+    <span><%= @item.normalized_id %></span>
+    <span><%= @item.title %></span>
+  </h1>
+</button>
+<div class="ms-2">
   <% if signed_in_as_admin? %>
   <div class="d-inline-block">
     <%= button_to "Re-Search", @movie, method: :delete, class: "btn btn-danger d-inline" %>
