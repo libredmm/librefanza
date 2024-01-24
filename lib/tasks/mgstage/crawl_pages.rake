@@ -6,8 +6,8 @@ namespace :mgstage do
     if args.has_key?(:series)
       puts MgstageCrawler.perform_async(args[:series])
     else
-      ENV.fetch("MGSTAGE_CRAWL_LIST", "").split.each do |series|
-        puts MgstageCrawler.perform_async(series)
+      URI.parse("https://s3.junz.info/data/av_mgstage_data").read.split.each do |series|
+        puts "#{series}: #{MgstageCrawler.perform_async(series)}"
       end
     end
   end
