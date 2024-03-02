@@ -53,13 +53,8 @@ module Fanza
       digits = "%03d" % digits.to_i if digits.length != 2
 
       if alphas == "T" && digits.length == 5
-        if digits.start_with?("28")
-          alphas = "T28"
-          digits = digits[2..-1]
-        elsif digits.start_with?("38")
-          alphas = "T38"
-          digits = digits[2..-1]
-        end
+        alphas = "T#{digits[0..1]}"
+        digits = digits[2..-1]
       end
       @normalized = "#{alphas}-#{digits}"
 
