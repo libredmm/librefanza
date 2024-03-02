@@ -25,7 +25,7 @@ module Fanza
 
       return unless original.present?
 
-      alphas_regex = /(3dsvr|\d\did|t28|r18|4k|\D+)/i
+      alphas_regex = /(3dsvr|\d\did|t28|t38|r18|4k|\D+)/i
       groups = original.gsub("-", "").gsub(/^._/i, "").gsub(/[^a-z0-9]/i, "").split(alphas_regex).reject(&:empty?)
       groups.shift if groups.first =~ /^\d+$/
       groups.pop if groups.last =~ alphas_regex
@@ -52,9 +52,14 @@ module Fanza
       @compressed = "#{alphas}-#{digits.to_i}"
       digits = "%03d" % digits.to_i if digits.length != 2
 
-      if alphas == "T" && digits.length == 5 && digits.start_with?("28")
-        alphas = "T28"
-        digits = digits[2..-1]
+      if alphas == "T" && digits.length == 5
+        if digits.start_with?("28")
+          alphas = "T28"
+          digits = digits[2..-1]
+        elsif digits.start_with?("38")
+          alphas = "T38"
+          digits = digits[2..-1]
+        end
       end
       @normalized = "#{alphas}-#{digits}"
 
