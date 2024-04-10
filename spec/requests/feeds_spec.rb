@@ -80,6 +80,9 @@ RSpec.describe "/feeds", type: :request do
   <title><![CDATA[ABC-123 甲乙丙丁]]></title>
   </item>
   <item>
+  <title><![CDATA[ABC-123-v]]></title>
+  </item>
+  <item>
   <title><![CDATA[戊己 DEF-456 庚辛]]></title>
   </item>
   <item>

@@ -53,7 +53,9 @@ class FeedsController < ApplicationController
         next
       end
 
-      excluded = title.split.to_set & exclude
+      excluded = title.split.map { |token|
+        token[/\w+-\d+/]
+      }.to_set & exclude
       unless excluded.empty?
         logger.debug "[EXCLUDED] #{excluded}"
         item.remove
