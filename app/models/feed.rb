@@ -34,7 +34,7 @@ class Feed < ApplicationRecord
 
   def self.by_uri(uri)
     feed = find_or_create_by(uri: uri)
-    feed.touch :accessed_at
+    feed.update_columns accessed_at: Time.current
     feed
   end
 end
