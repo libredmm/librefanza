@@ -40,9 +40,8 @@ class FeedsController < ApplicationController
       end
     end
 
-    feed = Feed.by_uri(params[:src])
-    feed.refresh! if params[:refresh] == "1"
-    src = Nokogiri::XML(feed.content)
+    feed = params[:direct] == "1" ? URI.parse(params[:src]).read : Feed.by_uri(params[:src]).content
+    src = Nokogiri::XML(feed)
     src.xpath("//channel/item").each do |item|
       title = item.xpath("./title").text.upcase
       guid = item.xpath("./guid").text.upcase
