@@ -46,7 +46,7 @@ class FeedsController < ApplicationController
       guid = item.xpath("./guid").text.upcase
 
       if guid.present? && minus_guids.include?(guid)
-        logger.debug "[MINUS] guid"
+        logger.debug "[MINUS] #{guid}"
         item.remove
         next
       end
@@ -91,8 +91,23 @@ class FeedsController < ApplicationController
     end
 
     def load_feed(uri)
-      Nokogiri::XML(
+      feed = Nokogiri::XML(
         params[:direct] == "1" ? URI.parse(uri).read : Feed.by_uri(uri).content
       )
+      if params[:normalize] == "1"
+        feed.xpath("//channel/item").each do |node|
+          guid = node.xpath("./guid").text.upcase
+          next unless guid.present?
+          item = FeedItem.where(guid: guid)
+          if item.exists?
+            node.replace(item.first.content)
+            logger.debug "[NORMALIZE] node replaced: #{guid}"
+          else
+            FeedItem.create!(guid: guid, content: node.to_s)
+            logger.debug "[NORMALIZE] node saved: #{guid}"
+          end
+        end
+      end
+      feed
     end
 end

@@ -140,6 +140,7 @@ RSpec.describe "/feeds", type: :request do
         exclude: "https://exclude.example.com",
         blacklist: "https://blacklist.example.com",
         minus: "https://minus.example.com",
+        normalize: "1",
       )
       expect(response).to have_http_status(200)
       expect(response.body).not_to include("ABC-123")
