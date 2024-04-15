@@ -27,21 +27,20 @@ class FeedsController < ApplicationController
 
   # GET /feeds/pipe
   def pipe
-    exclude = params.include?(:exclude) ? URI.parse(params[:exclude]).read.split.to_set: Set[]
+    exclude = params.include?(:exclude) ? URI.parse(params[:exclude]).read.split.to_set : Set[]
     blacklist = params.include?(:blacklist) ? URI.parse(params[:blacklist]).read.split.to_set : Set[]
     whitelist = params.include?(:whitelist) ? URI.parse(params[:whitelist]).read.split.to_set : Set[]
 
     minus_guids = Set[]
-    if params.include?(:minus)
-      minus_feed = Feed.by_uri(params[:minus])
-      Nokogiri::XML(minus_feed.content).xpath("//channel/item").each do |item|
+    if params.include? :minus
+      minus = load_feed params[:minus]
+      minus.xpath("//channel/item").each do |item|
         guid = item.xpath("./guid").text.upcase
         minus_guids << guid if guid.present?
       end
     end
 
-    feed = params[:direct] == "1" ? URI.parse(params[:src]).read : Feed.by_uri(params[:src]).content
-    src = Nokogiri::XML(feed)
+    src = load_feed params[:src]
     src.xpath("//channel/item").each do |item|
       title = item.xpath("./title").text.upcase
       guid = item.xpath("./guid").text.upcase
@@ -89,5 +88,11 @@ class FeedsController < ApplicationController
 
     def feed_params
       params.require(:feed).permit(:tag)
+    end
+
+    def load_feed(uri)
+      Nokogiri::XML(
+        params[:direct] == "1" ? URI.parse(uri).read : Feed.by_uri(uri).content
+      )
     end
 end
