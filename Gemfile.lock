@@ -129,6 +129,8 @@ GEM
     date (3.3.4)
     diff-lcs (1.5.1)
     docile (1.4.0)
+    dockerfile-rails (1.6.13)
+      rails (>= 3.0.0)
     dotenv (3.1.0)
     dotenv-rails (3.1.0)
       dotenv (= 3.1.0)
@@ -424,6 +426,7 @@ DEPENDENCIES
   capybara
   clearance
   database_cleaner-active_record
+  dockerfile-rails
   dotenv-rails
   factory_bot_rails
   faraday
