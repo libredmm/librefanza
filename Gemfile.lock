@@ -179,7 +179,6 @@ GEM
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashdiff (1.1.0)
-    honeybadger (5.8.0)
     i18n (1.14.4)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.0.1)
@@ -432,7 +431,6 @@ DEPENDENCIES
   faraday
   faraday-encoding
   faraday_middleware
-  honeybadger
   importmap-rails
   jbuilder
   jquery-rails

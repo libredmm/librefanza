@@ -1,0 +1,31 @@
+services:
+  web:
+    env_file:
+      - .env
+      - .production.env
+    restart: always
+    build: .
+    ports:
+      - 3000:3000
+    links:
+      - redis
+    environment:
+      REDIS_URL: redis://redis:6379/
+    command: bundle exec puma -w 2
+  sidekiq:
+    env_file:
+      - .env
+      - .production.env
+    restart: always
+    build: .
+    links:
+      - redis
+    environment:
+      REDIS_URL: redis://redis:6379/
+    command: bundle exec sidekiq
+  redis:
+    image: redis
+    restart: always
+    expose:
+      - 6379
+

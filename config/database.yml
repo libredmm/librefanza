@@ -81,6 +81,4 @@ test:
 production:
   <<: *default
   database: librefanza_production
-  username: librefanza
-  password: <%= ENV['LIBREFANZA_DATABASE_PASSWORD'] %>
   pool: 20
