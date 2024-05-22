@@ -11,7 +11,7 @@ services:
       - redis
     environment:
       REDIS_URL: redis://redis:6379/
-    command: bundle exec puma -w 2
+    command: ./bin/puma -w 2
   sidekiq:
     env_file:
       - .env
