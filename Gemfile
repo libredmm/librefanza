@@ -77,7 +77,6 @@ gem "rack-mini-profiler"
 gem "faraday_middleware"
 gem "faraday-encoding"
 gem "rexml"
-gem "rack-attack"
 
 # These gems will no longer be part of the default gems since Ruby 3.4.0
 gem "mutex_m"
