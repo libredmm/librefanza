@@ -7,10 +7,10 @@ class FanzaItemCrawler
     on_conflict: { client: :log, server: :reject },
   )
 
-  def perform
-    1.week.ago.to_date.upto(Date.today) do |date|
-      start_date = date.strftime("%Y-%m-%dT%H:%M:%S"),
-      end_date = (date + 1.day).strftime("%Y-%m-%dT%H:%M:%S")
+  def perform(days_to_crawl = 3)
+    1.upto(days_to_crawl) do |i|
+      start_date = i.days.ago.to_date
+      end_date = (i - 1).days.ago.to_date
       logger.info "Crawling Fanza from #{start_date} to #{end_date}"
       Fanza::Api.search(start_date: start_date, end_date: end_date, sort: "date") do |json|
         FanzaItem.create(raw_json: json)
