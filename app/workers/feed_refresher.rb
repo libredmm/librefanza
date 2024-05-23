@@ -7,7 +7,7 @@ class FeedRefresher
     on_conflict: { client: :log, server: :reject },
   )
 
-  def perform(interval, max_failures)
+  def perform(interval = 30, max_failures = 3)
     fail_cnt = 0
     Feed.order(updated_at: :asc).each do |feed|
       begin

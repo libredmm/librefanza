@@ -27,7 +27,7 @@ RSpec.describe FeedRefresher, type: :worker do
     10.times do |i|
       create :feed
     end
-    
+
     new_content = %q{
 <?xml version="1.0" encoding="utf-8" ?>
 <rss version="2.0">
@@ -56,12 +56,11 @@ RSpec.describe FeedRefresher, type: :worker do
     end
   end
 
-
   it "stops after reaching maximum failures" do
     10.times do |i|
       create :feed
     end
-    
+
     refresh_cnt = 0
     allow_any_instance_of(Feed).to receive(:refresh!) do
       refresh_cnt += 1

@@ -3,3 +3,14 @@
   - critical
   - default
   - low
+
+:scheduler:
+  :schedule:
+    ActressCrawler:
+      cron: '0 0 * * *'
+    FanzaItemCrawler:
+      cron: '0 1 * * *'
+    MgstageCrawler:
+      cron: '0 2 * * *'
+    FeedRefresher:
+      cron: '*/10 * * * *'

@@ -7,7 +7,7 @@ class ActressCrawler
     on_conflict: { client: :log, server: :reject },
   )
 
-  def perform(overlap)
+  def perform(overlap = 1000)
     offset = FanzaActress.count - overlap + 1
     offset = 1 if offset < 1
     Fanza::Api.actress_search(offset: offset) do |json|

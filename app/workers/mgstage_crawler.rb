@@ -1,3 +1,5 @@
+require "open-uri"
+
 class MgstageCrawler
   include Sidekiq::Worker
 
@@ -7,9 +9,12 @@ class MgstageCrawler
     on_conflict: { client: :log, server: :reject },
   )
 
-  def perform(series)
-    Mgstage::Api.search_raw(series.upcase) do |url|
-      self.crawl_page url
+  def perform
+    URI.parse("https://s3.junz.info/data/av_mgstage_data").read.split.each do |series|
+      logger.info "[MGS] crawling #{series}"
+      Mgstage::Api.search_raw(series.upcase) do |url|
+        self.crawl_page url
+      end
     end
   end
 
