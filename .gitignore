@@ -29,22 +29,17 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
-/public/assets
-
-
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-/public/packs
-/public/packs-test
-
+# Ignore compiled assets
+/public/assets
 /app/assets/builds/*
 !/app/assets/builds/.keep
 
-/node_modules
+# Ignore rspec examples & coverage
 /spec/examples.txt
 /coverage
 
+# Ignore vendored assets
 /vendor
-
-/certs

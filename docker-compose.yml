@@ -2,7 +2,7 @@ services:
   web:
     env_file:
       - .env
-      - .production.env
+      - .env.production
     restart: always
     build: .
     ports:
