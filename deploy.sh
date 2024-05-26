@@ -1,7 +1,8 @@
 #!/bin/bash
 
-DEPLOY_DEST=librefanza
+DEPLOY_HOST="librefanza"
+DEPLOY_PATH="~/librefanza"
 
 git push &&
-scp .env .env.production $DEPLOY_DEST:~/librefanza/ &&
-ssh $DEPLOY_DEST "cd ~/librefanza && git pull --rebase && sudo docker compose up --build -d"
+scp .env .env.production $DEPLOY_HOST:$DEPLOY_PATH &&
+ssh $DEPLOY_HOST "cd $DEPLOY_PATH && git pull --rebase && sudo docker compose up --build -d"
