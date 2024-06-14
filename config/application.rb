@@ -34,5 +34,7 @@ module Librefanza
     config.active_job.queue_adapter = :sidekiq
 
     config.cache_store = :memory_store
+
+    config.time_zone = "Pacific Time (US & Canada)"
   end
 end
