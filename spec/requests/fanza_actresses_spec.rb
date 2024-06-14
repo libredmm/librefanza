@@ -14,18 +14,11 @@ require "rails_helper"
 
 RSpec.describe "FanzaActresses", type: :request do
   let(:actress) { create :fanza_actress }
-  let(:admin) { create(:admin) }
 
   describe "GET /fanza_actresses" do
-    it "works for admin" do
-      get fanza_actresses_path(as: admin)
+    it "works" do
+      get fanza_actresses_path
       expect(response).to have_http_status(200)
-    end
-
-    it "rejects other users" do
-      expect {
-        get fanza_actresses_path
-      }.to raise_error(ActionController::RoutingError)
     end
   end
 

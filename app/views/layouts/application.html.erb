@@ -33,10 +33,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarContent">
       <ul class="navbar-nav me-auto">
-        <% if signed_in_as_admin? %>
         <li class="nav-item">
           <%= link_to "Movies", movies_path, class: "nav-link" %>
         </li>
+
+        <% if signed_in_as_admin? %>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           </a>
@@ -50,6 +51,7 @@
             <li><%= link_to "Mgstage Pages", mgstage_pages_path, class: "dropdown-item" %></li>
           </ul>
         </li>
+        <% end %>
 
         <li class="nav-item">
           <%= link_to "Actresses", fanza_actresses_path, class: "nav-link" %>
@@ -57,7 +59,6 @@
         <li class="nav-item">
           <%= link_to "Feeds", feeds_path, class: "nav-link" %>
         </li>
-        <% end %>
       </ul>
       <ul class="navbar-nav ms-auto">
         <%= render "movies/search" %>

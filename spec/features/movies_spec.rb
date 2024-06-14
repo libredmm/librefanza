@@ -1,12 +1,10 @@
 require "rails_helper"
 
 RSpec.feature "Movies", type: :feature do
-  let(:admin) { create(:admin) }
-
   scenario "fuzzy search" do
     abp = create :fanza_item, content_id: "abp123"
     sdde = create :fanza_item, content_id: "sdde234"
-    visit movies_path(q: "abp", as: admin)
+    visit movies_path(q: "abp")
     expect(page).to have_text(abp.normalized_id)
     expect(page).not_to have_text(sdde.normalized_id)
   end
@@ -14,7 +12,7 @@ RSpec.feature "Movies", type: :feature do
   scenario "prefix search" do
     bp = create :fanza_item, content_id: "bp456"
     abp = create :fanza_item, content_id: "abp123"
-    visit movies_path(q: "bp", style: "prefix", as: admin)
+    visit movies_path(q: "bp", style: "prefix")
     expect(page).to have_text(bp.normalized_id)
     expect(page).not_to have_text(abp.normalized_id)
   end
@@ -22,7 +20,7 @@ RSpec.feature "Movies", type: :feature do
   scenario "with hidden movies" do
     movie = create :movie
     hidden = create :movie, is_hidden: true
-    visit movies_path(as: admin)
+    visit movies_path
     expect(page).to have_text(movie.normalized_id)
     expect(page).not_to have_text(hidden.normalized_id)
   end
@@ -35,17 +33,17 @@ RSpec.feature "Movies", type: :feature do
     end
 
     scenario "by title" do
-      visit movies_path(order: "title", as: admin)
+      visit movies_path(order: "title")
       expect(page).to have_text(/AA.+BB.+CC/m)
     end
 
     scenario "by release date" do
-      visit movies_path(order: "release_date", as: admin)
+      visit movies_path(order: "release_date")
       expect(page).to have_text(/BB.+CC.+AA/m)
     end
 
     scenario "by date added" do
-      visit movies_path(order: "date_added", as: admin)
+      visit movies_path(order: "date_added")
       expect(page).to have_text(/CC.+BB.+AA/m)
     end
   end
