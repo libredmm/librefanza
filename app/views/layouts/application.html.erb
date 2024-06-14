@@ -56,9 +56,6 @@
         <li class="nav-item">
           <%= link_to "Actresses", fanza_actresses_path, class: "nav-link" %>
         </li>
-        <li class="nav-item">
-          <%= link_to "Feeds", feeds_path, class: "nav-link" %>
-        </li>
       </ul>
       <ul class="navbar-nav ms-auto">
         <%= render "movies/search" %>
@@ -70,6 +67,7 @@
           <ul class="dropdown-menu">
             <% if signed_in_as_admin? %>
             <li><%= link_to "Sidekiq", sidekiq_web_path, class: "dropdown-item" %></li>
+            <li><%= link_to "Feeds", feeds_path, class: "dropdown-item" %></li>
             <li><hr class="dropdown-divider"/></li>
             <% end %>
             <li><%= link_to (t ".sign_out"), sign_out_path, data: { "turbo-method": :delete }, class: "dropdown-item" %></li>
