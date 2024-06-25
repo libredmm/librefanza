@@ -19,13 +19,13 @@ class MovieSearcher
       return
     end
 
-    keyword = Fanza::Id.normalize keyword
-    unless Fanza::Id.normalized? keyword
+    id = Fanza::Id.new(keyword)
+    unless id.normalized
       logger.info "[UNNORMALIZED] #{keyword}"
       return
     end
 
-    found = search_on_fanza(keyword) || search_on_mgstage(keyword)
+    found = search_on_fanza(id.normalized) || search_on_mgstage(id.normalized)
   end
 
   def search_on_fanza(keyword)
@@ -39,26 +39,6 @@ class MovieSearcher
       true
     else
       logger.info "[FANZA] [NOT_FOUND] #{keyword}"
-      false
-    end
-  end
-
-  def search_on_sod(keyword)
-    if SodItem.where(normalized_id: keyword).exists?
-      logger.info "[SOD] [ALREADY_FOUND] #{keyword}"
-      return true
-    end
-    logger.info "[SOD] [SEARCHING] #{keyword}"
-
-    Sod::Api.search(keyword) do |url, raw_html|
-      page = SodPage.create(url: url, raw_html: raw_html)
-    end
-
-    if SodItem.where(normalized_id: keyword).exists?
-      logger.info "[SOD] [FOUND] #{keyword}"
-      true
-    else
-      logger.info "[SOD] [NOT_FOUND] #{keyword}"
       false
     end
   end
