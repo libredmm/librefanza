@@ -69,6 +69,16 @@ RSpec.describe MovieSearcher, type: :worker do
       end
     end
 
+    context "previously found on mgstage" do
+      it "stops there" do
+        item = create :mgstage_item
+        id = item.normalized_id
+
+        subject.perform id
+        expect(Mgstage::Api).not_to have_received(:search).with(id)
+      end
+    end
+
     context "not previously found on mgstage" do
       it "searches mgstage next" do
         id = generate :normalized_id
