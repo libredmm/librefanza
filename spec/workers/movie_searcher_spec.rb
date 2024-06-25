@@ -69,58 +69,24 @@ RSpec.describe MovieSearcher, type: :worker do
       end
     end
 
-    context "not previously found on sod" do
-      it "searches sod next" do
+    context "not previously found on mgstage" do
+      it "searches mgstage next" do
         id = generate :normalized_id
 
         subject.perform id
-        expect(Sod::Api).to have_received(:search).with(id)
+        expect(Mgstage::Api).to have_received(:search).with(id)
       end
 
-      context "found on sod" do
+      context "found on mgstage" do
         it "stops there" do
           id = generate :normalized_id
 
-          expect(SodPage).to receive(:create) {
-            page = create :sod_page
-            page.sod_item.update_column(:normalized_id, id)
+          expect(MgstagePage).to receive(:create) {
+            page = create :mgstage_product_page
+            page.mgstage_item.update_column(:normalized_id, id)
             page
           }
           subject.perform id
-        end
-      end
-
-      context "not found on sod" do
-        context "previously found on mgstage" do
-          it "stops there" do
-            item = create :mgstage_item
-            id = item.normalized_id
-
-            subject.perform id
-            expect(Mgstage::Api).not_to have_received(:search).with(id)
-          end
-        end
-
-        context "not previously found on mgstage" do
-          it "searches mgstage next" do
-            id = generate :normalized_id
-
-            subject.perform id
-            expect(Mgstage::Api).to have_received(:search).with(id)
-          end
-
-          context "found on mgstage" do
-            it "stops there" do
-              id = generate :normalized_id
-
-              expect(MgstagePage).to receive(:create) {
-                page = create :mgstage_product_page
-                page.mgstage_item.update_column(:normalized_id, id)
-                page
-              }
-              subject.perform id
-            end
-          end
         end
       end
     end

@@ -25,7 +25,7 @@ class MovieSearcher
       return
     end
 
-    found = search_on_fanza(keyword) || search_on_sod(keyword) || search_on_mgstage(keyword)
+    found = search_on_fanza(keyword) || search_on_mgstage(keyword)
   end
 
   def search_on_fanza(keyword)
