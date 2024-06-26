@@ -31,7 +31,7 @@ class MoviesController < ApplicationController
     @movie = Movie.find_by(normalized_id: id)
     @item = @movie&.preferred_item
     unless @item
-      @searching = MovieSearcher.perform_async id
+      @searching = MovieSearcher.perform_async id if signed_in? or request.format.json?
       @related_movies = Movie.where("normalized_id ILIKE ?", "%#{id}%").order(:normalized_id).page(params[:page])
     end
 

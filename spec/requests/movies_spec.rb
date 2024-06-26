@@ -18,11 +18,29 @@ RSpec.describe "Movies", type: :request do
       expect(response).to have_http_status(200)
     end
 
-    it "performs search when needed" do
-      id = generate :normalized_id
-      get movie_path(id)
-      expect(response).to have_http_status(404)
-      expect(MovieSearcher).to have_enqueued_sidekiq_job(id)
+    context "when not found" do
+      it "returns 404" do
+        id = generate :normalized_id
+        get movie_path(id)
+        expect(response).to have_http_status(404)
+        # expect(MovieSearcher).to have_enqueued_sidekiq_job(id)
+      end
+
+      context "when logged in" do
+        it "performs search" do
+          id = generate :normalized_id
+          get movie_path(id, as: user)
+          expect(MovieSearcher).to have_enqueued_sidekiq_job(id)
+        end
+      end
+
+      context "when not logged in" do
+        it "does not perform search" do
+          id = generate :normalized_id
+          get movie_path(id)
+          expect(MovieSearcher).not_to have_enqueued_sidekiq_job(id)
+        end
+      end
     end
   end
 
