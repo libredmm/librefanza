@@ -72,6 +72,10 @@ RSpec.describe Fanza::Id do
         "DGCEDG-001" => "DGCEDG-001",
         "DGCFDG-001" => "DGCFDG-001",
         "DGYA-001" => "DGYA-001",
+        # FC2
+        "FC2-4221749" => "FC2-4221749",
+        "FC2-PPV-4221749" => "FC2-4221749",
+        "FC2PPV-4221749" => "FC2-4221749",
       }.each do |original, normalized|
         expect(Fanza::Id.normalize(original)).to eq(normalized)
       end

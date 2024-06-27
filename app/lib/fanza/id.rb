@@ -25,7 +25,7 @@ module Fanza
 
       return unless original.present?
 
-      alphas_regex = /(3dsvr|\d\did|t28|t38|r18|4k|\D+)/i
+      alphas_regex = /(3dsvr|\d\did|t\d8|r18|4k|fc2ppv|fc2|\D+)/i
       groups = original.gsub("-", "").gsub(/^._/i, "").gsub(/[^a-z0-9]/i, "").split(alphas_regex).reject(&:empty?)
       groups.shift if groups.first =~ /^\d+$/
       groups.pop if groups.last =~ alphas_regex
@@ -47,7 +47,12 @@ module Fanza
       alphas = groups[alpha_idx...digit_idx].join.upcase
       digits = groups[digit_idx]
 
-      alphas = alphas[2..-1] if ["DGCEAD", "DGCEMD", "DGCESD"].include? alphas
+      case alphas
+      when "DGCEAD", "DGCEMD", "DGCESD"
+        alphas = alphas[2..-1]
+      when "FC2PPV"
+        alphas = "FC2"
+      end
 
       @compressed = "#{alphas}-#{digits.to_i}"
       digits = "%03d" % digits.to_i if digits.length != 2
