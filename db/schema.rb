@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_15_185222) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_27_220434) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -48,6 +48,24 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_15_185222) do
     t.index ["priority"], name: "index_fanza_items_on_priority"
     t.index ["raw_json"], name: "index_fanza_items_on_raw_json", opclass: :jsonb_path_ops, using: :gin
     t.index ["service_code"], name: "index_fanza_items_on_service_code"
+  end
+
+  create_table "fc2_items", force: :cascade do |t|
+    t.string "normalized_id"
+    t.bigint "fc2_page_id", null: false
+    t.string "actress_names", array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["actress_names"], name: "index_fc2_items_on_actress_names", using: :gin
+    t.index ["fc2_page_id"], name: "index_fc2_items_on_fc2_page_id"
+  end
+
+  create_table "fc2_pages", force: :cascade do |t|
+    t.string "url"
+    t.text "raw_html"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["url"], name: "index_fc2_pages_on_url"
   end
 
   create_table "feed_items", force: :cascade do |t|
@@ -159,6 +177,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_15_185222) do
     t.index ["remember_token"], name: "index_users_on_remember_token"
   end
 
+  add_foreign_key "fc2_items", "fc2_pages"
   add_foreign_key "javlibrary_items", "javlibrary_pages"
   add_foreign_key "mgstage_items", "mgstage_pages"
   add_foreign_key "sod_items", "sod_pages"
