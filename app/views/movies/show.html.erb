@@ -99,23 +99,6 @@
       <dt>User Rating</dt>
       <dd><%= "%.1f" % @item.review %></dd>
       <% end %>
-      <dt>
-        External Links
-      </dt>
-      <dd>
-        <ul class="list-inline external-links">
-          <li class="list-inline-item">
-            <%= link_to @item.url do %>
-            <%= image_tag @item.logo_url, class: "img-fluid" %>
-            <% end %>
-          </li>
-          <li class="list-inline-item">
-            <%= link_to "https://www.javbus.com/search/#{@item.normalized_id}" do %>
-            <%= image_tag "javbus.png", class: "img-fluid javbus" %>
-            <% end %>
-          </li>
-        </ul>
-      </dd>
     </dl>
   </div>
 </div>
