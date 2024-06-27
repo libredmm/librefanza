@@ -5,10 +5,8 @@ RSpec.describe MovieSearcher, type: :worker do
     allow(Fanza::Api).to receive(:search).and_call_original
     url = generate(:url)
     html = [generate(:url), "<html></html>"]
-    allow(Sod::Api).to receive(:search).and_yield(url, html)
     allow(Mgstage::Api).to receive(:search).and_yield(url, html)
-    allow(SodPage).to receive(:create)
-    allow(MgstagePage).to receive(:create)
+    allow(Javlibrary::Api).to receive(:search).and_yield(url, html)
   end
 
   it "ignores non ascii keyword" do
@@ -59,16 +57,6 @@ RSpec.describe MovieSearcher, type: :worker do
       allow(Fanza::Api).to receive(:search).and_return([])
     end
 
-    context "previously found on sod" do
-      it "stops there" do
-        item = create :sod_item
-        id = item.normalized_id
-
-        subject.perform id
-        expect(Sod::Api).not_to have_received(:search).with(id)
-      end
-    end
-
     context "previously found on mgstage" do
       it "stops there" do
         item = create :mgstage_item
@@ -92,11 +80,50 @@ RSpec.describe MovieSearcher, type: :worker do
           id = generate :normalized_id
 
           expect(MgstagePage).to receive(:create) {
-            page = create :mgstage_product_page
-            page.mgstage_item.update_column(:normalized_id, id)
-            page
+            item = create :mgstage_item, normalized_id: id
+            item.mgstage_page
           }
           subject.perform id
+          expect(Javlibrary::Api).not_to have_received(:search).with(id)
+        end
+      end
+
+      context "not found on mgstage" do
+        before(:each) do
+          allow(Mgstage::Api).to receive(:search).and_return([])
+        end
+
+        context "previously found on javlibrary" do
+          it "stops there" do
+            item = create :javlibrary_item
+            id = item.normalized_id
+
+            subject.perform id
+            expect(Javlibrary::Api).not_to have_received(:search).with(id)
+          end
+        end
+
+        context "not previously found on javlibrary" do
+          it "searches javlibrary next" do
+            id = generate :normalized_id
+
+            subject.perform id
+            expect(Javlibrary::Api).to have_received(:search).with(id)
+          end
+
+          context "found on javlibrary" do
+            it "stops there" do
+              id = generate :normalized_id
+
+              expect(JavlibraryPage).to receive(:find_or_initialize_by) {
+                item = create :javlibrary_item, normalized_id: id
+                page = item.javlibrary_page
+                expect(page).to receive(:save!).and_return(true)
+                page
+              }
+              subject.perform id
+            end
+          end
         end
       end
     end

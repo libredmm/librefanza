@@ -25,7 +25,7 @@ class MovieSearcher
       return
     end
 
-    found = search_on_fanza(id.normalized) || search_on_mgstage(id.normalized)
+    found = search_on_fanza(id.normalized) || search_on_mgstage(id.normalized) || search_on_javlibrary(id.normalized)
   end
 
   def search_on_fanza(keyword)
@@ -59,6 +59,29 @@ class MovieSearcher
       true
     else
       logger.info "[MGSTAGE] [NOT_FOUND] #{keyword}"
+      false
+    end
+  end
+
+  def search_on_javlibrary(keyword)
+    if JavlibraryItem.where(normalized_id: keyword).exists?
+      logger.info "[JAVLIBRARY] [ALREADY_FOUND] #{keyword}"
+      return true
+    end
+    logger.info "[JAVLIBRARY] [SEARCHING] #{keyword}"
+
+    Javlibrary::Api.search(keyword) do |url, raw_html|
+      page = JavlibraryPage.find_or_initialize_by(url: url)
+      page.raw_html = raw_html
+      page.save!
+      break if page.javlibrary_item&.normalized_id == keyword
+    end
+
+    if JavlibraryItem.where(normalized_id: keyword).exists?
+      logger.info "[JAVLIBRARY] [FOUND] #{keyword}"
+      true
+    else
+      logger.info "[JAVLIBRARY] [NOT_FOUND] #{keyword}"
       false
     end
   end
