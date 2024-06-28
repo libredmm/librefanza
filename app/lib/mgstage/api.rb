@@ -2,6 +2,7 @@ module Mgstage
   class Api
     def self.search(keyword)
       return to_enum(:search, keyword) unless block_given?
+      return if keyword.starts_with?("FC2-")
 
       Fanza::Id.variations(keyword).each do |variation|
         self.search_raw(variation) do |url|

@@ -2,6 +2,7 @@ module Sod
   class Api
     def self.search(keyword)
       return to_enum(:search, keyword) unless block_given?
+      return if keyword.starts_with?("FC2-")
 
       Fanza::Id.variations(keyword).each do |variation|
         product_url = "https://ec.sod.co.jp/prime/videos/?id=#{variation}"

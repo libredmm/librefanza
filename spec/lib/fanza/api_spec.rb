@@ -11,6 +11,11 @@ RSpec.describe Fanza::Api do
       Fanza::Api.search(keyword: generate(:normalized_id)) { next }
       expect(@item_list_stub).to have_been_requested.at_least_times(10)
     end
+
+    it "is no-op on fc2 ids" do
+      Fanza::Api.search(keyword: generate(:fc2_id)) { break }
+      expect(@item_list_stub).not_to have_been_requested
+    end
   end
 
   describe "#actress_search" do

@@ -8,6 +8,7 @@ module Fanza
                start_date: start_date,
                end_date: end_date,
              ) unless block_given?
+      return if keyword&.starts_with?("FC2-")
 
       Fanza::Id.variations(keyword).each do |variation|
         self.item_list(

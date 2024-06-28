@@ -4,6 +4,7 @@ module Javlibrary
   class Api
     def self.search(keyword)
       return to_enum(:search, keyword) unless block_given?
+      return if keyword.starts_with?("FC2-")
 
       search_url = URI::join(
         ENV.fetch("JAVLIBRARY_BASE_URL", "https://www.javlibrary.com/"),

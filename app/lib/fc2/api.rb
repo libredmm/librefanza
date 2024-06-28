@@ -2,8 +2,7 @@ module Fc2
   class Api
     def self.search(keyword)
       return to_enum(:search, keyword) unless block_given?
-
-      return unless keyword =~ /^FC2-\d+$/
+      return unless keyword.starts_with?("FC2-")
 
       url = URI.join(
         ENV.fetch("FC2_BASE_URL", "https://adult.contents.fc2.com/"),

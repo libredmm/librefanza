@@ -19,5 +19,10 @@ RSpec.describe Javlibrary::Api do
       Javlibrary::Api.search(generate(:normalized_id)) { next }
       expect(@javlibrary_stub).to have_been_requested.twice
     end
+
+    it "is no-op on fc2 ids" do
+      Javlibrary::Api.search(generate(:fc2_id)) { break }
+      expect(@javlibrary_stub).not_to have_been_requested
+    end
   end
 end
