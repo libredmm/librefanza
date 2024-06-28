@@ -129,6 +129,10 @@ RSpec.configure do |config|
       body: "<html></html>",
     )
 
+    @fc2_stub = stub_request(:any, %r{fc2.com}).to_return(
+      body: "<html></html>",
+    )
+
     @rss_stub = stub_request(:any, %r{rss.example.com}).to_return(
       body: %q{
 <?xml version="1.0" encoding="utf-8" ?>

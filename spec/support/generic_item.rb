@@ -17,10 +17,10 @@ RSpec.shared_examples "generic item" do
   context "when normalized id changes" do
     it "still has movie with same normalized id" do
       expect {
-        subject.update(normalized_id: "CHANGED-001")
+        subject.update(normalized_id: "FC2-001")
       }.to change {
         subject.movie.normalized_id
-      }.to("CHANGED-001")
+      }.to("FC2-001")
     end
 
     it "destroys old obsolete movie" do

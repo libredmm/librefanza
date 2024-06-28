@@ -28,4 +28,12 @@ RSpec.describe "generic_pages/index" do
     render
     expect(rendered).to have_text(page.url)
   end
+
+  it "works with fc2 pages" do
+    page = create :fc2_page
+    @pages = Fc2Page.all.page(1)
+
+    render
+    expect(rendered).to have_text(page.url)
+  end
 end

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :javlibrary_items, only: %i[show]
   resources :mgstage_items, only: %i[show]
   resources :sod_items, only: %i[show]
+  resources :fc2_items, only: %i[show]
 
   constraints Clearance::Constraints::SignedIn.new { |user| user.is_admin? } do
     resources :movies, only: %i[update destroy]
@@ -22,6 +23,8 @@ Rails.application.routes.draw do
     resources :mgstage_pages, only: %i[index show]
     resources :sod_items, only: %i[index destroy]
     resources :sod_pages, only: %i[index show]
+    resources :fc2_items, only: %i[index destroy]
+    resources :fc2_pages, only: %i[index show]
     resources :feeds, only: %i[index show destroy update]
     mount Sidekiq::Web => "/sidekiq"
   end

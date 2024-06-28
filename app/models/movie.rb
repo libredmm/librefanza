@@ -7,6 +7,7 @@ class Movie < ApplicationRecord
   has_many :sod_items, foreign_key: :normalized_id, primary_key: :normalized_id
   has_many :mgstage_items, foreign_key: :normalized_id, primary_key: :normalized_id
   has_many :javlibrary_items, foreign_key: :normalized_id, primary_key: :normalized_id
+  has_many :fc2_items, foreign_key: :normalized_id, primary_key: :normalized_id
 
   validates :normalized_id, presence: true, uniqueness: true
   validates :compressed_id, presence: true
@@ -25,10 +26,11 @@ class Movie < ApplicationRecord
     self.fanza_items.order(priority: :desc).order(date: :desc).first ||
       self.sod_items.first ||
       self.mgstage_items.first ||
-      self.javlibrary_items.first
+      self.javlibrary_items.first ||
+      self.fc2_items.first
   end
 
   def items
-    self.fanza_items + self.sod_items + self.mgstage_items + self.javlibrary_items
+    self.fanza_items + self.sod_items + self.mgstage_items + self.javlibrary_items + self.fc2_items
   end
 end
