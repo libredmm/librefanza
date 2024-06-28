@@ -1,6 +1,6 @@
 FactoryBot.define do
   sequence :fc2_id do |i|
-    "FC2-#{format("%06d", i)}"
+    "FC2-#{format("%03d", i)}"
   end
 
   factory :fc2_item do

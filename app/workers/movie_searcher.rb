@@ -25,7 +25,10 @@ class MovieSearcher
       return
     end
 
-    found = search_on_fanza(id.normalized) || search_on_mgstage(id.normalized) || search_on_javlibrary(id.normalized)
+    found = search_on_fanza(id.normalized) ||
+            search_on_mgstage(id.normalized) ||
+            search_on_javlibrary(id.normalized) ||
+            search_on_fc2(id.normalized)
   end
 
   def search_on_fanza(keyword)
@@ -82,6 +85,26 @@ class MovieSearcher
       true
     else
       logger.info "[JAVLIBRARY] [NOT_FOUND] #{keyword}"
+      false
+    end
+  end
+
+  def search_on_fc2(keyword)
+    if Fc2Item.where(normalized_id: keyword).exists?
+      logger.info "[FC2] [ALREADY_FOUND] #{keyword}"
+      return true
+    end
+    logger.info "[FC2] [SEARCHING] #{keyword}"
+
+    Fc2::Api.search(keyword) do |url, raw_html|
+      page = Fc2Page.create(url: url, raw_html: raw_html)
+    end
+
+    if Fc2Item.where(normalized_id: keyword).exists?
+      logger.info "[FC2] [FOUND] #{keyword}"
+      true
+    else
+      logger.info "[FC2] [NOT_FOUND] #{keyword}"
       false
     end
   end
