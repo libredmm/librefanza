@@ -1,4 +1,4 @@
-class MovieSearcher
+class FanzaSearcher
   include Sidekiq::Worker
 
   sidekiq_options(

@@ -23,14 +23,14 @@ RSpec.describe "Movies", type: :request do
         id = generate :normalized_id
         get movie_path(id)
         expect(response).to have_http_status(404)
-        # expect(MovieSearcher).to have_enqueued_sidekiq_job(id)
+        # expect(FanzaSearcher).to have_enqueued_sidekiq_job(id)
       end
 
       context "when logged in" do
         it "performs search" do
           id = generate :normalized_id
           get movie_path(id, as: user)
-          expect(MovieSearcher).to have_enqueued_sidekiq_job(id)
+          expect(FanzaSearcher).to have_enqueued_sidekiq_job(id)
         end
       end
 
@@ -38,7 +38,7 @@ RSpec.describe "Movies", type: :request do
         it "does not perform search" do
           id = generate :normalized_id
           get movie_path(id)
-          expect(MovieSearcher).not_to have_enqueued_sidekiq_job(id)
+          expect(FanzaSearcher).not_to have_enqueued_sidekiq_job(id)
         end
       end
     end
@@ -58,7 +58,7 @@ RSpec.describe "Movies", type: :request do
 
     it "returns not found when not found" do
       id = generate :normalized_id
-      expect(MovieSearcher).to receive(:perform_async).and_return(nil)
+      expect(FanzaSearcher).to receive(:perform_async).and_return(nil)
       get movie_path(id, format: :json)
       expect(response).to have_http_status(404)
     end
@@ -79,7 +79,7 @@ RSpec.describe "Movies", type: :request do
 
   describe "DELETE /fanza_items/:id" do
     it "works for admin" do
-      expect(MovieSearcher).to receive(:perform_async).and_return(nil)
+      expect(FanzaSearcher).to receive(:perform_async).and_return(nil)
       delete movie_path(movie, as: admin)
       expect(response).to have_http_status(302)
     end

@@ -31,7 +31,7 @@ class MoviesController < ApplicationController
     @movie = Movie.find_by(normalized_id: id)
     @item = @movie&.preferred_item
     unless @item
-      @searching = MovieSearcher.perform_async id if signed_in? or request.format.json?
+      @searching = FanzaSearcher.perform_async id if signed_in? or request.format.json?
       @related_movies = Movie.where("normalized_id ILIKE ?", "%#{id}%").order(:normalized_id).page(params[:page])
     end
 
@@ -65,7 +65,7 @@ class MoviesController < ApplicationController
   def destroy
     id = params[:id].upcase
     @movie = Movie.find_by(normalized_id: id)
-    @searching = MovieSearcher.perform_async id
+    @searching = FanzaSearcher.perform_async id
     redirect_to @movie
   end
 end

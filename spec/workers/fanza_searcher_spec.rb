@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe MovieSearcher, type: :worker do
+RSpec.describe FanzaSearcher, type: :worker do
   before(:each) do
     allow(Fanza::Api).to receive(:search).and_call_original
     url = generate(:url)
