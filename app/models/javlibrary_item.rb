@@ -88,6 +88,6 @@ class JavlibraryItem < ApplicationRecord
   end
 
   def logo_url
-    "http://www.javlibrary.com/img/logo-main-big.gif"
+    "javlibrary.gif"
   end
 end
