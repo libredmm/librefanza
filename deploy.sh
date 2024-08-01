@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEPLOY_HOST="librefanza"
+DEPLOY_HOST="dockyard"
 DEPLOY_PATH="~/librefanza"
 
 git push &&
