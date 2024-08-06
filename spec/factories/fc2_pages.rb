@@ -1,11 +1,11 @@
 FactoryBot.define do
   factory :fc2_page do
     transient do
-      fixture_date { "2024-06-27" }
+      fixture_date { "2024-08-05" }
     end
 
     url {
-      "https://adult.contents.fc2.com/article/3069309/"
+      "http://dockyard:3002/get/https/adult.contents.fc2.com/article/4509988/"
     }
 
     raw_html {
