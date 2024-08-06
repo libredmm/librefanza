@@ -29,11 +29,11 @@ class Fc2Item < ApplicationRecord
   end
 
   def cover_image_url
-    html.at_css(".items_article_SampleImages li a")&.attr("href")&.strip
+    html.at_css(".items_article_SampleImages li a")&.attr("href")&.strip&.gsub(/^\/\//, "https://")
   end
 
   def thumbnail_image_url
-    html.at_css(".items_article_MainitemThumb img")&.attr("src")&.strip
+    html.at_css(".items_article_MainitemThumb img")&.attr("src")&.strip&.gsub(/^\/\//, "https://")
   end
 
   def url

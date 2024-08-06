@@ -82,6 +82,10 @@ RSpec.shared_examples "generic item" do
         subject.cover_image_url
       }.to("https://imageproxy.libredmm.com/dummy_url")
     end
+
+    it "starts with http" do
+      expect(subject.cover_image_url).to start_with("http")
+    end
   end
 
   describe "thumbnail_image_url" do
@@ -91,6 +95,10 @@ RSpec.shared_examples "generic item" do
       }.to change {
         subject.thumbnail_image_url
       }.to("https://imageproxy.libredmm.com/cx.53/dummy_url")
+    end
+
+    it "starts with http" do
+      expect(subject.thumbnail_image_url).to start_with("http")
     end
   end
 end
