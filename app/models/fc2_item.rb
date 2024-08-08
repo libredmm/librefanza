@@ -81,4 +81,8 @@ class Fc2Item < ApplicationRecord
   def logo_url
     "https://static.fc2.com/contents/images/header/main_logo_new.png"
   end
+
+  def sample_image_urls
+    []
+  end
 end

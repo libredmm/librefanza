@@ -90,4 +90,8 @@ class JavlibraryItem < ApplicationRecord
   def logo_url
     "javlibrary.gif"
   end
+
+  def sample_image_urls
+    []
+  end
 end

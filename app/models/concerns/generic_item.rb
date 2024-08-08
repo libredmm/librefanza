@@ -29,7 +29,7 @@ module GenericItem
   end
 
   def attribute_names_for_serialization
-    %w(actresses cover_image_url date description directors genres labels makers normalized_id review subtitle thumbnail_image_url title url volume)
+    %w(actresses cover_image_url date description directors genres labels makers normalized_id review subtitle thumbnail_image_url title url volume sample_image_urls)
   end
 
   def preferred?

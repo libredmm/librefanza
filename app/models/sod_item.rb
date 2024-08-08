@@ -107,4 +107,8 @@ class SodItem < ApplicationRecord
   def logo_url
     "https://ec.sod.co.jp/prime/image/logo-b.png"
   end
+
+  def sample_image_urls
+    []
+  end
 end

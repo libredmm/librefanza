@@ -103,4 +103,11 @@ class FanzaItem < ApplicationRecord
   def logo_url
     "https://p.dmm.co.jp/p/affiliate/web_service/r18_88_35.gif"
   end
+
+  def sample_image_urls
+    as_struct.sampleImageURL&.sample_l&.image ||
+    as_struct.sampleImageURL&.sample_m&.image ||
+    as_struct.sampleImageURL&.sample_s&.image ||
+    []
+  end
 end
