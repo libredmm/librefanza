@@ -44,3 +44,14 @@ body {
 ul.external-links img {
     height: 1.5em;
 }
+
+#sample-images {
+    column-count: 6;
+    column-gap: 1rem;
+}
+
+#sample-images img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+}

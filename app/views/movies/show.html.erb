@@ -133,8 +133,25 @@
   </dd>
   <% end %>
 
+  <% if @item.sample_image_urls.present? %>
+  <dt>Sample Images</dt>
+  <dd>
+    <div class="card mt-3 mb-3">
+      <div class="card-body pt-3 pb-2">
+        <div id="sample-images">
+          <% @item.sample_image_urls.each do |img| %>
+            <%= link_to img, target: "_blank" do %>
+              <% image_tag img %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </dd>
+  <% end %>
+
   <% if @item.movie.items.count > 1 %>
-  <dt>Other versions</dt>
+  <dt class="mb-3">Other versions</dt>
   <dd>
     <%= render(
       partial: "movies/cards",
