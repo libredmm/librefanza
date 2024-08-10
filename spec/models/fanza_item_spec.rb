@@ -39,6 +39,27 @@ RSpec.describe FanzaItem, type: :model do
     end
   end
 
+  describe ".cover_image_url" do
+    context "for DANDY series" do
+      subject { create :fanza_item, content_id: "dandy00123" }
+
+      context "when sample image urls are present" do
+        it "returns first sample image url" do
+          subject.raw_json["sampleImageURL"] = { "sample_l": { "image": ["dummy_url"] } }
+          expect(subject.cover_image_url).to eq("dummy_url")
+        end
+      end
+
+      context "when no sample image urls" do
+        it "returns cover image url" do
+          subject.raw_json["imageURL"]["large"] = "dummy_url"
+          subject.raw_json["sampleImageURL"] = {}
+          expect(subject.cover_image_url).to eq("dummy_url")
+        end
+      end
+    end
+  end
+
   describe ".as_json" do
     it "includes title" do
       expect(subject.as_json).to include("title")

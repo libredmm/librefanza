@@ -59,6 +59,9 @@ class FanzaItem < ApplicationRecord
   end
 
   def cover_image_url
+    if normalized_id =~ /^DANDY-/ && sample_image_urls.any?
+      return sample_image_urls.first
+    end
     as_struct.imageURL&.large
   end
 
