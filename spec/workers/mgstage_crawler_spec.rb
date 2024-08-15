@@ -2,7 +2,8 @@ require "rails_helper"
 
 RSpec.describe MgstageCrawler, type: :worker do
   before(:each) do
-    stub_request(:any, %r{av_mgstage}).to_return(body: "ABC")
+    ENV["MGSTAGE_SERIES_URL"] = "http://www.example.com/mgstage_series"
+    stub_request(:any, "http://www.example.com/mgstage_series").to_return(body: "ABC")
   end
 
   it "crawl product pages" do

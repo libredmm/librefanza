@@ -13,7 +13,7 @@ module Sod
     private
 
     def self.get(url)
-      Faraday.new { |conn|
+      Faraday.new(proxy: ENV["PROXY_URL"]) { |conn|
         conn.use FaradayMiddleware::FollowRedirects
       }.get("https://ec.sod.co.jp/prime/_ontime.php") { |req|
         req.headers = {

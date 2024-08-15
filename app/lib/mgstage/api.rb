@@ -27,7 +27,7 @@ module Mgstage
     end
 
     def self.get(url)
-      Faraday.get(url) { |req|
+      Faraday.new(proxy: ENV["PROXY_URL"]).get(url) { |req|
         req.headers = { "Cookie" => "adc=1" }
       }
     end

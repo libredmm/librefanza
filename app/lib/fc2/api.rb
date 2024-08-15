@@ -14,7 +14,7 @@ module Fc2
     private
 
     def self.get(url)
-      Faraday.get(url).body
+      Faraday.new(proxy: ENV["PROXY_URL"]).get(url).body
     end
   end
 end

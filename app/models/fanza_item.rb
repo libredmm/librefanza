@@ -22,7 +22,7 @@ class FanzaItem < ApplicationRecord
 
     if self.description.blank?
       begin
-        raw_html = Faraday.new { |conn|
+        raw_html = Faraday.new(proxy: ENV["PROXY_URL"]) { |conn|
           conn.use FaradayMiddleware::FollowRedirects
           conn.response :encoding
           conn.adapter Faraday.default_adapter
