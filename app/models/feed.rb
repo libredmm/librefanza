@@ -21,7 +21,7 @@ class Feed < ApplicationRecord
   end
 
   def fetch_content
-    self.content = URI.parse(uri).read
+    self.content = Faraday.get(uri).body
   rescue OpenURI::HTTPError, WebMock::NetConnectNotAllowedError => e
     self.content = nil
     errors.add(:uri, e.message)

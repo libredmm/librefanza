@@ -1,4 +1,4 @@
-require 'open-uri'
+require "open-uri"
 
 class FeedsController < ApplicationController
   before_action :set_feed, only: %i[ show destroy update ]
@@ -27,9 +27,9 @@ class FeedsController < ApplicationController
 
   # GET /feeds/pipe
   def pipe
-    exclude = params.include?(:exclude) ? URI.parse(params[:exclude]).read.split.to_set : Set[]
-    blacklist = params.include?(:blacklist) ? URI.parse(params[:blacklist]).read.split.to_set : Set[]
-    whitelist = params.include?(:whitelist) ? URI.parse(params[:whitelist]).read.split.to_set : Set[]
+    exclude = params.include?(:exclude) ? Faraday.get(params[:exclude]).body.split.to_set : Set[]
+    blacklist = params.include?(:blacklist) ? Faraday.get(params[:blacklist]).body.split.to_set : Set[]
+    whitelist = params.include?(:whitelist) ? Faraday.get(params[:whitelist]).body.split.to_set : Set[]
 
     minus_guids = Set[]
     if params.include? :minus
@@ -81,33 +81,34 @@ class FeedsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_feed
-      @feed = Feed.find(params[:id])
-    end
 
-    def feed_params
-      params.require(:feed).permit(:tag)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_feed
+    @feed = Feed.find(params[:id])
+  end
 
-    def load_feed(uri)
-      feed = Nokogiri::XML(
-        params[:direct] == "1" ? URI.parse(uri).read : Feed.by_uri(uri).content
-      )
-      if params[:normalize] == "1"
-        feed.xpath("//channel/item").each do |node|
-          guid = node.xpath("./guid").text.upcase
-          next unless guid.present?
-          item = FeedItem.where(guid: guid)
-          if item.exists?
-            node.replace(item.first.content)
-            logger.debug "[NORMALIZE] node replaced: #{guid}"
-          else
-            FeedItem.create!(guid: guid, content: node.to_s)
-            logger.debug "[NORMALIZE] node saved: #{guid}"
-          end
+  def feed_params
+    params.require(:feed).permit(:tag)
+  end
+
+  def load_feed(uri)
+    feed = Nokogiri::XML(
+      params[:direct] == "1" ? Faraday.get(uri).body : Feed.by_uri(uri).content
+    )
+    if params[:normalize] == "1"
+      feed.xpath("//channel/item").each do |node|
+        guid = node.xpath("./guid").text.upcase
+        next unless guid.present?
+        item = FeedItem.where(guid: guid)
+        if item.exists?
+          node.replace(item.first.content)
+          logger.debug "[NORMALIZE] node replaced: #{guid}"
+        else
+          FeedItem.create!(guid: guid, content: node.to_s)
+          logger.debug "[NORMALIZE] node saved: #{guid}"
         end
       end
-      feed
     end
+    feed
+  end
 end

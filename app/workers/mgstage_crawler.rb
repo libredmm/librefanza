@@ -10,7 +10,7 @@ class MgstageCrawler
   )
 
   def perform
-    URI.parse("https://s3.junz.info/data/av_mgstage_data").read.split.each do |series|
+    Faraday.get("https://s3.junz.info/data/av_mgstage_data").body.split.each do |series|
       logger.info "[MGS] crawling #{series}"
       Mgstage::Api.search_raw(series.upcase) do |url|
         self.crawl_page url
