@@ -28,8 +28,17 @@ class FeedsController < ApplicationController
   # GET /feeds/pipe
   def pipe
     exclude = params.include?(:exclude) ? Faraday.get(params[:exclude]).body.split.to_set : Set[]
-    blacklist = params.include?(:blacklist) ? Faraday.get(params[:blacklist]).body.split.to_set : Set[]
     whitelist = params.include?(:whitelist) ? Faraday.get(params[:whitelist]).body.split.to_set : Set[]
+
+    blacklist = Set[]
+    if params.include?(:blacklist)
+      params[:blacklist] = [params[:blacklist]] unless params[:blacklist].is_a? Array
+      params[:blacklist].each do |uri|
+        logger.debug "[BLACKLIST_URI] #{uri}"
+        blacklist |= Faraday.get(uri).body.split.to_set
+      end
+    end
+    logger.debug "[BLACKLIST] #{blacklist}"
 
     minus_guids = Set[]
     if params.include? :minus
@@ -63,6 +72,7 @@ class FeedsController < ApplicationController
       series = title.split(/[-\s]/).map { |token|
         token.gsub(/^\d{3}/i, "")
       }.to_set
+      logger.debug "[SERIES] #{series}"
 
       in_whitelist = series & whitelist
       unless in_whitelist.empty?
