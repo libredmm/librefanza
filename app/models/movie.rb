@@ -15,6 +15,8 @@ class Movie < ApplicationRecord
 
   paginates_per 30
 
+  scope :solo, -> { where("array_length(actress_fanza_ids, 1) = 1") }
+
   def derive_fields
     self.compressed_id = Fanza::Id.compress(self.normalized_id)
     self.date = self.preferred_item&.date

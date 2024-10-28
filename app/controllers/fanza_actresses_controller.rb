@@ -24,6 +24,22 @@ class FanzaActressesController < ApplicationController
 
     raise ActiveRecord::RecordNotFound if @actress.is_hidden?
 
-    @movies = @actress.movies.order(:normalized_id).page(params[:page])
+    @movies = @actress.movies.order(:normalized_id)
+    @movies = @movies.solo if params[:solo]
+
+    respond_to do |format|
+      format.html {
+        @movies = @movies.page(params[:page])
+        render
+      }
+      format.json {
+        render json: {
+          name: @actress.name,
+          fanza_id: @actress.fanza_id,
+          image_url: @actress.image_url,
+          movies: @movies.pluck(:normalized_id),
+        }
+      }
+    end
   end
 end

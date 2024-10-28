@@ -27,6 +27,11 @@ RSpec.describe "FanzaActresses", type: :request do
       get fanza_actress_path(actress)
       expect(response).to have_http_status(200)
     end
+
+    it "accept json format" do
+      get fanza_actress_path(actress, format: :json)
+      expect(response).to have_http_status(200)
+    end
   end
 
   describe "GET /fanza_actresses/:name" do
