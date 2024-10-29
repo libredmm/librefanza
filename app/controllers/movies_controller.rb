@@ -17,10 +17,10 @@ class MoviesController < ApplicationController
       @style = params[:style]&.downcase&.to_sym
       case @style
       when :prefix
-        @movies = @movies.where("normalized_id ILIKE ?", "#{params[:q]}%")
+        @movies = @movies.with_prefix params[:q]
       else
         @style = :fuzzy
-        @movies = @movies.where("normalized_id ILIKE ?", "%#{params[:q]}%")
+        @movies = @movies.fuzzy_match params[:q]
       end
     end
     @movies = @movies.page(params[:page])
@@ -32,7 +32,7 @@ class MoviesController < ApplicationController
     @item = @movie&.preferred_item
     unless @item
       @searching = FanzaSearcher.perform_async id if signed_in? or request.format.json?
-      @related_movies = Movie.where("normalized_id ILIKE ?", "%#{id}%").order(:normalized_id).page(params[:page])
+      @related_movies = Movie.fuzzy_match(id).order(:normalized_id).page(params[:page])
     end
 
     respond_to do |format|

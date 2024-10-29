@@ -16,6 +16,8 @@ class Movie < ApplicationRecord
   paginates_per 30
 
   scope :solo, -> { where("array_length(actress_fanza_ids, 1) = 1") }
+  scope :with_prefix, ->(q) { where("normalized_id ILIKE ?", "#{q}%") }
+  scope :fuzzy_match, ->(q) { where("normalized_id ILIKE ?", "%#{q}%") }
 
   def derive_fields
     self.compressed_id = Fanza::Id.compress(self.normalized_id)
