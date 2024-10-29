@@ -5,9 +5,11 @@
 <div class="media mb-3">
     <%= image_tag(@actress.image_url || fake_image_url(@actress), class: "align-self-center mr-3")%>
     <div class="media-body align-self-center">
-        <h1>
-            <span><%= @actress.name %></span>
-        </h1>
+        <button class="btn text-start" data-clipboard-text="<%= @actress.name %>">
+            <h1>
+                <span><%= @actress.name %></span>
+            </h1>
+        </button>
     </div>
 </div>
 
