@@ -9,7 +9,7 @@ class FanzaActress < ApplicationRecord
 
   def movies
     query = Movie.where("actress_names @> ARRAY[?]::varchar[]", name)
-    query = query.or(Movie.where("actress_fanza_ids @> ARRAY[?]", fanza_id)) if fanza_id
+    query = query.or(Movie.where("actress_fanza_ids @> ARRAY[?]::integer[]", fanza_id.to_i)) if fanza_id
     query
   end
 
