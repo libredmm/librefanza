@@ -27,7 +27,9 @@ class Movie < ApplicationRecord
   end
 
   def preferred_item
-    self.fanza_items.order(priority: :desc).order(date: :desc).first ||
+    self.fanza_items.order(priority: :desc).order(date: :desc).filter {
+      |i| i.as_struct.imageURL&.large.present?
+    }.first ||
       self.sod_items.first ||
       self.mgstage_items.first ||
       self.javlibrary_items.first ||
