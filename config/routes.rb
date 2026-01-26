@@ -2,6 +2,9 @@ require "sidekiq-scheduler/web"
 require "sidekiq_unique_jobs/web"
 
 Rails.application.routes.draw do
+  # Fallback GET route for sign_out when Turbo isn't available
+  get "/sign_out", to: "clearance/sessions#destroy", as: nil
+
   root "pages#index"
   get "/search", to: "pages#search"
   resources :movies, only: %i[index show]
