@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_06_27_220434) do
+ActiveRecord::Schema[8.1].define(version: 2024_06_27_220434) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
-  enable_extension "plpgsql"
 
   create_table "fanza_actresses", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.integer "fanza_id"
+    t.boolean "is_hidden", default: false, null: false
     t.string "name"
     t.jsonb "raw_json"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_hidden", default: false, null: false
     t.index ["fanza_id"], name: "index_fanza_actresses_on_fanza_id", unique: true
     t.index ["name"], name: "fuzzy_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["name"], name: "index_fanza_actresses_on_name"
@@ -30,15 +30,15 @@ ActiveRecord::Schema[7.2].define(version: 2024_06_27_220434) do
 
   create_table "fanza_items", force: :cascade do |t|
     t.string "content_id"
-    t.jsonb "raw_json"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "normalized_id"
     t.datetime "date", precision: nil
-    t.string "floor_code"
-    t.string "service_code"
     t.text "description"
+    t.string "floor_code"
+    t.string "normalized_id"
     t.integer "priority", default: 0, null: false
+    t.jsonb "raw_json"
+    t.string "service_code"
+    t.datetime "updated_at", null: false
     t.index ["content_id"], name: "index_fanza_items_on_content_id"
     t.index ["date"], name: "index_fanza_items_on_date"
     t.index ["floor_code"], name: "index_fanza_items_on_floor_code"
@@ -51,91 +51,91 @@ ActiveRecord::Schema[7.2].define(version: 2024_06_27_220434) do
   end
 
   create_table "fc2_items", force: :cascade do |t|
-    t.string "normalized_id"
-    t.bigint "fc2_page_id", null: false
     t.string "actress_names", array: true
     t.datetime "created_at", null: false
+    t.bigint "fc2_page_id", null: false
+    t.string "normalized_id"
     t.datetime "updated_at", null: false
     t.index ["actress_names"], name: "index_fc2_items_on_actress_names", using: :gin
     t.index ["fc2_page_id"], name: "index_fc2_items_on_fc2_page_id"
   end
 
   create_table "fc2_pages", force: :cascade do |t|
-    t.string "url"
-    t.text "raw_html"
     t.datetime "created_at", null: false
+    t.text "raw_html"
     t.datetime "updated_at", null: false
+    t.string "url"
     t.index ["url"], name: "index_fc2_pages_on_url"
   end
 
   create_table "feed_items", force: :cascade do |t|
-    t.string "guid"
     t.text "content"
     t.datetime "created_at", null: false
+    t.string "guid"
     t.datetime "updated_at", null: false
     t.index ["guid"], name: "index_feed_items_on_guid", unique: true
   end
 
   create_table "feeds", force: :cascade do |t|
-    t.string "uri"
-    t.string "host"
+    t.datetime "accessed_at", default: -> { "now()" }, null: false
     t.text "content"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "accessed_at", default: -> { "now()" }, null: false
+    t.string "host"
     t.string "tag"
+    t.datetime "updated_at", null: false
+    t.string "uri"
     t.index ["host"], name: "index_feeds_on_host"
     t.index ["uri"], name: "index_feeds_on_uri", unique: true
   end
 
   create_table "javlibrary_items", force: :cascade do |t|
-    t.string "normalized_id"
-    t.integer "javlibrary_page_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "actress_names", array: true
+    t.datetime "created_at", null: false
+    t.bigint "javlibrary_page_id", null: false
+    t.string "normalized_id"
+    t.datetime "updated_at", null: false
     t.index ["actress_names"], name: "index_javlibrary_items_on_actress_names", using: :gin
     t.index ["javlibrary_page_id"], name: "index_javlibrary_items_on_javlibrary_page_id"
     t.index ["normalized_id"], name: "index_javlibrary_items_on_normalized_id"
   end
 
   create_table "javlibrary_pages", force: :cascade do |t|
-    t.string "url"
-    t.text "raw_html"
     t.datetime "created_at", null: false
+    t.text "raw_html"
     t.datetime "updated_at", null: false
+    t.string "url"
     t.index ["url"], name: "index_javlibrary_pages_on_url", unique: true
   end
 
   create_table "mgstage_items", force: :cascade do |t|
-    t.string "normalized_id"
-    t.integer "mgstage_page_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "actress_names", array: true
+    t.datetime "created_at", null: false
+    t.bigint "mgstage_page_id", null: false
+    t.string "normalized_id"
+    t.datetime "updated_at", null: false
     t.index ["actress_names"], name: "index_mgstage_items_on_actress_names", using: :gin
     t.index ["mgstage_page_id"], name: "index_mgstage_items_on_mgstage_page_id"
     t.index ["normalized_id"], name: "index_mgstage_items_on_normalized_id", unique: true
   end
 
   create_table "mgstage_pages", force: :cascade do |t|
-    t.string "url"
-    t.text "raw_html"
     t.datetime "created_at", null: false
+    t.text "raw_html"
     t.datetime "updated_at", null: false
+    t.string "url"
     t.index ["url"], name: "index_mgstage_pages_on_url", unique: true
   end
 
   create_table "movies", force: :cascade do |t|
-    t.string "normalized_id", null: false
-    t.string "compressed_id", null: false
-    t.datetime "date", precision: nil
     t.integer "actress_fanza_ids", array: true
     t.string "actress_names", array: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "is_hidden", default: false, null: false
+    t.string "compressed_id", null: false
     t.string "cover_image_url"
+    t.datetime "created_at", null: false
+    t.datetime "date", precision: nil
+    t.boolean "is_hidden", default: false, null: false
+    t.string "normalized_id", null: false
+    t.datetime "updated_at", null: false
     t.index ["actress_fanza_ids"], name: "index_movies_on_actress_fanza_ids", using: :gin
     t.index ["actress_names"], name: "index_movies_on_actress_names", using: :gin
     t.index ["compressed_id"], name: "index_movies_on_compressed_id"
@@ -146,32 +146,32 @@ ActiveRecord::Schema[7.2].define(version: 2024_06_27_220434) do
   end
 
   create_table "sod_items", force: :cascade do |t|
-    t.string "normalized_id"
-    t.bigint "sod_page_id", null: false
     t.string "actress_names", array: true
     t.datetime "created_at", null: false
+    t.string "normalized_id"
+    t.bigint "sod_page_id", null: false
     t.datetime "updated_at", null: false
     t.index ["actress_names"], name: "index_sod_items_on_actress_names", using: :gin
     t.index ["sod_page_id"], name: "index_sod_items_on_sod_page_id"
   end
 
   create_table "sod_pages", force: :cascade do |t|
-    t.string "url"
-    t.text "raw_html"
     t.datetime "created_at", null: false
+    t.text "raw_html"
     t.datetime "updated_at", null: false
+    t.string "url"
     t.index ["url"], name: "index_sod_pages_on_url", unique: true
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "api_token", limit: 128, null: false
+    t.string "confirmation_token", limit: 128
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "email", null: false
     t.string "encrypted_password", limit: 128, null: false
-    t.string "confirmation_token", limit: 128
-    t.string "remember_token", limit: 128, null: false
-    t.string "api_token", limit: 128, null: false
     t.boolean "is_admin", default: false, null: false
+    t.string "remember_token", limit: 128, null: false
+    t.datetime "updated_at", null: false
     t.index ["api_token"], name: "index_users_on_api_token"
     t.index ["email"], name: "index_users_on_email"
     t.index ["remember_token"], name: "index_users_on_remember_token"

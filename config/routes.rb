@@ -2,6 +2,10 @@ require "sidekiq-scheduler/web"
 require "sidekiq_unique_jobs/web"
 
 Rails.application.routes.draw do
+  # Override Clearance sessions to redirect back after sign in
+  resource :session, controller: "sessions", only: [:create]
+  get "/sign_in", to: "sessions#new", as: nil
+
   # Fallback GET route for sign_out when Turbo isn't available
   get "/sign_out", to: "clearance/sessions#destroy", as: nil
 
