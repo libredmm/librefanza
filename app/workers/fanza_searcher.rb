@@ -3,10 +3,42 @@ class FanzaSearcher
 
   sidekiq_options(
     queue: :default,
-    lock: :until_expired,
-    lock_ttl: 1.day.to_i,
+    lock: :until_executed,
+    lock_ttl: 1.hour.to_i,
+    lock_args_method: :lock_args,
     on_conflict: :log,
   )
+
+  SEARCH_COOLDOWN = 1.day
+
+  def self.lock_args(args)
+    [args[0]]
+  end
+
+  def self.searched_keywords
+    @searched_keywords ||= {}
+  end
+
+  def self.recently_searched?(keyword)
+    cleanup_expired_keywords
+    searched_at = searched_keywords[keyword]
+    return false unless searched_at
+
+    searched_at > SEARCH_COOLDOWN.ago
+  end
+
+  def self.mark_searched(keyword)
+    searched_keywords[keyword] = Time.current
+  end
+
+  def self.cleanup_expired_keywords
+    cutoff = SEARCH_COOLDOWN.ago
+    searched_keywords.delete_if { |_, searched_at| searched_at <= cutoff }
+  end
+
+  def self.clear_searched_keywords
+    @searched_keywords = {}
+  end
 
   def perform(keyword, options = {})
     unless keyword =~ /^[[:ascii:]]+$/
@@ -26,9 +58,19 @@ class FanzaSearcher
     end
 
     force = options.symbolize_keys[:force] || false
+
+    unless force
+      if self.class.recently_searched?(id.normalized)
+        logger.info "[RECENTLY_SEARCHED] #{id.normalized}"
+        return
+      end
+    end
+
     found = search_on_fanza(id.normalized, force: force) ||
             search_on_mgstage(id.normalized) ||
             search_on_fc2(id.normalized)
+
+    self.class.mark_searched(id.normalized)
   end
 
   def search_on_fanza(keyword, force: false)

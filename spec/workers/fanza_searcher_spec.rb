@@ -2,6 +2,52 @@ require "rails_helper"
 
 RSpec.describe FanzaSearcher, type: :worker do
   before(:each) do
+    described_class.clear_searched_keywords
+  end
+
+  describe ".lock_args" do
+    it "returns only keyword regardless of options" do
+      expect(described_class.lock_args(["ABC-123"])).to eq(["ABC-123"])
+      expect(described_class.lock_args(["ABC-123", {}])).to eq(["ABC-123"])
+      expect(described_class.lock_args(["ABC-123", { force: true }])).to eq(["ABC-123"])
+    end
+  end
+
+  describe "search cooldown" do
+    it "skips recently searched keywords" do
+      id = generate :normalized_id
+      described_class.mark_searched(id)
+
+      expect(Fanza::Api).not_to receive(:search)
+      subject.perform id
+    end
+
+    it "does not skip recently searched keywords when force is true" do
+      id = generate :normalized_id
+      described_class.mark_searched(id)
+
+      subject.perform id, force: true
+      expect(Fanza::Api).to have_received(:search)
+    end
+
+    it "marks keyword as searched after completion" do
+      id = generate :normalized_id
+
+      expect(described_class.recently_searched?(id)).to be false
+      subject.perform id
+      expect(described_class.recently_searched?(id)).to be true
+    end
+
+    it "cleans up expired keywords" do
+      id = generate :normalized_id
+      described_class.searched_keywords[id] = 2.days.ago
+
+      expect(described_class.recently_searched?(id)).to be false
+      expect(described_class.searched_keywords).not_to have_key(id)
+    end
+  end
+
+  before(:each) do
     allow(Fanza::Api).to receive(:search).and_call_original
     url = generate(:url)
     html = [generate(:url), "<html></html>"]
