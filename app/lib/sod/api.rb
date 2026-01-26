@@ -14,7 +14,7 @@ module Sod
 
     def self.get(url)
       Faraday.new(proxy: ENV["PROXY_URL"]) { |conn|
-        conn.use FaradayMiddleware::FollowRedirects
+        conn.response :follow_redirects
       }.get("https://ec.sod.co.jp/prime/_ontime.php") { |req|
         req.headers = {
           "Cookie" => "PHPSESSID=dummy_session",

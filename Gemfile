@@ -31,7 +31,7 @@ gem "bootsnap", require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
+  gem "byebug", platforms: [:mri, :windows]
   gem "database_cleaner-active_record"
   gem "factory_bot_rails"
   gem "rspec-rails"
@@ -57,9 +57,10 @@ group :test do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem "tzinfo-data", platforms: [:windows, :jruby]
 
-gem "faraday"
+gem "faraday", "~> 2.0"
+gem "faraday-follow_redirects"
 gem "jquery-rails"
 gem "recursive-open-struct"
 gem "nokogiri"
@@ -70,7 +71,6 @@ gem "sidekiq-unique-jobs", "~> 8.0"
 gem "redis", "~> 5"
 gem "clearance"
 gem "rack-mini-profiler"
-gem "faraday_middleware"
 gem "faraday-encoding"
 gem "rexml"
 
