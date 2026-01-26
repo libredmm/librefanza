@@ -52,6 +52,27 @@ RSpec.describe FanzaSearcher, type: :worker do
     end
   end
 
+  context "with force: true" do
+    let(:existing_item) { create :fanza_item }
+    let(:content_id) { existing_item.content_id }
+    let(:new_title) { "Updated Title" }
+    let(:new_json) { existing_item.raw_json.merge("title" => new_title, "content_id" => content_id) }
+
+    before(:each) do
+      allow(Fanza::Api).to receive(:search).and_yield(new_json)
+    end
+
+    it "updates existing fanza item" do
+      id = existing_item.normalized_id
+
+      expect {
+        subject.perform(id, force: true)
+      }.not_to change { FanzaItem.count }
+
+      expect(existing_item.reload.title).to eq(new_title)
+    end
+  end
+
   context "not found on fanza" do
     before(:each) do
       allow(Fanza::Api).to receive(:search).and_return([])

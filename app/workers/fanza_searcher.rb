@@ -8,7 +8,7 @@ class FanzaSearcher
     on_conflict: :log,
   )
 
-  def perform(keyword)
+  def perform(keyword, options = {})
     unless keyword =~ /^[[:ascii:]]+$/
       logger.info "[NON_ASCII] #{keyword}"
       return
@@ -25,15 +25,24 @@ class FanzaSearcher
       return
     end
 
-    found = search_on_fanza(id.normalized) ||
+    force = options.symbolize_keys[:force] || false
+    found = search_on_fanza(id.normalized, force: force) ||
             search_on_mgstage(id.normalized) ||
             search_on_fc2(id.normalized)
   end
 
-  def search_on_fanza(keyword)
+  def search_on_fanza(keyword, force: false)
     logger.info "[FANZA] [SEARCHING] #{keyword}"
     Fanza::Api.search(keyword: keyword) do |json|
-      item = FanzaItem.create(raw_json: json)
+      content_id = json["content_id"]&.strip
+      if force && content_id
+        item = FanzaItem.find_or_initialize_by(content_id: content_id)
+        item.raw_json = json
+        logger.info "[FANZA] [UPDATING] #{content_id}: #{json}"
+        item.save
+      else
+        FanzaItem.create(raw_json: json)
+      end
     end
 
     if FanzaItem.where(normalized_id: keyword).exists?
