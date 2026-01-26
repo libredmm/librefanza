@@ -84,6 +84,67 @@ RSpec.describe FanzaItem, type: :model do
     end
   end
 
+  describe "#guess_large_image_url" do
+    context "when large image already exists" do
+      it "does not change raw_json" do
+        subject.raw_json["imageURL"]["large"] = "existing_large_url"
+        expect { subject.guess_large_image_url }.not_to change { subject.raw_json["imageURL"]["large"] }
+      end
+    end
+
+    context "when small image does not match pattern" do
+      it "does not change raw_json" do
+        subject.raw_json["imageURL"]["large"] = nil
+        subject.raw_json["imageURL"]["small"] = "https://example.com/image.jpg"
+        expect { subject.guess_large_image_url }.not_to change { subject.raw_json["imageURL"]["large"] }
+      end
+    end
+
+    context "when small image matches ps.jpg pattern" do
+      let(:small_url) { "https://pics.dmm.co.jp/mono/movie/adult/118abf280/118abf280ps.jpg" }
+      let(:guessed_url) { "https://pics.dmm.co.jp/mono/movie/adult/118abf280/118abf280pl.jpg" }
+
+      before do
+        subject.raw_json["imageURL"]["large"] = nil
+        subject.raw_json["imageURL"]["small"] = small_url
+      end
+
+      it "sets large image when guessed URL exists" do
+        stub_request(:head, guessed_url).to_return(status: 200)
+        subject.guess_large_image_url
+        expect(subject.raw_json["imageURL"]["large"]).to eq(guessed_url)
+      end
+
+      it "does not set large image when guessed URL returns 404" do
+        stub_request(:head, guessed_url).to_return(status: 404)
+        subject.guess_large_image_url
+        expect(subject.raw_json["imageURL"]["large"]).to be_nil
+      end
+
+      it "handles request errors gracefully" do
+        stub_request(:head, guessed_url).to_raise(Faraday::ConnectionFailed)
+        expect { subject.guess_large_image_url }.not_to raise_error
+        expect(subject.raw_json["imageURL"]["large"]).to be_nil
+      end
+    end
+
+    context "when small image matches pm.jpg pattern" do
+      let(:small_url) { "https://pics.dmm.co.jp/mono/movie/adult/118abf280/118abf280pm.jpg" }
+      let(:guessed_url) { "https://pics.dmm.co.jp/mono/movie/adult/118abf280/118abf280pl.jpg" }
+
+      before do
+        subject.raw_json["imageURL"]["large"] = nil
+        subject.raw_json["imageURL"]["small"] = small_url
+      end
+
+      it "sets large image when guessed URL exists" do
+        stub_request(:head, guessed_url).to_return(status: 200)
+        subject.guess_large_image_url
+        expect(subject.raw_json["imageURL"]["large"]).to eq(guessed_url)
+      end
+    end
+  end
+
   describe ".as_json" do
     it "includes title" do
       expect(subject.as_json).to include("title")

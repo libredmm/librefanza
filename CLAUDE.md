@@ -67,6 +67,10 @@ Schedule defined in `config/sidekiq.yml`.
 
 Uses Clearance gem. Admin-only routes are protected via `Clearance::Constraints::SignedIn` with `is_admin?` check.
 
+## Testing
+
+Aim for 100% line test coverage on every change.
+
 ## Environment Variables
 
 - `FANZA_API_ID`, `FANZA_AFFILIATE_ID` - Fanza API credentials

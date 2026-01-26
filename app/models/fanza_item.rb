@@ -20,6 +20,8 @@ class FanzaItem < ApplicationRecord
     self.floor_code = self.as_struct.floor_code.strip
     self.service_code = self.as_struct.service_code.strip
 
+    guess_large_image_url
+
     if self.description.blank?
       begin
         raw_html = Faraday.new(proxy: ENV["PROXY_URL"]) { |conn|
@@ -35,6 +37,22 @@ class FanzaItem < ApplicationRecord
         self.description = Nokogiri::HTML(raw_html).css(".mg-b20.lh4")&.text&.strip
       rescue Exception
       end
+    end
+  end
+
+  def guess_large_image_url
+    return if as_struct.imageURL&.large.present?
+
+    small_url = as_struct.imageURL&.small
+    return unless small_url&.match?(/ps\.jpg$/) || small_url&.match?(/pm\.jpg$/)
+
+    guessed_url = small_url.sub(/p[sm]\.jpg$/, "pl.jpg")
+    begin
+      response = Faraday.head(guessed_url)
+      if response.status == 200
+        self.raw_json["imageURL"]["large"] = guessed_url
+      end
+    rescue
     end
   end
 
