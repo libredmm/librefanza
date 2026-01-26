@@ -65,7 +65,7 @@ class MoviesController < ApplicationController
   def destroy
     id = params[:id].upcase
     @movie = Movie.find_by(normalized_id: id)
-    @searching = FanzaSearcher.perform_async id, force: true
+    @searching = FanzaSearcher.perform_async id, { "force" => true }
     redirect_to @movie
   end
 end
