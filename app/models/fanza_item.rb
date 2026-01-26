@@ -62,7 +62,7 @@ class FanzaItem < ApplicationRecord
     if normalized_id =~ /^DANDY-/ && sample_image_urls.any?
       return sample_image_urls.first
     end
-    as_struct.imageURL&.large
+    as_struct.imageURL&.large || as_struct.imageURL&.small
   end
 
   def thumbnail_image_url

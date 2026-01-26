@@ -58,6 +58,30 @@ RSpec.describe FanzaItem, type: :model do
         end
       end
     end
+
+    context "when large image is available" do
+      it "returns large image url" do
+        subject.raw_json["imageURL"]["large"] = "large_url"
+        subject.raw_json["imageURL"]["small"] = "small_url"
+        expect(subject.cover_image_url).to eq("large_url")
+      end
+    end
+
+    context "when large image is not available" do
+      it "falls back to small image url" do
+        subject.raw_json["imageURL"]["large"] = nil
+        subject.raw_json["imageURL"]["small"] = "small_url"
+        expect(subject.cover_image_url).to eq("small_url")
+      end
+    end
+
+    context "when neither large nor small image is available" do
+      it "returns nil" do
+        subject.raw_json["imageURL"]["large"] = nil
+        subject.raw_json["imageURL"]["small"] = nil
+        expect(subject.cover_image_url).to be_nil
+      end
+    end
   end
 
   describe ".as_json" do
