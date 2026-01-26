@@ -4,8 +4,6 @@ require "sidekiq_unique_jobs/web"
 Rails.application.routes.draw do
   root "pages#index"
   get "/search", to: "pages#search"
-  get "feeds/pipe"
-
   resources :movies, only: %i[index show]
   resources :fanza_actresses, only: %i[index show], path: "actresses"
   resources :fanza_items, only: %i[show]
@@ -25,7 +23,6 @@ Rails.application.routes.draw do
     resources :sod_pages, only: %i[index show]
     resources :fc2_items, only: %i[index destroy]
     resources :fc2_pages, only: %i[index show]
-    resources :feeds, only: %i[index show destroy update]
     mount Sidekiq::Web => "/sidekiq"
   end
 end

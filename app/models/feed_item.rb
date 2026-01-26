@@ -1,2 +1,0 @@
-class FeedItem < ApplicationRecord
-end
