@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Librefanza is a Rails 7.2 application that aggregates movie metadata from multiple Japanese adult video sources (Fanza, JAVLibrary, MGStage, SOD, FC2) into a unified database. It normalizes product IDs across sources and provides a searchable catalog.
+Librefanza is a Rails 8.1 / Ruby 4.0 application that aggregates movie metadata from multiple Japanese adult video sources (Fanza, MGStage, SOD, FC2) into a unified database. It normalizes product IDs across sources and provides a searchable catalog.
 
 ## Common Commands
 
@@ -32,10 +32,10 @@ bin/rails db:prepare         # Create/migrate database
 The core domain revolves around **Movies** which aggregate **Items** from different sources:
 
 - `Movie` - Central entity with `normalized_id` as primary key. Aggregates items from all sources.
-- `FanzaItem`, `JavlibraryItem`, `MgstageItem`, `SodItem`, `Fc2Item` - Source-specific items. All include `GenericItem` concern.
+- `FanzaItem`, `MgstageItem`, `SodItem`, `Fc2Item` - Source-specific items. All include `GenericItem` concern.
 - `FanzaActress` - Actress entity with profile data from Fanza API.
 
-Each source also has a corresponding `*Page` model (e.g., `JavlibraryPage`) that stores raw HTML for scraping.
+Each source also has a corresponding `*Page` model (e.g., `MgstagePage`) that stores raw HTML for scraping.
 
 ### Key Concerns
 
@@ -55,13 +55,16 @@ Located in `app/lib/`:
 
 ### Background Jobs
 
-Sidekiq workers in `app/workers/`:
+Sidekiq 8 workers in `app/workers/`:
+- `FanzaSearcher` - Searches for items across sources. Uses `until_executed` lock with 1-day cooldown for normal searches. Force searches bypass cooldown.
 - `FanzaItemCrawler` - Daily crawl of new Fanza items
 - `ActressCrawler` - Daily actress profile updates
 - `MgstageCrawler` - Daily MGStage crawl
 - `HouseKeeper` - Cleanup tasks
 
 Schedule defined in `config/sidekiq.yml`.
+
+**Note:** Sidekiq 8 requires native JSON types for job arguments. Use string keys (`{ "force" => true }`) not symbols (`force: true`).
 
 ### Authentication
 
