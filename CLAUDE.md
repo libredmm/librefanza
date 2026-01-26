@@ -51,7 +51,7 @@ Each source also has a corresponding `*Page` model (e.g., `JavlibraryPage`) that
 
 Located in `app/lib/`:
 - `Fanza::Api` - Official DMM API for item and actress search
-- `Javlibrary::Api`, `Mgstage::Api`, `Sod::Api`, `Fc2::Api` - Web scrapers for respective sites
+- `Mgstage::Api`, `Sod::Api`, `Fc2::Api` - Web scrapers for respective sites
 
 ### Background Jobs
 
