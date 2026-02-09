@@ -59,7 +59,7 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: [:windows, :jruby]
 
-gem "faraday", "~> 2.0"
+gem "faraday", "~> 2.14"
 gem "faraday-follow_redirects"
 gem "jquery-rails"
 gem "recursive-open-struct"
