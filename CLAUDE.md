@@ -32,7 +32,7 @@ bin/rails db:prepare         # Create/migrate database
 The core domain revolves around **Movies** which aggregate **Items** from different sources:
 
 - `Movie` - Central entity with `normalized_id` as primary key. Aggregates items from all sources.
-- `FanzaItem`, `MgstageItem`, `SodItem`, `Fc2Item` - Source-specific items. All include `GenericItem` concern.
+- `FanzaItem`, `MgstageItem`, `SodItem`, `Fc2Item`, `JavlibraryItem` - Source-specific items. All include `GenericItem` concern.
 - `FanzaActress` - Actress entity with profile data from Fanza API.
 
 Each source also has a corresponding `*Page` model (e.g., `MgstagePage`) that stores raw HTML for scraping.
@@ -60,11 +60,13 @@ Sidekiq 8 workers in `app/workers/`:
 - `FanzaItemCrawler` - Daily crawl of new Fanza items
 - `ActressCrawler` - Daily actress profile updates
 - `MgstageCrawler` - Daily MGStage crawl
-- `HouseKeeper` - Cleanup tasks
+- `HouseKeeper` - Cleanup tasks (manually triggered, not scheduled)
 
 Schedule defined in `config/sidekiq.yml`.
 
 **Note:** Sidekiq 8 requires native JSON types for job arguments. Use string keys (`{ "force" => true }`) not symbols (`force: true`).
+
+**Testing:** Uses `Sidekiq.testing!(:fake)` (new Sidekiq 8 API). Do not use the deprecated `require "sidekiq/testing"`.
 
 ### Authentication
 
@@ -79,3 +81,6 @@ Aim for 100% line test coverage on every change.
 - `FANZA_API_ID`, `FANZA_AFFILIATE_ID` - Fanza API credentials
 - `PROXY_URL` - Optional HTTP proxy for external requests
 - `DATABASE_URL` - PostgreSQL connection string (production)
+- `BLACKHOLE_PATTERN` - Regex to filter out keywords in FanzaSearcher (optional, defaults to `^$`)
+- `MGSTAGE_SERIES_URL` - URL providing list of MGStage series to crawl
+- `FC2_BASE_URL` - FC2 base URL (optional, defaults to `https://adult.contents.fc2.com/`)
