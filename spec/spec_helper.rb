@@ -1,4 +1,5 @@
 require "database_cleaner/active_record"
+require "sidekiq"
 require "sidekiq/testing"
 require "webmock/rspec"
 
