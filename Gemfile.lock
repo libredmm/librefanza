@@ -117,10 +117,6 @@ GEM
     crass (1.0.6)
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
-    database_cleaner-active_record (2.2.2)
-      activerecord (>= 5.a)
-      database_cleaner-core (~> 2.0)
-    database_cleaner-core (2.0.1)
     date (3.5.1)
     diff-lcs (1.6.2)
     docile (1.4.1)
@@ -414,7 +410,6 @@ DEPENDENCIES
   capybara
   clearance
   cssbundling-rails
-  database_cleaner-active_record
   dockerfile-rails
   dotenv-rails
   factory_bot_rails
