@@ -8,12 +8,15 @@ RSpec.describe Mgstage::Api do
     end
 
     it "requests all product page" do
-      html = double(:html)
-      expect(Nokogiri).to receive(:HTML).and_return(html).at_least(:once)
+      html_with_results = double(:html_with_results)
       a = double(:a)
-      expect(html).to receive(:css).and_return([a]).at_least(:once)
-      url = "/elsewhere"
-      expect(a).to receive(:attr).and_return(url).at_least(:once)
+      allow(html_with_results).to receive(:css).and_return([a])
+      allow(a).to receive(:attr).and_return("/elsewhere")
+
+      html_empty = double(:html_empty)
+      allow(html_empty).to receive(:css).and_return([])
+
+      expect(Nokogiri).to receive(:HTML).and_return(html_with_results, html_empty).at_least(:once)
 
       Mgstage::Api.search(generate(:normalized_id)) { next }
       expect(@mgstage_stub).to have_been_requested.at_least_twice
