@@ -7,18 +7,18 @@ A Rails application that aggregates movie metadata from multiple Japanese adult 
 ## Setup
 
 ```bash
-bin/setup
+just install
 ```
 
 ## Development
 
 ```bash
-bin/rails server    # Start Rails server
-bin/sidekiq         # Start Sidekiq for background jobs
+just dev        # Start Rails server + JS/CSS watchers
+just sidekiq    # Start Sidekiq for background jobs
 ```
 
 ## Testing
 
 ```bash
-bundle exec rspec
+just test
 ```

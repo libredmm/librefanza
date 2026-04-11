@@ -1,7 +1,8 @@
-# Install dependencies
+# Install dependencies and prepare database
 install:
     bundle install
     bun install
+    bin/rails db:prepare
 
 # Start development server (Rails + JS/CSS watchers)
 dev:
@@ -21,10 +22,6 @@ test *args:
 # Lint and check (no modifications)
 check:
     bundle exec rspec
-
-# Database setup
-db:
-    bin/rails db:prepare
 
 # Rails console
 console:

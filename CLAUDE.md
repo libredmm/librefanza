@@ -10,20 +10,28 @@ Librefanza is a Rails 8.1 / Ruby 4.0 application that aggregates movie metadata 
 
 ```bash
 # Setup
-bin/setup                    # Install dependencies and prepare database
+just install                 # Install deps + prepare database
 
 # Development
-bin/rails server             # Start Rails server
-bin/sidekiq                  # Start Sidekiq for background jobs
+just dev                     # Start Rails server + JS/CSS watchers (via foreman)
+just sidekiq                 # Start Sidekiq for background jobs
+just console                 # Rails console
+
+# Building assets
+just build                   # Build JS and CSS into app/assets/builds/
 
 # Testing
-bundle exec rspec            # Run all tests
-bundle exec rspec spec/models/movie_spec.rb  # Run single test file
-bundle exec rspec spec/models/movie_spec.rb:10  # Run specific line
+just test                    # Build assets + run all tests
+just test spec/models/movie_spec.rb      # Run single test file
+just test spec/models/movie_spec.rb:10   # Run specific line
 
-# Database
-bin/rails db:prepare         # Create/migrate database
 ```
+
+### Asset Pipeline
+
+Uses **Bun** for JS/CSS bundling via `jsbundling-rails` and `cssbundling-rails`. Bootstrap, Stimulus, Turbo, and ClipboardJS are npm packages (see `package.json`). Assets compile into `app/assets/builds/` and are served by Sprockets.
+
+**Note:** Tests require pre-built assets. Use `just test` (which builds first) rather than bare `bundle exec rspec`.
 
 ## Architecture
 
