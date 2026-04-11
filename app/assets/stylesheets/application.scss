@@ -1,9 +1,25 @@
-// Bootstrap
-@import 'bootstrap';
-@import 'rails_bootstrap_forms';
+// Bootstrap from node_modules
+@import "bootstrap/scss/bootstrap";
+
+// Bootstrap Icons (CDN — references font files hosted there)
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+// Google Fonts
 @import url('https://fonts.googleapis.com/css?family=Special+Elite');
 
+// bootstrap_form styles (inlined from gem — trivial plain CSS)
+.rails-bootstrap-forms-date-select select,
+.rails-bootstrap-forms-time-select select,
+.rails-bootstrap-forms-datetime-select select {
+  display: inline-block;
+  width: auto;
+}
+
+.rails-bootstrap-forms-error-summary {
+  margin-top: 10px;
+}
+
+// Custom styles
 body {
     padding-top: 4.5rem;
 }

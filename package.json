@@ -1,0 +1,17 @@
+{
+  "name": "librefanza",
+  "private": true,
+  "scripts": {
+    "build": "bun build app/javascript/application.js --outdir=app/assets/builds --entry-naming [name].js --minify",
+    "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --style=compressed --quiet-deps"
+  },
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2",
+    "@hotwired/turbo-rails": "^8.0",
+    "@popperjs/core": "^2.11",
+    "bootstrap": "^5.3",
+    "bootstrap-icons": "^1.11",
+    "clipboard": "^2.0",
+    "sass": "^1.77"
+  }
+}

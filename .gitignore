@@ -43,3 +43,6 @@
 
 # Ignore vendored assets
 /vendor
+
+# Ignore node_modules
+/node_modules

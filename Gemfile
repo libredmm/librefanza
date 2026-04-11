@@ -9,9 +9,6 @@ gem "rails", "~>8.1.0"
 gem "pg"
 # Use Puma as the app server
 gem "puma"
-# Use SCSS for stylesheets
-gem "sass-rails"
-
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
@@ -21,7 +18,8 @@ gem "jbuilder"
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-gem "importmap-rails"
+gem "jsbundling-rails"
+gem "cssbundling-rails"
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
@@ -61,7 +59,6 @@ gem "tzinfo-data", platforms: [:windows, :jruby]
 
 gem "faraday", "~> 2.0"
 gem "faraday-follow_redirects"
-gem "jquery-rails"
 gem "recursive-open-struct"
 gem "nokogiri"
 gem "kaminari"
@@ -79,5 +76,4 @@ gem "mutex_m"
 gem "bigdecimal"
 gem "base64"
 
-gem "bootstrap", "~> 5.3"
 gem "bootstrap_form", "~> 5.4"
