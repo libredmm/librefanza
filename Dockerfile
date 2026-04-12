@@ -27,10 +27,9 @@ apt-get install --no-install-recommends -y build-essential curl libpq-dev libyam
 rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install Bun
-ARG BUN_VERSION=1.2
 ENV BUN_INSTALL=/usr/local/bun
 ENV PATH=/usr/local/bun/bin:$PATH
-RUN curl -fsSL https://bun.sh/install | bash -s "bun-v${BUN_VERSION}"
+RUN curl -fsSL https://bun.sh/install | bash
 
 # Install application gems
 COPY --link Gemfile Gemfile.lock ./
