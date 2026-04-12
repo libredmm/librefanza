@@ -33,7 +33,15 @@ Uses **Bun** for JS/CSS bundling via `jsbundling-rails` and `cssbundling-rails`.
 
 **Note:** Tests require pre-built assets. Use `just test` (which builds first) rather than bare `bundle exec rspec`.
 
+**Note:** Bun 1.2+ uses text-based `bun.lock` (not binary `bun.lockb`). jsbundling-rails only auto-detects `bun.lockb`, so CI must explicitly install Bun and run `bun install`/`bun run build` rather than relying on auto-detection.
+
 ## Architecture
+
+### Autoloading (Zeitwerk)
+
+Files under `app/lib/` are autoloaded by Zeitwerk and must define matching constants (e.g., `app/lib/fanza/api.rb` → `Fanza::Api`). Monkey-patches that reopen existing classes (like `String`) go in `config/initializers/`, not `app/lib/`.
+
+`config/initializers/unicode_strip.rb` — overrides `String#strip` to handle fullwidth Unicode whitespace (`\u3000`), which Ruby's built-in `strip` does not. Required for scraping Japanese content.
 
 ### Data Model
 
