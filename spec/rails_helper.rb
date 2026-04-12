@@ -1,7 +1,6 @@
 require "simplecov"
 SimpleCov.start "rails" do
   add_filter %r{^/app/mailers/}
-  add_filter %r{^/app/lib/core_ext/}
 end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
