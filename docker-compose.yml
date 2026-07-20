@@ -1,31 +1,34 @@
 services:
   web:
+    image: ghcr.io/libredmm/librefanza:latest
     env_file:
       - .env
       - .env.production
     restart: always
-    build: .
     ports:
       - 3000:3000
-    links:
-      - redis
     environment:
       REDIS_URL: redis://redis:6379/
+    depends_on:
+      - redis
     command: ./bin/puma -w 2
   sidekiq:
+    image: ghcr.io/libredmm/librefanza:latest
     env_file:
       - .env
       - .env.production
     restart: always
-    build: .
-    links:
-      - redis
     environment:
       REDIS_URL: redis://redis:6379/
+    depends_on:
+      - redis
     command: bundle exec sidekiq
   redis:
-    image: redis
+    image: redis:7
     restart: always
-    expose:
-      - 6379
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
 
+volumes:
+  redis-data:
