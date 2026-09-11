@@ -5,6 +5,8 @@ ruby "4.0.1"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "rails", "~>8.1.0"
+# Rails 8.1.3.1 passes positional options to JSON.parse, which JSON 3 rejects.
+gem "json", "~> 2.0"
 # Use postgresql as the database for Active Record
 gem "pg"
 # Use Puma as the app server
