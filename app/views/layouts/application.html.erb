@@ -1,93 +1,65 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>
-    <% if content_for?(:title) %>
-    <%= yield(:title) %> | LibreFanza
-    <% else %>
-    LibreFanza
-    <% end %>
-  </title>
+  <title><%= content_for?(:title) ? "#{yield(:title).strip} | LibreFanza" : "LibreFanza" %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#202824">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
 </head>
-
 <body>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <div class="container-fluid">
-    <a class="navbar-brand" href="/">LibreFanza</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarContent">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <%= link_to "Movies", movies_path, class: "nav-link" %>
-        </li>
-
-        <% if signed_in_as_admin? %>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          </a>
-          <ul class="dropdown-menu">
-            <li><%= link_to "Fanza Items", fanza_items_path, class: "dropdown-item" %></li>
-            <li><%= link_to "FC2 Items", fc2_items_path, class: "dropdown-item" %></li>
-            <li><%= link_to "FC2 Pages", fc2_pages_path, class: "dropdown-item" %></li>
-            <li><%= link_to "Javlibrary Items", javlibrary_items_path, class: "dropdown-item" %></li>
-            <li><%= link_to "Javlibrary Pages", javlibrary_pages_path, class: "dropdown-item" %></li>
-            <li><%= link_to "Mgstage Items", mgstage_items_path, class: "dropdown-item" %></li>
-            <li><%= link_to "Mgstage Pages", mgstage_pages_path, class: "dropdown-item" %></li>
-            <li><%= link_to "SOD Items", sod_items_path, class: "dropdown-item" %></li>
-            <li><%= link_to "SOD Pages", sod_pages_path, class: "dropdown-item" %></li>
-          </ul>
-        </li>
-        <% end %>
-
-        <li class="nav-item">
-          <%= link_to "Actresses", fanza_actresses_path, class: "nav-link" %>
-        </li>
-      </ul>
-      <ul class="navbar-nav ms-auto">
-        <%= render "movies/search" %>
-        <% if signed_in? %>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="userDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
-            <%= current_user.email %>
-          </a>
-          <ul class="dropdown-menu">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-dark" aria-label="Main navigation">
+      <div class="container site-container">
+        <%= link_to root_path, class: "navbar-brand" do %><span class="brand-mark" aria-hidden="true">lf.</span> LibreFanza<% end %>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item"><%= link_to "Movies", movies_path, class: "nav-link #{'active' if controller_name == 'movies'}", aria: { current: ('page' if controller_name == 'movies') } %></li>
+            <li class="nav-item"><%= link_to "Actresses", fanza_actresses_path, class: "nav-link #{'active' if controller_name == 'fanza_actresses'}", aria: { current: ('page' if controller_name == 'fanza_actresses') } %></li>
             <% if signed_in_as_admin? %>
-            <li><%= link_to "Sidekiq", sidekiq_web_path, class: "dropdown-item" %></li>
-            <li><hr class="dropdown-divider"/></li>
+              <li class="nav-item dropdown">
+                <button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Manage</button>
+                <ul class="dropdown-menu">
+                  <% [["Fanza Items", fanza_items_path], ["FC2 Items", fc2_items_path], ["FC2 Pages", fc2_pages_path], ["Javlibrary Items", javlibrary_items_path], ["Javlibrary Pages", javlibrary_pages_path], ["Mgstage Items", mgstage_items_path], ["Mgstage Pages", mgstage_pages_path], ["SOD Items", sod_items_path], ["SOD Pages", sod_pages_path]].each do |label, path| %>
+                    <li><%= link_to label, path, class: "dropdown-item" %></li>
+                  <% end %>
+                </ul>
+              </li>
             <% end %>
-            <li><%= link_to (t ".sign_out"), sign_out_path, data: { "turbo-method": :delete }, class: "dropdown-item" %></li>
           </ul>
-        </li>
-        <% else %>
-        <li class="nav-item">
-          <%= link_to (t ".sign_in"), sign_in_path(return_to: request.fullpath), class: "nav-link" %>
-        </li>
-        <% end %>
-      </ul>
-    </div>
-    </div>
-  </nav>
-
-  <main role="main" class="container">
+          <div class="nav-tools">
+            <%= render "movies/search", search_id: "nav-search", compact: true %>
+            <% if signed_in? %>
+              <div class="dropdown">
+                <button class="nav-link dropdown-toggle account-menu" id="userDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false"><%= current_user.email %></button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownMenu">
+                  <% if signed_in_as_admin? %><li><%= link_to "Sidekiq", sidekiq_web_path, class: "dropdown-item" %></li><% end %>
+                  <li><%= link_to t(".sign_out"), sign_out_path, data: { "turbo-method": :delete }, class: "dropdown-item" %></li>
+                </ul>
+              </div>
+            <% else %>
+              <%= link_to t(".sign_in"), sign_in_path(return_to: request.fullpath), class: "sign-in-link" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main id="main-content" class="container site-container main-content" tabindex="-1">
+    <% flash.each do |kind, message| %>
+      <div class="alert <%= kind.to_s == 'notice' ? 'alert-success' : 'alert-danger' %>" role="status"><%= message %></div>
+    <% end %>
     <%= yield %>
   </main>
+  <footer class="site-footer">
+    <div class="container site-container footer-content">
+      <div><span class="footer-brand">LibreFanza</span><span class="footer-note">An independent movie index.</span></div>
+      <a href="https://github.com/libredmm/librefanza">Open source <span aria-hidden="true">↗</span></a>
+    </div>
+  </footer>
 </body>
-
-<footer class="footer">
-  <div class="container text-center">
-    <a href="https://github.com/libredmm/librefanza">
-      <img src="https://img.shields.io/static/v1?label=libredmm%2Flibrefanza&message=admin%40libredmm.com&color=blue&logo=github" />
-    </a>
-  </div>
-</footer>
-
 </html>

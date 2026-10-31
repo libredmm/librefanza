@@ -1,6 +1,10 @@
-<%= form_tag search_path, method: :get, class: "form-inline" do %>
-<div class="input-group col-md-12">
-    <%= text_field_tag("q", nil, class: "form-control") %>
-    <%= submit_tag "Search", class: "btn btn-success" %>
-</div>
+<% search_id = local_assigns.fetch(:search_id, "movie-search") %>
+<% compact = local_assigns.fetch(:compact, false) %>
+<%= form_tag search_path, method: :get, class: "quick-search #{'quick-search-compact' if compact}", role: "search", aria: { label: compact ? "Quick movie search" : "Find a movie" } do %>
+  <%= label_tag search_id, "Movie ID or prefix", class: "visually-hidden" %>
+  <div class="input-group">
+    <span class="search-symbol" aria-hidden="true">⌕</span>
+    <%= text_field_tag "q", nil, id: search_id, class: "form-control", placeholder: compact ? "Search movie ID…" : "Enter a movie ID or prefix…", autocomplete: "off", required: true %>
+    <%= button_tag type: "submit", class: "btn btn-success" do %>Search <span class="search-arrow" aria-hidden="true">↗</span><% end %>
+  </div>
 <% end %>
