@@ -1,163 +1,34 @@
-<% content_for :title do %>
-<%= @item.normalized_id %>
-<% end %>
-
-<button class="btn text-start" data-clipboard-text="<%= @item.normalized_id %>">
-  <h1>
-    <span><%= @item.normalized_id %></span>
-    <span><%= @item.title %></span>
-  </h1>
-</button>
-<div class="ms-2">
-  <% if signed_in_as_admin? %>
-  <div class="d-inline-block">
-    <%= button_to "Re-Search", @movie, method: :delete, class: "btn btn-danger d-inline" %>
+<% content_for :title, @item.normalized_id %>
+<nav class="breadcrumb-nav" aria-label="Breadcrumb"><%= link_to "Movies", movies_path %><span aria-hidden="true">/</span><span><%= @item.normalized_id %></span></nav>
+<header class="movie-heading">
+  <div><p class="eyebrow">MOVIE DETAILS</p><h1><%= @item.normalized_id %></h1></div>
+  <button class="btn btn-outline-primary copy-button" data-clipboard-text="<%= @item.normalized_id %>" aria-label="Copy movie ID"><span aria-hidden="true">⧉</span> <span data-copy-label>Copy ID</span></button>
+</header>
+<h2 class="detail-title"><%= @item.title %></h2>
+<div class="detail-meta"><span><%= @item.date&.to_date %></span><% if @item.volume.present? %><span><%= @item.volume / 60 %> min</span><% end %><span class="detail-source"><%= @item.class.name.delete_suffix("Item") %></span></div>
+<%= render "movies/admin_actions" if signed_in_as_admin? %>
+<div class="movie-detail-grid">
+  <div class="detail-artwork">
+    <div class="cover-frame image-frame" data-image-frame><span class="image-placeholder" aria-hidden="true"><%= @item.normalized_id %><small>Cover unavailable</small></span><%= image_tag @item.cover_image_url, alt: "#{@item.normalized_id} cover", class: "detail-cover", decoding: "async" %></div>
+    <%= render "movies/admin_details" if signed_in_as_admin? %>
   </div>
-  <div class="d-inline-block">
-    <%= button_to "Re-Derive", @item, method: :delete, class: "btn btn-warning" %>
-  </div>
-  <% if @item.is_a? FanzaItem %>
-  <div class="d-inline-block">
-    <%= button_to "Promote", fanza_item_path(@item, priority_inc: 1), method: :put, class: "btn btn-success" %>
-  </div>
-  <div class="d-inline-block">
-    <%= button_to "Demote", fanza_item_path(@item, priority_inc: -1), method: :put, class: "btn btn-danger" %>
-  </div>
-  <% end %>
-  <% end %>
-</div>
-
-<div class="row mt-3 mb-3">
-  <div class="col-md-8">
-    <%= image_tag @item.cover_image_url, class: "img-fluid" %>
-
-    <% if signed_in_as_admin? %>
-    <div class="card border-danger mt-3 mb-3">
-      <div class="card-body pt-3 pb-2">
-        <dl class="row mb-0">
-          <dt class="col-md-3">Movie Page</dt>
-          <dd class="col-md-9"><%= link_to movie_path(@item.normalized_id), movie_path(@item.normalized_id) %></dd>
-          <dt class="col-md-3">Item Page</dt>
-          <dd class="col-md-9"><%= link_to url_for(@item), @item %></dd>
-          <dt class="col-md-3">Data Source</dt>
-          <dd class="col-md-9 text-truncate"><%= link_to @item.url, @item.url %></dd>
-          <dt class="col-md-3">Date Added</dt>
-          <dd class="col-md-9"><%= time_tag @item.created_at %></dd>
-          <% if @item.has_attribute? :priority %>
-          <dt class="col-md-3">Priority</dt>
-          <dd class="col-md-9"><%= @item.priority %></dd>
-          <% end %>
-          <% if @movie %>
-          <dt class="col-md-3">Cover Image</dt>
-          <dd class="col-md-9">
-            <%= form_tag @movie, method: :put, class: "row", id: "update" do %>
-              <div class="col-md-12">
-                <div class="input-group">
-                  <%= text_field_tag "cover_image_url", @movie.cover_image_url, class: "form-control" %>
-                  <div class="input-group-append">
-                    <%= submit_tag "Update" , class: "btn btn-success" %>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-          </dd>
-          <% end %>
-        </dl>
-      </div>
-    </div>
-    <% end %>
-  </div>
-  <div class="col-md-4">
+  <aside class="movie-facts" aria-labelledby="details-title">
+    <h2 id="details-title">At a glance</h2>
     <dl>
-      <dt>Thumbnail Image</dt>
-      <dd><%= image_tag @item.thumbnail_image_url, class: "img-fluid" %></dd>
-
-      <dt>Release Date</dt>
-      <dd><%= @item.date.to_date %></dd>
-
+      <dt>Release date</dt><dd><%= @item.date&.to_date || "Unknown" %></dd>
       <% %i[directors genres labels makers].each do |attr| %>
-      <% if @item.send(attr).present? %>
-      <dt><%= attr.to_s.humanize %></dt>
-      <dd>
-        <ul class="list-inline">
-          <% @item.send(attr).each do |elem| %>
-          <li class="list-inline-item">
-            <%= elem %>
-          </li>
-          <% end %>
-        </ul>
-      </dd>
+        <% if @item.public_send(attr).present? %><dt><%= attr.to_s.humanize %></dt><dd><div class="metadata-tags"><% @item.public_send(attr).each do |elem| %><span><%= elem %></span><% end %></div></dd><% end %>
       <% end %>
-      <% end %>
-
-      <% if @item.volume.present? %>
-      <dt>Volume</dt>
-      <dd><%= (@item.volume / 60) %> minutes</dd>
-      <% end %>
-
-      <% if @item.review.present? %>
-      <dt>User Rating</dt>
-      <dd><%= "%.1f" % @item.review %></dd>
-      <% end %>
-      <dt>
-        External Links
-      </dt>
-      <dd>
-        <ul class="list-inline external-links">
-          <li class="list-inline-item">
-            <%= link_to @item.url do %>
-            <%= image_tag @item.logo_url, class: "img-fluid", referrerpolicy: "no-referrer" %>
-            <% end %>
-          </li>
-          <li class="list-inline-item">
-            <%= link_to "https://www.javbus.com/search/#{@item.normalized_id}", rel: "noreferrer" do %>
-            <%= image_tag "javbus.png", class: "img-fluid javbus" %>
-            <% end %>
-          </li>
-        </ul>
-      </dd>
+      <% if @item.volume.present? %><dt>Runtime</dt><dd><%= @item.volume / 60 %> minutes</dd><% end %>
+      <% if @item.review.present? %><dt>User rating</dt><dd><span class="rating-star" aria-hidden="true">★</span> <%= "%.1f" % @item.review %></dd><% end %>
     </dl>
-  </div>
+    <div class="source-links"><p class="eyebrow">EXPLORE THE SOURCES</p><%= link_to @item.url, class: "source-link", rel: "noreferrer" do %><%= image_tag @item.logo_url, alt: @item.class.name.delete_suffix("Item"), referrerpolicy: "no-referrer" %><span aria-hidden="true">↗</span><% end %><%= link_to "https://www.javbus.com/search/#{@item.normalized_id}", class: "source-link", rel: "noreferrer" do %><%= image_tag "javbus.png", alt: "Javbus" %><span aria-hidden="true">↗</span><% end %></div>
+  </aside>
 </div>
-
-<dl>
-  <% if @item.description.present? %>
-  <dt>Description</dt>
-  <dd><%= @item.description %></dd>
-  <% end %>
-
-  <% if @item.actresses.present? %>
-  <dt>Actresses</dt>
-  <dd>
-    <%= render partial: "fanza_actresses/cards", object: @item.actresses %>
-  </dd>
-  <% end %>
-
-  <% if @item.sample_image_urls.present? %>
-  <dt>Sample Images</dt>
-  <dd>
-    <div class="card mt-3 mb-3">
-      <div class="card-body pt-3 pb-2">
-        <div id="sample-images">
-          <% @item.sample_image_urls.each do |img| %>
-            <%= link_to img, target: "_blank" do %>
-              <% image_tag img %>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </dd>
-  <% end %>
-
-  <% if @item.movie.items.count > 1 %>
-  <dt class="mb-3">Other versions</dt>
-  <dd>
-    <%= render(
-      partial: "movies/cards",
-      object: Kaminari.paginate_array(@item.movie.items.excluding(@item)).page(1).per(20),
-      locals: { render_pager: false, link_to_movie: false }
-    )%>
-  </dd>
-  <% end %>
-</dl>
+<% if @item.description.present? %><section class="detail-section"><p class="eyebrow">ABOUT THE MOVIE</p><h2>Description</h2><p class="description-text"><%= @item.description %></p></section><% end %>
+<% if @item.actresses.present? %><section class="detail-section"><p class="eyebrow">THE PEOPLE</p><h2>Cast</h2><%= render partial: "fanza_actresses/cards", object: @item.actresses %></section><% end %>
+<% if @item.sample_image_urls.present? %>
+  <section class="detail-section"><div class="section-heading-row"><div><p class="eyebrow">A CLOSER LOOK</p><h2>Sample images</h2></div><span class="section-note">Select an image to view full size ↗</span></div><div id="sample-images"><% @item.sample_image_urls.each_with_index do |img, index| %><%= link_to img, target: "_blank", rel: "noopener noreferrer", class: "sample-image image-frame", data: { image_frame: true } do %><span class="image-placeholder" aria-hidden="true">Image unavailable</span><%= image_tag img, alt: "#{@item.normalized_id} sample #{index + 1} (opens in new tab)", loading: "lazy", decoding: "async" %><% end %><% end %></div></section>
+<% end %>
+<% if @item.movie.items.count > 1 %><section class="detail-section"><p class="eyebrow">MORE FROM THIS TITLE</p><h2>Other versions</h2><%= render partial: "movies/cards", object: Kaminari.paginate_array(@item.movie.items.excluding(@item)).page(1).per(20), locals: { render_pager: false, link_to_movie: false } %></section><% end %>
+<div class="copy-status visually-hidden" role="status" aria-live="polite"></div>

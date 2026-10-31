@@ -8,7 +8,7 @@
       <% link_dst = (always_link_to_movie || item.preferred?) ? item.movie : item %>
       <article class="card movie-card">
         <%= link_to link_dst, class: "movie-card-link" do %>
-          <div class="movie-cover"><%= image_tag item.thumbnail_image_url, alt: "#{item.normalized_id} cover", loading: "lazy", decoding: "async" %><span class="source-badge"><%= item.class.name.delete_suffix("Item") %></span></div>
+          <div class="movie-cover image-frame" data-image-frame><span class="image-placeholder" aria-hidden="true"><%= item.normalized_id %><small>Cover unavailable</small></span><%= image_tag item.thumbnail_image_url, alt: "#{item.normalized_id} cover", loading: "lazy", decoding: "async" %><span class="source-badge"><%= item.class.name.delete_suffix("Item") %></span></div>
           <div class="card-body"><div class="movie-card-meta"><span><%= item.date&.to_date&.strftime("%Y.%m.%d") %></span><span aria-hidden="true">↗</span></div><h2 class="movie-id"><%= item.normalized_id %></h2><p class="movie-title" title="<%= item.title %>"><%= item.title %></p></div>
         <% end %>
       </article>

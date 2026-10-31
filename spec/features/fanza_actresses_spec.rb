@@ -8,6 +8,20 @@ RSpec.feature "FanzaActresses", type: :feature do
     expect(page).to have_text(item.normalized_id)
   end
 
+  scenario "switching between all and solo filmographies" do
+    actress = create :fanza_actress
+    solo = create :fanza_item, actress: actress
+    ensemble = create :fanza_item, actress: actress
+    ensemble.movie.update_columns(actress_names: [actress.name, "Another actress"], actress_fanza_ids: [actress.fanza_id, 0])
+
+    visit fanza_actress_path(actress)
+    click_link "Solo titles"
+    expect(page).to have_text(solo.normalized_id)
+    expect(page).not_to have_text(ensemble.normalized_id)
+    click_link "All titles"
+    expect(page).to have_text(ensemble.normalized_id)
+  end
+
   scenario "fuzzy searching" do
     actress = create :fanza_actress, name: "SPECIAL"
     create_list :fanza_actress, 3

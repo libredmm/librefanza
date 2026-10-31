@@ -1,0 +1,18 @@
+<div class="ms-2">
+  <% if signed_in_as_admin? %>
+  <div class="d-inline-block">
+    <%= button_to "Re-Search", @movie, method: :delete, class: "btn btn-danger d-inline" %>
+  </div>
+  <div class="d-inline-block">
+    <%= button_to "Re-Derive", @item, method: :delete, class: "btn btn-warning" %>
+  </div>
+  <% if @item.is_a? FanzaItem %>
+  <div class="d-inline-block">
+    <%= button_to "Promote", fanza_item_path(@item, priority_inc: 1), method: :put, class: "btn btn-success" %>
+  </div>
+  <div class="d-inline-block">
+    <%= button_to "Demote", fanza_item_path(@item, priority_inc: -1), method: :put, class: "btn btn-danger" %>
+  </div>
+  <% end %>
+  <% end %>
+</div>

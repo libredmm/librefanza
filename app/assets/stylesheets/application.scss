@@ -173,3 +173,76 @@ ul.external-links img { height: 1.5em; }
   .pagination .page-first, .pagination .page-last { display: none; }
   .pagination .page-link { font-size: .7rem; padding-inline: .55rem; }
 }
+
+// Detail pages
+.breadcrumb-nav { display: flex; gap: .75rem; margin: .25rem 0 2rem; font-size: .75rem; color: var(--muted); overflow-wrap: anywhere; }
+.breadcrumb-nav a { text-decoration: none; }
+.movie-heading { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.movie-heading .eyebrow { margin-bottom: .65rem; }
+.movie-heading h1 { font-family: 'Special Elite', Georgia, serif; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -.04em; margin: 0; overflow-wrap: anywhere; }
+.copy-button { font-size: .75rem; white-space: nowrap; min-height: 2.6rem; }
+.copy-button > span:first-child { margin-right: .3rem; }
+.detail-title { font-size: clamp(1.05rem, 2vw, 1.4rem); font-weight: 500; letter-spacing: 0; line-height: 1.7; margin: 1.25rem 0 1rem; max-width: 65rem; overflow-wrap: anywhere; }
+.detail-meta { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; font-size: .8rem; color: var(--muted); margin-bottom: 2rem; }
+.detail-source { padding: .25rem .6rem; border: 1px solid var(--line); border-radius: .25rem; text-transform: uppercase; font-size: .65rem; letter-spacing: .08em; }
+.movie-detail-grid { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(16rem, 1fr); gap: 2rem; align-items: start; }
+.cover-frame { background: #e6e9e2; min-height: 12rem; border-radius: .7rem; overflow: hidden; }
+.detail-cover { display: block; width: 100%; height: auto; }
+.movie-facts { padding: 1.5rem; border: 1px solid var(--line); border-radius: .7rem; background: #fff; }
+.movie-facts h2 { font-size: 1.1rem; margin-bottom: 1.5rem; }
+.movie-facts dt { font-size: .65rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; margin-bottom: .5rem; }
+.movie-facts dd { font-size: .85rem; margin-bottom: 1.4rem; overflow-wrap: anywhere; }
+.metadata-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+.metadata-tags span { padding: .3rem .5rem; background: #f0f3ed; border-radius: .25rem; font-size: .75rem; }
+.rating-star { color: #a2732d; }
+.source-links { border-top: 1px solid var(--line); padding-top: 1.4rem; }
+.source-links .eyebrow { font-size: .6rem; }
+.source-link { display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--line); padding: .65rem; border-radius: .35rem; margin-top: .65rem; text-decoration: none; }
+.source-link img { max-width: 8rem; max-height: 1.35rem; object-fit: contain; }
+.detail-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+.detail-section .eyebrow { margin-bottom: .65rem; }
+.detail-section h2 { margin-bottom: 1.5rem; }
+.description-text { color: #58645b; font-size: .9rem; line-height: 1.95; white-space: pre-line; overflow-wrap: anywhere; }
+.section-heading-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.section-note { color: var(--muted); font-size: .7rem; }
+#sample-images { column-count: 5; column-gap: 1rem; }
+.sample-image { display: block; break-inside: avoid; position: relative; background: #e6e9e2; border-radius: .5rem; overflow: hidden; margin-bottom: 1rem; }
+#sample-images img { margin: 0; display: block; }
+.actress-heading { display: flex; align-items: center; gap: 2rem; padding: 0 0 2.5rem; border-bottom: 1px solid var(--line); }
+.profile-portrait { width: 8rem; height: 8rem; flex: 0 0 8rem; border-radius: .75rem; overflow: hidden; background: #e6e9e2; }
+.profile-portrait img { width: 100%; height: 100%; object-fit: cover; }
+.profile-info { min-width: 0; }
+.profile-info h1 { font-size: clamp(1.5rem, 3vw, 2.25rem); margin-bottom: 1rem; overflow-wrap: anywhere; }
+.profile-info .eyebrow { margin-bottom: .65rem; }
+.filmography-heading { margin-top: 2rem; }
+.view-switch { display: flex; border: 1px solid var(--line); border-radius: .4rem; overflow: hidden; background: white; }
+.view-switch a { padding: .6rem .9rem; font-size: .75rem; text-decoration: none; color: var(--muted); white-space: nowrap; }
+.view-switch a.active { color: #fff; background: var(--ink); }
+.image-frame { position: relative; }
+.image-placeholder { display: none; }
+.image-missing > img { display: none !important; }
+.image-missing > .image-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem; text-align: center; color: #6d7e6c; font-family: 'Special Elite', Georgia, serif; font-size: 1.3rem; }
+.image-placeholder small { font-family: sans-serif; font-size: .65rem; margin-top: .7rem; }
+.sample-image.image-missing { min-height: 8rem; }
+.sample-image.image-missing .image-placeholder { font-family: sans-serif; font-size: .7rem; }
+.not-found h1 { font-family: 'Special Elite', Georgia, serif; font-size: clamp(1.75rem, 4vw, 2.5rem); }
+.empty-search { max-width: 35rem; margin: 2rem auto; }
+@media (max-width: 991.98px) { .movie-detail-grid { grid-template-columns: minmax(0, 1.8fr) minmax(14rem, 1fr); gap: 1.25rem; } .movie-facts { padding: 1.1rem; } #sample-images { column-count: 3; } }
+@media (max-width: 767.98px) {
+  .movie-detail-grid { grid-template-columns: 1fr; }
+  .movie-facts { padding: 1.5rem; }
+  .section-heading-row { flex-wrap: wrap; }
+  .section-note { margin-bottom: 1rem; }
+  .actress-heading { gap: 1.25rem; }
+  .profile-portrait { width: 6rem; height: 6rem; flex-basis: 6rem; }
+  .profile-info .eyebrow { font-size: .55rem; }
+  .detail-section { margin-top: 2rem; padding-top: 1.5rem; }
+}
+@media (max-width: 575.98px) {
+  .movie-heading { align-items: flex-end; }
+  .copy-button { padding-inline: .65rem; font-size: .7rem; }
+  .copy-button > span:first-child { display: none; }
+  .breadcrumb-nav { margin-bottom: 1.5rem; }
+  #sample-images { column-count: 2; column-gap: .75rem; }
+  .sample-image { margin-bottom: .75rem; }
+}

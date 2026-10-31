@@ -1,26 +1,7 @@
-<% if @searching %>
-
-<div class="jumbotron">
-    <div class="d-flex justify-content-center">
-        <div class="spinner-border text-primary mb-3" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div>
-    <div class="d-flex justify-content-center">
-        <strong>Loading in background, try come back later.</strong>
-    </div>
+<% content_for :title, "Movie not found" %>
+<div class="empty-state not-found">
+  <% if @searching %><div class="spinner-border text-success mb-4" role="status"><span class="visually-hidden">Searching</span></div><p class="eyebrow">SEARCH IN PROGRESS</p><h1>Looking a little further.</h1><p>We’re checking our sources for this movie. Come back in a moment.</p><% else %><p class="eyebrow">NOT IN THE INDEX YET</p><h1>No match this time.</h1><p>Check the movie ID, or try searching with a shorter prefix.</p><% end %>
+  <div class="empty-search"><%= render "movies/search", search_id: "not-found-search" %></div>
+  <%= link_to "← Back to movies", movies_path %>
 </div>
-<% else %>
-
-<div class="jumbotron d-flex justify-content-center">
-    <h1>Not found <small class="text-muted">yet</small></h1>
-</div>
-
-<% end %>
-
-<%if @related_movies.present? %>
-
-<h2 class="mb-3">You might be looking for</h2>
-<%= render partial: "movies/cards", object: @related_movies %>
-
-<% end %>
+<% if @related_movies.present? %><section class="detail-section"><h2>You might be looking for</h2><%= render partial: "movies/cards", object: @related_movies %></section><% end %>

@@ -4,7 +4,7 @@
     <% visible_actresses.each do |actress| %>
       <article class="card actress">
         <%= link_to actress.persisted? ? actress : fanza_actress_path(actress.name), class: "actress-link" do %>
-          <div class="actress-portrait"><%= image_tag actress.image_url || fake_image_url(actress), alt: actress.name, loading: "lazy", decoding: "async" %></div>
+          <div class="actress-portrait image-frame" data-image-frame><span class="image-placeholder" aria-hidden="true"><%= actress.name.first %></span><%= image_tag actress.image_url || fake_image_url(actress), alt: actress.name, loading: "lazy", decoding: "async" %></div>
           <div class="card-body"><h3 class="card-title"><%= actress.name %></h3><span class="actress-caption">View filmography <span aria-hidden="true">↗</span></span></div>
         <% end %>
       </article>

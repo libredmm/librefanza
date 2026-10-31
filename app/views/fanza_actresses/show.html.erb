@@ -1,18 +1,11 @@
-<% content_for :title do %>
-<%= @actress.name %>
-<% end %>
-
-<div class="media mb-3">
-    <%= image_tag(@actress.image_url || fake_image_url(@actress), class: "align-self-center mr-3")%>
-    <div class="media-body align-self-center">
-        <button class="btn text-start" data-clipboard-text="<%= @actress.name %>">
-            <h1>
-                <span><%= @actress.name %></span>
-            </h1>
-        </button>
-    </div>
-</div>
-
+<% content_for :title, @actress.name %>
+<nav class="breadcrumb-nav" aria-label="Breadcrumb"><%= link_to "Actresses", fanza_actresses_path %><span aria-hidden="true">/</span><span><%= @actress.name %></span></nav>
+<header class="actress-heading">
+  <div class="profile-portrait image-frame" data-image-frame><span class="image-placeholder" aria-hidden="true"><%= @actress.name.first %></span><%= image_tag @actress.image_url || fake_image_url(@actress), alt: @actress.name, decoding: "async" %></div>
+  <div class="profile-info"><p class="eyebrow">ACTRESS / FILMOGRAPHY</p><h1><%= @actress.name %></h1><button class="btn btn-outline-primary copy-button" data-clipboard-text="<%= @actress.name %>" aria-label="Copy actress name"><span aria-hidden="true">⧉</span> <span data-copy-label>Copy name</span></button></div>
+</header>
 <% if @movies %>
-<%= render partial: "movies/cards", object: @movies %>
+  <div class="section-heading-row filmography-heading"><h2>Filmography</h2><nav class="view-switch" aria-label="Filmography filter"><%= link_to "All titles", fanza_actress_path(params[:id]), class: "#{'active' unless params[:solo]}", aria: { current: ('page' unless params[:solo]) } %><%= link_to "Solo titles", fanza_actress_path(params[:id], solo: true), class: "#{'active' if params[:solo]}", aria: { current: ('page' if params[:solo]) } %></nav></div>
+  <%= render partial: "movies/cards", object: @movies %>
 <% end %>
+<div class="copy-status visually-hidden" role="status" aria-live="polite"></div>
