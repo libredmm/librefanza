@@ -31,4 +31,4 @@ console:
 
 # Start Sidekiq
 sidekiq:
-    bin/sidekiq
+    bundle exec sidekiq

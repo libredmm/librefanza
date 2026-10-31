@@ -11,7 +11,7 @@ services:
       REDIS_URL: redis://redis:6379/
     depends_on:
       - redis
-    command: ./bin/puma -w 2
+    command: bundle exec puma -w 2
   sidekiq:
     image: ghcr.io/libredmm/librefanza:latest
     env_file:
