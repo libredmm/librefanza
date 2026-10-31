@@ -1,38 +1,20 @@
 <% render_pager = local_assigns.fetch(:render_pager, true) %>
 <% always_link_to_movie = local_assigns.fetch(:link_to_movie, true) %>
-
-<% if render_pager %>
-<%= render partial: "layouts/pager", locals: { items: cards, name: "movie" } %>
-<% end %>
-
-<% to_items(cards).in_groups_of(6).each do |group| %>
-<div class="movies card-group mb-3">
-  <% group.each do |item| %>
-  <div class="card">
-    <% if item %>
-      <% link_dst = (always_link_to_movie || item.preferred? )? item.movie : item %>
-      <%= link_to(
-        image_tag(item.thumbnail_image_url, class: "card-image-top img-fluid mx-auto d-block"),
-        link_dst
-      )%>
-      <div class="card-body">
-        <%= link_to link_dst, class: "card-title" do %>
-        <h5>
-          <%= item.normalized_id %>
-        </h5>
-        <h6 class="text-truncate">
-          <small>
-            <%= item.title %>
-          </small>
-        </h6>
+<% items = to_items(cards).compact %>
+<% if render_pager %><%= render partial: "layouts/pager", locals: { items: cards, name: "movie" } %><% end %>
+<% if items.present? %>
+  <div class="movies movie-grid">
+    <% items.each do |item| %>
+      <% link_dst = (always_link_to_movie || item.preferred?) ? item.movie : item %>
+      <article class="card movie-card">
+        <%= link_to link_dst, class: "movie-card-link" do %>
+          <div class="movie-cover"><%= image_tag item.thumbnail_image_url, alt: "#{item.normalized_id} cover", loading: "lazy", decoding: "async" %><span class="source-badge"><%= item.class.name.delete_suffix("Item") %></span></div>
+          <div class="card-body"><div class="movie-card-meta"><span><%= item.date&.to_date&.strftime("%Y.%m.%d") %></span><span aria-hidden="true">↗</span></div><h2 class="movie-id"><%= item.normalized_id %></h2><p class="movie-title" title="<%= item.title %>"><%= item.title %></p></div>
         <% end %>
-      </div>
+      </article>
     <% end %>
   </div>
-  <% end %>
-</div>
+<% else %>
+  <div class="empty-state"><span class="empty-symbol" aria-hidden="true">⌕</span><h2>No movies to show</h2><p>Try a shorter movie ID or a different match style.</p><%= link_to "Browse all movies", movies_path, class: "btn btn-outline-primary" %></div>
 <% end %>
-
-<% if render_pager and cards.present? %>
-<%= render partial: "layouts/pager", locals: { items: cards, name: "movie" } %>
-<% end %>
+<% if render_pager && items.present? %><%= render partial: "layouts/pager", locals: { items: cards, name: "movie" } %><% end %>

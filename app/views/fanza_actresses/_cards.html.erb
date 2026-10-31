@@ -1,23 +1,15 @@
-<% cards.reject(&:is_hidden?).in_groups_of(9).each do |group| %>
-<div class="movies card-group mb-3">
-    <% group.each do |actress| %>
-    <% if actress %>
-    <div class="card actress">
-        <%= link_to(
-            image_tag(actress.image_url || fake_image_url(actress), class: "card-image-top img-fluid mx-auto d-block"),
-            actress.persisted? ? actress : fanza_actress_path(actress.name)
-        ) %>
-        <div class="card-body">
-            <h6 class="card-title">
-                <%= link_to(
-                    actress.name,
-                    actress.persisted? ? actress : fanza_actress_path(actress.name)
-                ) %></h6>
-        </div>
-    </div>
-    <% else %>
-    <div class="card"></div>
+<% visible_actresses = cards.reject(&:is_hidden?) %>
+<% if visible_actresses.present? %>
+  <div class="actress-grid">
+    <% visible_actresses.each do |actress| %>
+      <article class="card actress">
+        <%= link_to actress.persisted? ? actress : fanza_actress_path(actress.name), class: "actress-link" do %>
+          <div class="actress-portrait"><%= image_tag actress.image_url || fake_image_url(actress), alt: actress.name, loading: "lazy", decoding: "async" %></div>
+          <div class="card-body"><h3 class="card-title"><%= actress.name %></h3><span class="actress-caption">View filmography <span aria-hidden="true">↗</span></span></div>
+        <% end %>
+      </article>
     <% end %>
-    <% end %>
-</div>
+  </div>
+<% else %>
+  <div class="empty-state"><h2>No actresses to show</h2><p>Try another name or browse the full index.</p><%= link_to "Browse all actresses", fanza_actresses_path, class: "btn btn-outline-primary" %></div>
 <% end %>

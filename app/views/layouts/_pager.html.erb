@@ -1,16 +1,4 @@
-<div class="d-md-flex justify-content-between align-items-center">
-  <%= paginate items, window: 2 %>
-  <div>
-    <p>
-      <%= page_entries_info items, entry_name: name %>
-      <% if !items.is_a?(Kaminari::PaginatableArray) and items.exists? and items.has_attribute? :date %>
-        <br/>
-        <small class="text-secondary">
-        Released between
-        <%= items.except(:limit, :offset).minimum(:date).to_date %> and
-        <%= items.except(:limit, :offset).maximum(:date).to_date %>
-        </small>
-      <% end %>
-    </p>
-  </div>
+<div class="results-pager">
+  <p class="results-summary"><%= page_entries_info items, entry_name: name %></p>
+  <%= paginate items, window: 1 %>
 </div>

@@ -103,3 +103,73 @@ ul.external-links img { height: 1.5em; }
   #clearance { padding: 1.5rem; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }
+
+// Browsing and discovery
+.page-heading { display: flex; justify-content: space-between; align-items: flex-end; margin: .5rem 0 2rem; gap: 1rem; }
+.page-heading .eyebrow { margin-bottom: .75rem; }
+.page-heading h1 { font-family: 'Special Elite', Georgia, serif; font-size: clamp(2.25rem, 4vw, 3.25rem); line-height: 1.1; letter-spacing: -.04em; margin-bottom: .8rem; }
+.heading-dot { color: var(--green); }
+.page-heading p:last-child { color: var(--muted); margin-bottom: 0; font-size: .9rem; }
+.section-index { font-size: .65rem; letter-spacing: .12em; color: var(--muted); padding-bottom: .25rem; white-space: nowrap; }
+.filter-bar { display: flex; gap: 1rem; align-items: flex-end; padding: 1.25rem; background: #fff; border: 1px solid var(--line); border-radius: .65rem; margin-bottom: 1.5rem; }
+.filter-field { min-width: 10rem; }
+.filter-query { flex: 1; min-width: 0; }
+.filter-field label { font-size: .7rem; font-weight: 650; display: block; margin-bottom: .5rem; color: var(--muted); }
+.filter-field .form-control, .filter-field .form-select { font-size: .85rem; min-height: 2.75rem; background-color: #fbfcfa; }
+.filter-submit { font-size: .85rem; min-height: 2.75rem; padding-inline: 1.5rem; }
+.query-summary { display: flex; gap: 1rem; justify-content: space-between; font-size: .85rem; margin: 1.5rem 0; }
+.query-summary a { white-space: nowrap; }
+.results-pager { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-block: 1.5rem; }
+.results-summary { font-size: .75rem; color: var(--muted); margin: 0; }
+.results-summary b { color: var(--ink); font-weight: 600; }
+.pagination { margin: 0; gap: .3rem; flex-wrap: wrap; }
+.pagination .page-link { border-radius: .3rem !important; font-size: .75rem; border-color: transparent; color: var(--muted); background: transparent; min-width: 2rem; min-height: 2.25rem; display: grid; place-items: center; }
+.pagination .active .page-link { background: var(--ink); color: #fff; border-color: var(--ink); }
+.pagination .page-link:hover { background: #e4ecdf; color: var(--green); }
+.movie-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1.5rem; }
+.movie-card { border: 0; border-radius: .6rem; overflow: hidden; background: transparent; min-width: 0; }
+.movie-card-link { color: var(--ink); text-decoration: none; height: 100%; display: block; }
+.movie-cover { position: relative; aspect-ratio: 3 / 4; background: #e6e9e2; border-radius: .6rem; overflow: hidden; }
+.movie-cover img { width: 100%; height: 100%; object-fit: contain; transition: transform .2s; }
+.movie-card-link:hover .movie-cover img { transform: scale(1.025); }
+.movie-card-link:hover .movie-id { color: var(--green); }
+.source-badge { position: absolute; left: .6rem; bottom: .6rem; background: #202824e8; color: #fff; padding: .3rem .5rem; font-size: .55rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; border-radius: .2rem; }
+.movie-card .card-body { padding: .8rem .1rem 0; }
+.movie-card-meta { display: flex; justify-content: space-between; font-size: .65rem; color: var(--muted); margin-bottom: .45rem; }
+.movie-id { font-size: 1rem; font-weight: 700; letter-spacing: .025em; margin-bottom: .4rem; overflow-wrap: anywhere; }
+.movie-title { font-size: .75rem; color: var(--muted); line-height: 1.65; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: .3rem; }
+.actress-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1.25rem; }
+.card.actress { border-color: var(--line); border-radius: .65rem; overflow: hidden; }
+.actress-link { text-decoration: none; color: var(--ink); }
+.actress-link:hover { background: #eef3e9; }
+.actress-portrait { aspect-ratio: 1; background: #e6e9e2; overflow: hidden; }
+.actress-portrait img { width: 100%; height: 100%; object-fit: cover; }
+.actress .card-body { padding: .85rem; }
+.actress .card-title { font-size: .85rem; line-height: 1.5; margin-bottom: .5rem; overflow-wrap: anywhere; }
+.actress-caption { color: var(--muted); font-size: .6rem; display: flex; justify-content: space-between; gap: .25rem; }
+.empty-state { text-align: center; background: #fff; border: 1px dashed var(--line); border-radius: .75rem; padding: 4rem 1.5rem; margin-block: 1.5rem; }
+.empty-state p { color: var(--muted); font-size: .9rem; }
+.empty-state h2 { font-size: 1.4rem; }
+.empty-symbol { font-size: 3rem; display: block; color: var(--green); margin-bottom: 1rem; }
+@media (max-width: 1199.98px) { .movie-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } .actress-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (max-width: 991.98px) { .movie-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .actress-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } .filter-field { min-width: 8rem; } .filter-query { min-width: 0; } }
+@media (max-width: 767.98px) {
+  .filter-bar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; }
+  .filter-field { min-width: 0; }
+  .filter-query { grid-column: 1 / -1; }
+  .filter-submit { grid-column: 1 / -1; }
+  .results-pager { align-items: flex-start; flex-direction: column; gap: .85rem; }
+  .movie-grid { gap: 1.25rem 1rem; }
+  .actress-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+  .page-heading { margin-top: .5rem; }
+  .section-index { display: none; }
+}
+@media (max-width: 575.98px) {
+  .movie-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .actress-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .filter-bar { padding: 1rem; }
+  .movie-id { font-size: .9rem; }
+  .movie-title { font-size: .7rem; }
+  .pagination .page-first, .pagination .page-last { display: none; }
+  .pagination .page-link { font-size: .7rem; padding-inline: .55rem; }
+}

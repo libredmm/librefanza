@@ -1,45 +1,11 @@
-<% content_for :title do %>
-<%= params[:fuzzy] %>
+<% content_for :title, "Actresses" %>
+<header class="page-heading"><div><p class="eyebrow">PEOPLE BEHIND THE TITLES</p><h1>Actresses<span class="heading-dot">.</span></h1><p>A familiar face. A new filmography to explore.</p></div><span class="section-index" aria-hidden="true">INDEX / 02</span></header>
+<%= form_tag fanza_actresses_path, method: :get, class: "filter-bar", id: "fuzzySearch", role: "search", aria: { label: "Filter actresses" } do %>
+  <div class="filter-field filter-query"><%= label_tag "actress-name", "Actress name" %><%= text_field_tag "fuzzy", params[:fuzzy], id: "actress-name", class: "form-control", placeholder: "Find an actress…" %></div>
+  <div class="filter-field"><%= label_tag "actress-order", "Sort by" %><%= select_tag "order", options_for_select([["Newest", "New"], ["Name", "Name"]], @order || "New"), id: "actress-order", class: "form-select" %></div>
+  <%= submit_tag "Filter by name", class: "btn btn-success filter-submit" %>
 <% end %>
-
-<nav class="card mb-3">
-    <div class="card-body">
-        <div class="row">
-            <%= form_tag fanza_actresses_path, method: :get, class: "col-md-auto", id: "fuzzySearch" do %>
-            <input name="order" type="hidden" value="<%= @order %>" />
-            <div class="input-group">
-                <%= text_field_tag("fuzzy", params[:fuzzy], class: "form-control") %>
-                <%= submit_tag "Filter by name", class: "btn btn-success" %>
-            </div>
-            <% end %>
-
-            <div class="col-md-auto btn-group">
-                <button type="button" class="btn btn-outline-dark" disabled>
-                    Sort by
-                </button>
-                <% %i[New Name].each do |opt| %>
-                <% if @order&.downcase == opt.to_s.downcase %>
-                <%= link_to(
-                    opt.to_s,
-                    request.params.except("page", :order),
-                    class: "btn btn-primary active",
-                    role: "button",
-                ) %>
-                <% else %>
-                <%= link_to(
-                    opt.to_s,
-                    request.params.except("page").merge(order: opt),
-                    class: "btn btn-secondary",
-                    role: "button",
-                ) %>
-                <% end %>
-                <% end %>
-            </div>
-        </div>
-    </div>
-</nav>
-
-
+<% if params[:fuzzy].present? %><div class="query-summary"><span>Results for <strong>“<%= params[:fuzzy] %>”</strong></span><%= link_to "Clear search ×", fanza_actresses_path(order: @order) %></div><% end %>
 <%= render partial: "layouts/pager", locals: { items: @actresses, name: "actress" } %>
 <%= render partial: "fanza_actresses/cards", object: @actresses %>
-<%= render partial: "layouts/pager", locals: { items: @actresses, name: "actress" } %>
+<% if @actresses.present? %><%= render partial: "layouts/pager", locals: { items: @actresses, name: "actress" } %><% end %>

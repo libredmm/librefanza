@@ -9,6 +9,27 @@ RSpec.feature "Movies", type: :feature do
     expect(page).not_to have_text(sdde.normalized_id)
   end
 
+  scenario "filtering through the search form" do
+    matching = create :fanza_item, content_id: "bp456"
+    excluded = create :fanza_item, content_id: "abp123"
+    visit movies_path
+
+    within "#search" do
+      fill_in "Movie ID or prefix", with: "bp"
+      select "Starts with", from: "Match"
+      select "Release Date", from: "Sort by"
+      click_button "Search"
+    end
+
+    expect(page).to have_text(matching.normalized_id)
+    expect(page).not_to have_text(excluded.normalized_id)
+    expect(page).to have_select("Match", selected: "Starts with")
+    expect(page).to have_select("Sort by", selected: "Release Date")
+    click_link "Clear search ×"
+    expect(page).to have_text(excluded.normalized_id)
+    expect(page).to have_select("Sort by", selected: "Release Date")
+  end
+
   scenario "prefix search" do
     bp = create :fanza_item, content_id: "bp456"
     abp = create :fanza_item, content_id: "abp123"
