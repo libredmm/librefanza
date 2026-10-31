@@ -246,3 +246,13 @@ ul.external-links img { height: 1.5em; }
   #sample-images { column-count: 2; column-gap: .75rem; }
   .sample-image { margin-bottom: .75rem; }
 }
+
+.admin-table { border: 1px solid var(--line); border-radius: .65rem; background: white; }
+.admin-table .table { margin-bottom: 0; font-size: .8rem; }
+.admin-table th { padding: 1rem; font-size: .65rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); background: #edf1e8; }
+.admin-table td { padding: 1rem; white-space: nowrap; }
+.admin-table .source-url { min-width: 15rem; max-width: 35rem; white-space: normal; overflow-wrap: anywhere; }
+#clearance p { color: var(--muted); font-size: .9rem; line-height: 1.7; }
+.image-placeholder { overflow-wrap: anywhere; }
+.description-text { max-width: 65rem; }
+@media (pointer: coarse) { .btn, .page-link, .view-switch a, .nav-link, .sign-in-link { min-height: 2.75rem; } .view-switch a { display: flex; align-items: center; } }

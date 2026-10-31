@@ -4,13 +4,13 @@
   <p><%= t(".description") %></p>
 
   <%= form_for :password, url: passwords_path do |form| %>
-    <div class="text-field">
+    <div class="form-group text-field">
       <%= form.label :email %>
-      <%= form.text_field :email, type: 'email' %>
+      <%= form.email_field :email, class: "form-control", autocomplete: "email" %>
     </div>
 
-    <div class="submit-field">
-      <%= form.submit %>
+    <div class="form-group submit-field">
+      <%= form.submit class: "btn btn-primary" %>
     </div>
   <% end %>
 </div>

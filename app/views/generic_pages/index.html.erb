@@ -1,27 +1,11 @@
+<% content_for :title, "Source pages" %>
+<header class="page-heading"><div><p class="eyebrow">MANAGE THE INDEX</p><h1>Source pages<span class="heading-dot">.</span></h1><p>Review imported pages and their linked movie records.</p></div></header>
 <%= render partial: "layouts/pager", locals: { items: @pages, name: nil } %>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Url</th>
-            <th>Created At</th>
-            <th>Item</th>
-        </tr>
-    </thead>
-
+<div class="table-responsive admin-table" role="region" aria-label="Source pages" tabindex="0">
+  <table class="table align-middle">
+    <thead><tr><th scope="col">ID</th><th scope="col">URL</th><th scope="col">Created at</th><th scope="col">Item</th></tr></thead>
     <tbody>
-        <% @pages.each do |page| %>
-        <tr>
-            <td><%= link_to page.id, page %></td>
-            <td><%= link_to page.url, page.url %></td>
-            <td><%= page.created_at.in_time_zone("Pacific Time (US & Canada)") %></td>
-            <td>
-                <% if page.item %>
-                <%= link_to page.item.normalized_id, page.item %>
-                <% end %>
-            </td>
-        </tr>
-        <% end %>
+      <% @pages.each do |page| %><tr><td><%= link_to page.id, page %></td><td class="source-url"><%= link_to page.url, page.url %></td><td><%= page.created_at.in_time_zone("Pacific Time (US & Canada)") %></td><td><% if page.item %><%= link_to page.item.normalized_id, page.item %><% end %></td></tr><% end %>
     </tbody>
-</table>
+  </table>
+</div>
