@@ -41,27 +41,14 @@ button, input, select { font: inherit; }
 .quick-search-compact .search-symbol { color: #bdc9c0; left: .8rem; }
 .quick-search-compact .btn { background: transparent; color: #d2e8c6; border: none; font-size: .8rem; padding: .5rem .8rem; }
 .quick-search-compact .search-arrow { display: none; }
-.home-hero { padding: clamp(2rem, 6vw, 5.5rem) 0 0; max-width: 1100px; margin-inline: auto; }
+.home-search { margin-inline: auto; width: 100%; max-width: 36rem; text-align: center; padding-block: clamp(3rem, 12vh, 8rem); }
+.home-search h1 { font-family: 'Special Elite', Georgia, serif; font-weight: 400; font-size: clamp(2.75rem, 7vw, 4rem); letter-spacing: -.04em; margin: 0 0 1rem; }
+.home-search > p { color: var(--muted); font-size: .9rem; margin-bottom: 2rem; }
+.home-search .quick-search { text-align: left; }
+.home-browse-link { display: inline-block; margin-top: 1.5rem; padding: .5rem; font-size: .8rem; color: var(--muted); text-decoration: none; }
+.home-browse-link:hover { color: var(--green); }
 .eyebrow { font-size: .68rem; letter-spacing: .15em; font-weight: 700; color: var(--muted); margin-bottom: 1rem; }
-.status-dot { display: inline-block; width: .45rem; height: .45rem; border-radius: 50%; background: #688e5d; margin-right: .65rem; }
-.home-hero h1 { font-family: 'Special Elite', Georgia, serif; font-weight: 400; font-size: clamp(2.5rem, 5.4vw, 4.7rem); line-height: 1.15; letter-spacing: -.045em; margin: 1.5rem 0; }
-.home-hero h1 span { color: var(--green); }
-.hero-description { color: var(--muted); max-width: 32rem; font-size: 1.05rem; line-height: 1.8; }
-.hero-search { margin-top: 2rem; max-width: 41rem; }
-.search-hint { font-size: .75rem; color: var(--muted); margin: .8rem .1rem 0; }
-.source-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 1.4rem 2.2rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 3.5rem; padding-block: 1.2rem; color: #647469; font-weight: 650; font-size: .85rem; }
-.source-strip span:first-child { font-size: .6rem; letter-spacing: .12em; font-weight: 500; margin-right: auto; }
-.home-explore { max-width: 1100px; margin: 3rem auto 0; }
-.section-heading .eyebrow { margin-bottom: .6rem; }
 h2 { letter-spacing: -.035em; font-size: 1.6rem; font-weight: 600; }
-.explore-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 1.5rem; border: 1px solid var(--line); border-radius: .7rem; overflow: hidden; background: #fff; }
-.explore-card { padding: 1.8rem; color: var(--ink); text-decoration: none; transition: background .2s; }
-.explore-card + .explore-card { border-left: 1px solid var(--line); }
-.explore-card:hover { background: #eef3e9; }
-.explore-number { color: var(--muted); font-size: .65rem; letter-spacing: .1em; }
-.explore-card h3 { font-size: 1.1rem; margin: 1.5rem 0 .75rem; letter-spacing: -.025em; }
-.explore-card h3 span { float: right; color: var(--green); }
-.explore-card p { color: var(--muted); font-size: .85rem; line-height: 1.6; margin: 0; }
 .site-footer { border-top: 1px solid var(--line); padding-block: 1.8rem; }
 .footer-content, .footer-content > div { display: flex; align-items: center; gap: 1.5rem; }
 .footer-content { justify-content: space-between; }
@@ -87,16 +74,8 @@ ul.external-links img { height: 1.5em; }
 }
 @media (max-width: 575.98px) {
   .main-content { padding-top: 1.5rem; padding-bottom: 2.5rem; }
-  .home-hero { padding-top: 1.5rem; }
-  .hero-description { font-size: .95rem; }
   .quick-search .btn { padding-inline: 1rem; }
   .quick-search .form-control { font-size: .85rem; }
-  .source-strip { margin-top: 2rem; gap: 1rem 1.4rem; }
-  .source-strip span:first-child { flex-basis: 100%; }
-  .explore-grid { grid-template-columns: 1fr; }
-  .explore-card { padding: 1.4rem; }
-  .explore-card + .explore-card { border-left: 0; border-top: 1px solid var(--line); }
-  .explore-card h3 { margin-top: .85rem; }
   .footer-content, .footer-content > div { align-items: flex-start; gap: .6rem; }
   .footer-content > div { flex-direction: column; }
   .footer-content { gap: 1rem; }

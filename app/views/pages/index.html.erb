@@ -1,16 +1,6 @@
-<section class="home-hero" aria-labelledby="home-title">
-  <div class="eyebrow"><span class="status-dot" aria-hidden="true"></span> THE INDEPENDENT MOVIE INDEX</div>
-  <h1 id="home-title">Find movies by ID.<br><span>Explore their details.</span></h1>
-  <p class="hero-description">Find a movie, discover its cast, and connect the details across your favorite sources.</p>
-  <div class="hero-search"><%= render "movies/search", search_id: "home-search" %></div>
-  <p class="search-hint">Search by movie ID, or use a prefix to explore a series.</p>
-  <div class="source-strip" aria-label="Indexed sources"><span>ONE INDEX. MANY SOURCES.</span><span>FANZA</span><span>MGStage</span><span>SOD</span><span>FC2</span></div>
-</section>
-<section class="home-explore" aria-labelledby="explore-title">
-  <div class="section-heading"><p class="eyebrow">TAKE A LOOK AROUND</p><h2 id="explore-title">Start exploring</h2></div>
-  <div class="explore-grid">
-    <%= link_to movies_path(order: :release_date), class: "explore-card" do %><span class="explore-number">01 / DISCOVER</span><h3>Latest releases <span aria-hidden="true">↗</span></h3><p>See what’s new, ordered by release date.</p><% end %>
-    <%= link_to movies_path, class: "explore-card" do %><span class="explore-number">02 / BROWSE</span><h3>The movie index <span aria-hidden="true">↗</span></h3><p>Explore titles and find all the details in one place.</p><% end %>
-    <%= link_to fanza_actresses_path, class: "explore-card" do %><span class="explore-number">03 / PEOPLE</span><h3>Meet the cast <span aria-hidden="true">↗</span></h3><p>Find an actress and explore her filmography.</p><% end %>
-  </div>
+<section class="home-search" aria-labelledby="home-title">
+  <h1 id="home-title">LibreFanza</h1>
+  <p>Search movies by ID or prefix.</p>
+  <%= render "movies/search", search_id: "home-search" %>
+  <%= link_to "Browse latest releases →", movies_path(order: :release_date), class: "home-browse-link" %>
 </section>

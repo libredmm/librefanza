@@ -32,7 +32,7 @@
             <% end %>
           </ul>
           <div class="nav-tools">
-            <%= render "movies/search", search_id: "nav-search", compact: true %>
+            <%= render "movies/search", search_id: "nav-search", compact: true unless current_page?(root_path) %>
             <% if signed_in? %>
               <div class="dropdown">
                 <button class="nav-link dropdown-toggle account-menu" id="userDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false"><%= current_user.email %></button>
