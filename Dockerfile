@@ -31,7 +31,7 @@ RUN bundle install && \
 
 # Install JavaScript dependencies
 COPY --link package.json bun.lock ./
-RUN bun install --frozen
+RUN bun install --frozen-lockfile
 
 # Copy application code
 COPY --link . .

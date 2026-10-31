@@ -38,7 +38,7 @@ jobs:
     - name: Set up Bun
       uses: oven-sh/setup-bun@v2
     - name: Install JS dependencies
-      run: bun install --frozen
+      run: bun install --frozen-lockfile
     - name: Build assets
       run: |
         bun run build
